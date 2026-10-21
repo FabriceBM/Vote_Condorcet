@@ -56,5 +56,7 @@ cd summaries/fr/executive && latexmk main.tex
 On Overleaf, set `summaries/<lang>/<kind>/main.tex` as the main document. Overleaf compiles from the
 project root, and every `main.tex` sets `\input@path` so that its paths work from the root as well as from
 its own folder. The French documents need the TeX Live French language support (`texlive-lang-french` on
-Debian or Ubuntu; it is included on Overleaf). Built PDFs are not committed here. The PDFs of record go to `../versions/<version>/`, next to the
-PDF of the note they summarise.
+Debian or Ubuntu; it is included on Overleaf).
+
+Built PDFs are not committed here. The PDFs of record go to `../versions/<version>/`, next to the PDF of
+the note they summarise.
