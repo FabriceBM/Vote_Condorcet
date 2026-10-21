@@ -1,4 +1,4 @@
-"""Headline numbers of the note, as LaTeX macros, for the executive summaries (summaries/executive/).
+"""Headline numbers of the note, as LaTeX macros, for the summaries (summaries/<lang>/<kind>/).
 
 Reads the tables written by experiments.py (outputs/tables/*.csv) and writes, for each language, the same
 macro names with the number formatted for that language (5.9 in English, 5,9 in French):

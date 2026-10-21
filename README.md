@@ -37,7 +37,7 @@ vetoes, a quota of at least one quarter, and at most one revision round.
 | Folder | Content |
 |---|---|
 | `manuscript/` | The note's content, journal-agnostic: sections, preamble, bibliography, notes. Start with [`manuscript/README.md`](manuscript/README.md) |
-| `summaries/` | Short documents derived from the note: the executive summary in English and French (`summaries/executive/<lang>/`). See [`summaries/README.md`](summaries/README.md) |
+| `summaries/` | Short documents derived from the note, by language then kind: `summaries/en/executive/`, `summaries/fr/executive/`. See [`summaries/README.md`](summaries/README.md) |
 | `journals/working-paper/` | The LaTeX wrapper (layout only) |
 | `main.tex`, `latexmkrc` | Overleaf entry point at the root |
 | `simulations/python/` | Voting rules, random electorates, Monte Carlo study, figures, with `--check` options |
@@ -58,8 +58,8 @@ python3 simulations/python/examples.py
 python3 simulations/python/figures.py
 python3 simulations/python/key_numbers.py           # headline numbers for the summaries
 latexmk main.tex                                    # or: cd journals/working-paper && latexmk main.tex
-(cd summaries/executive/en && latexmk main.tex)     # executive summary, English
-(cd summaries/executive/fr && latexmk main.tex)     # synthèse, French
+(cd summaries/en/executive && latexmk main.tex)     # executive summary, English
+(cd summaries/fr/executive && latexmk main.tex)     # synthèse, French
 ```
 
 Every election is drawn from its own seed, so the tables are identical from run to run.
