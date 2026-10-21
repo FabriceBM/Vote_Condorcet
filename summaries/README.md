@@ -1,0 +1,58 @@
+# Summaries
+
+This folder holds short documents derived from the note, for readers who will not read the note itself.
+The note stays in `../manuscript/` and remains the single source: a summary adds no result of its own.
+
+## Hierarchy: language, then kind of document
+
+```
+summaries/
+├── README.md                 this file
+├── shared/
+│   └── layout.tex            layout common to every language and every kind: page, fonts, colours,
+│                             boxes, title block
+├── en/                       everything in English
+│   └── executive/            executive summary, 2 pages
+│       ├── main.tex
+│       └── latexmkrc
+└── fr/                       tout en français
+    └── executive/            synthèse, 2 pages
+        ├── main.tex
+        └── latexmkrc
+```
+
+Why this order:
+- **Language first.** The project may have several documents in each language (executive summary,
+  slides, FAQ, a note for a committee). A reader, or a translator, finds everything in their language
+  under one folder, and each language can grow at its own pace.
+- **The same kinds under each language.** `en/executive/` and `fr/executive/` hold the same document,
+  section by section, so the two can be checked side by side. To add a kind of document, create it under
+  every language that needs it, with the same name (`en/slides/`, `fr/slides/`). To add a language, add a
+  folder next to `en/` and `fr/`.
+- **Layout once.** `shared/layout.tex` holds everything that does not depend on the language. Every
+  `main.tex` sits two levels below `summaries/` (`<lang>/<kind>/main.tex`), so it loads the layout with
+  `\input{../../shared/layout}` and the same relative paths to `../outputs/` work for all of them.
+
+## Numbers and figures come from the note's outputs
+
+A summary never types a number that the note computes.
+- **Numbers.** `../simulations/python/key_numbers.py` reads `../outputs/tables/*.csv` and writes
+  `key_numbers_en.tex` and `key_numbers_fr.tex` to `../outputs/tables/`. Both files define the same macro
+  names (`\KNcontestedQVC`, …), with each language's decimal mark. `key_numbers.csv` gives the table, row
+  and column behind each macro.
+- **Figures.** They come from `../outputs/figures/`, which `../simulations/python/figures.py` writes. A
+  figure with words in it gets a version per language (`fig_theta.pdf`, `fig_theta_fr.pdf`).
+
+When the simulation changes, rerun `experiments.py`, `key_numbers.py` and `figures.py`, then rebuild the
+summaries. The numbers follow automatically; the words may still need editing, in every language.
+
+## Build
+
+```bash
+cd summaries/en/executive && latexmk main.tex
+cd summaries/fr/executive && latexmk main.tex
+```
+
+The French documents need the TeX Live French language support (`texlive-lang-french` on Debian or
+Ubuntu). Built PDFs are not committed here. The PDFs of record go to `../versions/<version>/`, next to the
+PDF of the note they summarise.

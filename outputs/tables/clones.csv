@@ -1,0 +1,22 @@
+Rule,Spatial: loser (%),Spatial: winner (%),Polarised: loser (%),Polarised: winner (%),Impartial: loser (%),Impartial: winner (%)
+Plurality,0.0,97.6,0.0,93.7,0.0,100.0
+IRV,0.3,0.2,0.2,0.3,1.2,1.9
+Borda,14.1,1.2,24.3,3.1,21.4,1.4
+Copeland,0.2,0.3,0.5,0.3,7.7,3.0
+Minimax,0.0,1.2,0.0,1.9,0.0,2.0
+Schulze,0.0,0.0,0.0,0.0,0.0,0.0
+Ranked Pairs,0.0,0.0,0.0,0.0,0.0,0.0
+Split Cycle,0.0,0.0,0.0,0.0,0.0,0.0
+Approval,0.0,0.0,0.0,0.0,0.0,0.2
+Majority Judgment,0.0,0.0,0.0,0.0,0.0,0.0
+Fallback,30.7,0.0,36.4,0.0,24.6,0.0
+Fallback (impasse),0.0,0.0,0.0,0.0,0.0,0.0
+Majoritarian compromise,23.1,12.8,34.1,28.2,51.9,14.9
+Sequential veto,67.8,0.0,68.7,0.0,81.9,0.0
+Unanimity,0.0,0.0,0.0,0.0,0.0,0.0
+PVC + Schulze,1.2,0.0,15.1,0.1,53.9,4.5
+"QVC, any veto (1/n)",0.0,0.0,0.0,0.0,0.0,0.0
+"QVC, 10%",0.0,0.0,0.0,0.0,0.0,0.0
+"QVC, 25%",0.0,0.0,0.0,0.0,0.0,0.0
+"QVC, 33%",0.0,0.0,0.0,0.0,0.0,0.0
+"QVC, 50%",0.0,0.0,0.0,0.0,0.0,0.0

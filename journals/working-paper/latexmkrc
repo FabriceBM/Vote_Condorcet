@@ -1,0 +1,5 @@
+# latexmk configuration for the working-paper build (run in this folder).
+# Overleaf compiles from the repository root instead and reads the root latexmkrc.
+$pdf_mode = 1;
+ensure_path('BIBINPUTS', '../../manuscript/');   # \bibliography{references} = manuscript/references.bib
+$bibtex_use = 2;          # run bibtex when needed; delete .bbl on clean

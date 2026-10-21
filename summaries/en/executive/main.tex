@@ -1,0 +1,136 @@
+%% =====================================================================================
+%%  Executive summary (English) of the note "Voting for a consensus with veto rights", v0.1
+%% -------------------------------------------------------------------------------------
+%%  Build:   cd summaries/en/executive && latexmk main.tex
+%%  Layout:  summaries/shared/layout.tex.  Numbers: outputs/tables/key_numbers_en.tex, written by
+%%           simulations/python/key_numbers.py -- never type a number that the note computes.
+%%  Keep in step with summaries/fr/executive/main.tex (same structure, same numbers).
+%% =====================================================================================
+\documentclass[10pt,a4paper]{article}
+\input{../../shared/layout}
+\usepackage[english]{babel}
+\input{../../../outputs/tables/key_numbers_en}
+
+\begin{document}
+
+\summarytitle{Voting for a consensus with veto rights}
+{Executive summary of the state-of-the-art note, version 0.1}
+{Fabrice Borel-Mathurin \quad$\cdot$\quad 21 October 2026 \quad$\cdot$\quad Full note, code and data:
+repository \texttt{Vote\_Condorcet}}
+
+\begin{keybox}{The question}
+A group must choose one option. \textbf{Anyone may propose as many options as they wish}, \textbf{every
+member judges all of them}, and \textbf{every member has a right of veto}. The procedure must reach the
+\textbf{best compromise} and must \textbf{never get the group stuck}. What does research say, and which
+procedure should be used?
+\end{keybox}
+
+\section{Bottom line}
+\begin{enumerate}[label=\textbf{\arabic*.}]
+  \item \textbf{Do not give every member a hard veto.} Unanimity breeds delay, status-quo bias and
+  holdouts; with the status quo as default it deadlocks in \KNdeadlockUnanimityEleven\% of our simulated
+  decisions with 11 members and \KNdeadlockUnanimity\% with 101.
+  \item \textbf{Use ``Condorcet with a blocking quota'' (QVC) with a quota of one third.} One ballot; an
+  option rejected by at least a third of the members is out; the majority decides among the rest.
+  \item \textbf{Accept, and contain, its one price:} a blocking third can block strategically.
+  Named, reasoned vetoes and at most one revision round keep that in check.
+\end{enumerate}
+
+\section{What the research says}
+\begin{enumerate}[label=\textbf{\arabic*.}]
+  \item \textbf{There is no perfect rule.} Every voting rule can be manipulated (Gibbard--Satterthwaite),
+  and respecting the majority sometimes means overriding a large minority: designing a procedure means
+  choosing a trade-off, and it should be explicit.
+  \item \textbf{Unanimity is rarely optimal.} Theory and experiments agree that it raises delay and the
+  power of holdouts; majority voting with a \emph{separate} veto, used only against unacceptable outcomes,
+  does better (Bouton et al., 2018; Tsebelis, 2002).
+  \item \textbf{Vetoes should be held by coalitions, not individuals,} as in the Council of the European
+  Union's blocking minority; consensus bodies such as the IETF treat an objection as an argument to
+  address, not as a block.
+  \item \textbf{Open proposals require a ``clone-proof'' rule.} If anyone can add variants of an option,
+  many rules reward flooding the agenda: three variants change the outcome of Borda's rule in up to
+  \KNclonesBorda\% of our elections, of fallback bargaining in \KNclonesFallback\% and of the
+  proportional veto core in \KNclonesPVC\%. Schulze-type Condorcet methods are immune.
+  \item \textbf{Condorcet methods give the best results when preferences have structure,} and a
+  Condorcet winner (an option preferred by a majority to every other) exists in at least
+  \KNcwPolarisedTwelve\% of our simulated electorates, even with twelve options.
+\end{enumerate}
+
+\begin{keybox}{Recommended procedure: QVC($\theta$), with $\theta = 1/3$}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+  \item \textbf{Nominate.} Anyone proposes any number of options. The status quo is on the ballot as an
+  ordinary option, never as the default.
+  \item \textbf{Vote once.} Each member ranks all options (ties allowed) and marks those they find
+  unacceptable; each veto is named and states a reason.
+  \item \textbf{Filter.} Options vetoed by at least a third of the members are excluded. If that excludes
+  them all, the least-vetoed options are kept.
+  \item \textbf{Decide.} The Schulze winner (pairwise majority) among the remaining options is elected.
+  Veto counts and the pairwise matrix are published.
+  \item \textbf{Revise, at most once.} Only if step 3 had to fall back: reopen nominations briefly, vote
+  again; the second result is final.
+\end{enumerate}
+\end{keybox}
+
+\textbf{What it guarantees} (proved in the note): it \textbf{always decides}, in one round (two at most);
+the status quo gets \textbf{no default advantage}; the winner is \textbf{acceptable to more than two
+thirds} of the members whenever some option is; among acceptable options, \textbf{the majority decides};
+and \textbf{adding variants of an option changes nothing}.
+
+\section{The evidence}
+Monte Carlo study of 21 rules, 2{,}000 simulated decisions per setting, 101 members, 8 options. Results
+for a polarised group (two blocs of 55\% and 45\%), the case in which a compromise matters most:
+
+\begin{center}\small
+\begin{tabularx}{0.92\linewidth}{X r r r}
+\toprule
+ & \textbf{Majority only} & \textbf{QVC, $\theta = 1/3$} & \textbf{QVC, $\theta = 1/4$} \\
+ & (Schulze) & (recommended) & (more consensual) \\
+\midrule
+Outcome rejected by at least a third of members & \KNcontestedSchulze\% & \KNcontestedQVC\% & \KNcontestedQVCquarter\% \\
+Satisfaction of the least satisfied members (0--100) & \KNworstoffSchulze & \KNworstoffQVC & \KNworstoffQVCquarter \\
+Total satisfaction (0--100) & \KNutilitySchulze & \KNutilityQVC & \KNutilityQVCquarter \\
+Majority's preferred option elected & 100\% & \KNcondorcetQVC\% & \KNcondorcetQVCquarter\% \\
+Manipulable by 10\% of members & \KNmanipSchulzePolarised\% & \KNmanipQVCPolarised\% & \KNmanipQVCquarterPolarised\% \\
+\bottomrule
+\end{tabularx}
+\end{center}
+{\footnotesize\color{muted} Satisfaction: 0 for an average option, 100 for the best; the least satisfied
+member is the one at the 10th percentile. ``Rejected by a third'': \KNcontestedQVC\% is the minimum any
+rule can reach, the share of decisions in which every option is rejected by a third. Unanimity with the
+status quo as default, in the same setting: deadlock in \KNdeadlockUnanimityPolarised\% of decisions.\par}
+
+\textbf{Reading.} With a blocking third, \textbf{contested outcomes are almost halved} and the least
+satisfied members do better, \textbf{at no cost in total satisfaction}; the majority's choice is set
+aside only when a third of the members reject it. Lowering the quota to a quarter protects minorities
+more but doubles the exposure to strategic blocking.
+
+\begin{center}
+\includegraphics[width=0.8\linewidth]{fig_theta}\\[-2pt]
+{\footnotesize\color{muted} What the quota $\theta$ buys and costs. Below 20\%, nearly every option is
+vetoed and the procedure falls back on the least-vetoed option; above 40\%, vetoes almost never bind.
+One third balances the two.\par}
+\end{center}
+
+\section{The price, and how to contain it}
+Any blocking minority can also block an option it finds acceptable, to push its own favourite: no
+counting rule can prevent it (Greenberg, 1979). In our simulations a coalition of 10\% of the members can
+manipulate \KNmanipQVCSpatial--\KNmanipQVCPolarised\% of decisions under QVC($1/3$), against
+\KNmanipSchulzeSpatial--\KNmanipSchulzePolarised\% under majority rule alone. Safeguards:
+\textbf{public vetoes with stated reasons} (a chair may void an unreasoned veto); \textbf{a quota no lower
+than one quarter}; \textbf{one revision round at most}; in bodies that decide often, \textbf{a budget of
+vetoes across decisions}, never within one.
+
+\section{Decisions for the organisation}
+\begin{itemize}
+  \item \textbf{Quota:} one third by default (with 10 members, 4 vetoes exclude an option); one quarter
+  for a more consensual culture.
+  \item \textbf{Status quo:} an ordinary option by default; for irreversible decisions, require the
+  winner to beat it by a stated ratio (e.g.\ 2:1), as Debian does.
+  \item \textbf{Revision round:} on or off, and its length.
+\end{itemize}
+
+{\footnotesize\color{muted}\textbf{Limits.} The simulations use stylised electorates; the references were
+checked against publisher pages, not full texts. Next step: test the procedure on real ranked ballots
+(e.g.\ Debian's published votes).\par}
+
+\end{document}

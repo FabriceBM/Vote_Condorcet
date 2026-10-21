@@ -1,0 +1,192 @@
+%% ================================================================================================
+%%  6. The procedure: Condorcet with a blocking quota
+%%  Notes: research-agenda.md §6; proofs in A_proofs.tex; algorithms in B_algorithms.tex
+%%  Code: simulations/python/voting.py (qvc, --check), examples.py (table examples, --check)
+%% ================================================================================================
+\section{The procedure: Condorcet with a blocking quota}\label{sec:procedure}
+
+\subsection{Design principles}
+
+Sections~\ref{sec:limits}--\ref{sec:aggregation} translate into six principles.
+\begin{enumerate}[label=P\arabic*]
+  \item \textbf{One simultaneous ballot on the whole agenda.} Voters judge all options at once (H2): no
+  sequential or amendment agenda, hence no power for whoever orders the votes (Section~\ref{sec:veto}).
+  \item \textbf{Ranking and blocking are separate acts.} The ballot has a ranking and an acceptability
+  line; only the line is a veto. This is the separation the literature favours
+  \citep{BoutonLlorenteSaguerMalherbe2018}.
+  \item \textbf{Vetoes are held by coalitions, not individuals.} An option is excluded only if a blocking
+  minority, a share $\theta$ of the voters, finds it unacceptable: minority protection without holdouts
+  (Propositions~\ref{prop:majority-veto} and~\ref{prop:gridlock}).
+  \item \textbf{The status quo is an option like the others.} It can be ranked, vetoed and elected, but
+  it is never the default: vetoes cannot become a vote for inertia.
+  \item \textbf{The aggregation is clone-independent.} The open agenda (H1) must not reward flooding
+  (Section~\ref{sec:clones}).
+  \item \textbf{A decision is guaranteed.} If every option is vetoed by a blocking minority, the
+  least-vetoed options are kept rather than none (R2).
+\end{enumerate}
+
+\subsection{The procedure}
+
+\begin{definition}[Admissible options; $\theta$-compromise]\label{def:compromise}
+Let $0 < \theta \le 1/2$. The \emph{admissible} options are
+$\Adm = \{x \in \Opts : \veto(x) < \theta n\}$ if this set is not empty, and the least-vetoed options
+$\arg\min_x \veto(x)$ otherwise. The \emph{$\theta$-compromise} is the Condorcet winner of $\Adm$, when it
+exists.
+\end{definition}
+
+The definition is lexicographic: first, the outcome must be acceptable to all but a minority smaller than
+$\theta$, if any option is; second, among such options, the majority decides. It is our reading of R1.
+When the Condorcet winner of the whole agenda is acceptable to all but such a minority, it is the
+$\theta$-compromise; when a blocking minority finds it unacceptable, as in Example~E1, the compromise is
+the best option, in the majority sense, that the minority can live with.
+
+\begin{algorithm}[htbp]
+\caption{\QVC($\theta$): Condorcet with a blocking quota}\label{alg:qvc}
+\begin{algorithmic}[1]
+\Require options $\Opts$ (all proposals and the status quo), ballots $(\wpref_i, V_i)_{i \in \Voters}$,
+  quota $\theta \in (0, 1/2]$, an order of the options drawn at random before the vote (for exact ties)
+\State $\veto(x) \gets |\{i : x \in V_i\}|$ for every $x \in \Opts$ \Comment{veto counts}
+\State $\Adm \gets \{x : \veto(x) < \theta n\}$
+\If{$\Adm = \emptyset$} $\Adm \gets \arg\min_x \veto(x)$ \Comment{fallback: never empty}
+\EndIf
+\State $\Maj(x,y) \gets |\{i : x \pref_i y\}|$ for $x, y \in \Adm$ \Comment{pairwise counts}
+\State $W \gets$ Schulze winners of $\Adm$ \Comment{Appendix~\ref{app:algorithms}}
+\If{$|W| > 1$} $W \gets \arg\min_{x \in W} \veto(x)$, then the Schulze winners of $W$, then the first
+  in the random order
+\EndIf
+\State \Return the option in $W$; publish $\veto$, $\Adm$ and the matrix $\Maj$
+\end{algorithmic}
+\end{algorithm}
+
+Algorithm~\ref{alg:qvc} computes the $\theta$-compromise when it exists and completes it with the
+Schulze method otherwise. Ranked Pairs could replace Schulze without changing any of the properties below.
+The computation takes $O(nm^2 + m^3)$ operations, a fraction of a second for hundreds of options.
+
+\subsection{Properties}
+
+\begin{proposition}[Decisive, with no default advantage]\label{prop:decisive}
+\QVC($\theta$) selects exactly one option, in one ballot round, for every profile. It treats every option,
+the status quo included, in the same way, and its outcome does not depend on the order in which the
+options were proposed (except through the random order that breaks exact ties).
+\end{proposition}
+
+\begin{proposition}[Acceptability guarantee]\label{prop:acceptability}
+If some option is vetoed by fewer than $\theta n$ voters, so is the winner of \QVC($\theta$): more than a
+share $1-\theta$ of the voters find it acceptable. Otherwise the winner is among the least-vetoed
+options. Hence the winner is vetoed by at least $\theta n$ voters only if every option is, and no rule
+has a lower probability of electing an option vetoed by a blocking minority.
+\end{proposition}
+
+\begin{proposition}[Majority within the admissible options]\label{prop:condorcet-admissible}
+The winner of \QVC($\theta$) is in the Smith set of $\Adm$ and is not Pareto-dominated. If $\Adm$ has a
+Condorcet winner, it wins; in particular the Condorcet winner of the whole agenda wins whenever fewer
+than $\theta n$ voters veto it.
+\end{proposition}
+
+\begin{proposition}[Independence of clones]\label{prop:qvc-clones}
+\QVC($\theta$) is independent of clones (Definition~\ref{def:clones}), up to the random order that breaks
+exact ties.
+\end{proposition}
+
+The proofs are in Appendix~\ref{app:proofs}; the code checks Propositions~\ref{prop:decisive}--\ref{prop:qvc-clones} on random profiles
+(Appendix~\ref{app:simulation}). The guarantees have a price, which is the subject of the
+last result.
+
+\begin{proposition}[Strategic blocking]\label{prop:blocking}
+Under \QVC($\theta$), any coalition of at least $\theta n$ voters can make any option inadmissible by
+vetoing it, which defeats that option whenever another option stays admissible. If $\theta \le (m-1)/m$,
+and in particular for every $\theta \le 1/2$, there are profiles in which, whatever the winner $w$, at
+least $\theta n$ voters prefer some other option to $w$, and can thus block $w$ by vetoing it although
+they find it acceptable.
+\end{proposition}
+
+Proposition~\ref{prop:blocking} is the strategic face of Proposition~\ref{prop:majority-veto}: the power to
+block an unacceptable option is also the power to block an acceptable one. \citet{Greenberg1979} gives
+the general threshold: an option that no coalition of size $\theta n$ wants to replace exists for every
+profile only if $\theta > (m-1)/m$, or $\theta > d/(d+1)$ in $d$ dimensions, that is, only if the veto is
+weaker than majority rule. A sincere veto is cheap to cast and a strategic one is no dearer, so
+safeguards must come from the procedure around the vote (Section~\ref{sec:safeguards}). The proportional
+veto core avoids the problem, since it is defined as the set of options no coalition can block given its
+proportional veto power \citep{Moulin1981,Moulin1982}, but it fails independence of clones
+(Proposition~\ref{prop:pvc-clones}), which H1 makes essential.
+
+\subsection{Worked examples}\label{sec:examples}
+
+Table~\ref{tab:examples} applies nine rules to four small profiles.
+
+\input{../../outputs/tables/examples}
+
+\begin{itemize}
+  \item \textbf{E1, majority or compromise.} $A$ is the Condorcet winner (51 to 49 against both others)
+  and plurality and Schulze elect it. The 49\% minority, however, ranks $A$ last and vetoes it, while $B$
+  is everyone's first or second choice. Borda's rule, fallback bargaining, the proportional veto core and
+  \QVC\ with $\theta \le 49\%$ elect $B$; \QVC(1/2) treats a 49\% veto as insufficient and elects $A$.
+  Which answer is right is the choice of $\theta$.
+  \item \textbf{E2, flooding.} The majority adds two variants of $A$. Borda's rule, fallback bargaining
+  and the proportional veto core now elect $A$ (Proposition~\ref{prop:pvc-clones}); \QVC\ is unchanged,
+  because each variant inherits the minority's vetoes.
+  \item \textbf{E3, a cycle.} $A$ beats $B$ (67--33), $B$ beats $C$ (68--32), $C$ beats $A$ (65--35);
+  Schulze breaks the weakest link and elects $A$. With $\theta = 1/4$ every option is vetoed by about a
+  third of the voters, so \QVC\ falls back on the least-vetoed option, $B$; with $\theta = 1/3$, $C$ (35
+  vetoes) is excluded and $A$ wins. Unanimity keeps the status quo $C$, since neither proposal is
+  preferred to it by everyone.
+  \item \textbf{E4, the status-quo trap.} One voter prefers the status quo to everything and vetoes both
+  proposals. Unanimity keeps the status quo against 99 voters; \QVC\ elects $X$, since one veto is far
+  below any blocking quota.
+\end{itemize}
+
+\subsection{Choosing the quota and the details}\label{sec:theta}
+
+\paragraph{The quota.} $\theta$ sets the size of the smallest minority whose objection counts. The
+simulations of Section~\ref{sec:simulation} (Figure~\ref{fig:theta}) show three regimes.
+\begin{itemize}
+  \item \emph{At 15--20\% and below}, in an assembly of a hundred voters where each voter vetoes 35--40\% of
+  the options, every option is vetoed by the quota and the fallback decides in most elections: the
+  procedure elects the least-vetoed option, which is approval voting on acceptability. Each individual
+  veto is then only a negative vote, and the result is easily manipulated.
+  \item \emph{Between 25\% and 40\%}, the veto excludes the options that a substantial minority rejects
+  and the majority decides among the others; the fallback is rare.
+  \item \emph{From 40\% upwards}, the veto almost never binds before majority rule would and \QVC\ is the
+  Schulze method.
+\end{itemize}
+We recommend $\theta = 1/3$ as the default: it is the blocking third that corresponds to the two-thirds
+supermajorities common in statutes, close to the 35\% blocking minority of the Council of the European
+Union and to the 36\% implied by the 64\% rule of \citet{CaplinNalebuff1988}. A group that values
+consensus more than majority can go down to $\theta = 1/4$; going lower brings back the problems of the
+individual veto. In a small group, the quota is a number of voters, $\lceil \theta n \rceil$: with ten
+voters and $\theta = 1/3$, four vetoes exclude an option. Below five voters, a quota of two vetoes keeps a
+single member from blocking alone.
+
+\paragraph{The status quo.} By default the status quo is an ordinary option (P4). Where a change is
+costly or irreversible, the group may wish to protect it, as Debian does: the winner must then beat the
+status quo by a stated ratio (2:1, say), failing which the status quo stays. This reintroduces inertia
+on purpose and should be reserved for such decisions.
+
+\paragraph{The ballot.} A ranking with ties allowed, plus the acceptability line. With many options,
+a grade-style form is easier: each option receives one of ``excellent'', ``good'', ``fair'', ``poor'' or
+``unacceptable'', voters may order options within a grade, and the ranking and the vetoes are read from
+the form. Options left blank are ranked last and not vetoed. Results should publish the veto counts, the
+admissible set and the pairwise matrix, so that any member can check the outcome.
+
+\subsection{Safeguards against strategic vetoing}\label{sec:safeguards}
+
+Proposition~\ref{prop:blocking} cannot be removed by the counting rule; it can be contained by the
+procedure around it.
+\begin{itemize}
+  \item \textbf{Named and reasoned vetoes.} A veto is public and states a reason, as an objection must in
+  the IETF's rough consensus \citep{Resnick2014rfc7282}. Responsibility for one's vote changes behaviour in
+  committees \citep{BreitmoserValasek2024}, and social constraints are what keeps formal vetoes in check
+  in consensus bodies \citep{Krick2017}. A chair or a panel may rule a veto without a reason void.
+  \item \textbf{One revision round, only when needed.} If the fallback was used (no option acceptable
+  to more than $1-\theta$ of the voters), the results are published, the nomination opens again for a
+  fixed time for compromise proposals, and a second ballot is held; its result is final. Two rounds at
+  most keep R2 while giving a divided group a chance to find a compromise, in line with the evidence that
+  one or two rounds suffice and more rounds strengthen vetoers
+  \citep{GersbachValkanova2024,Nunnari2021}.
+  \item \textbf{Veto budgets across decisions, not within one.} In a body that decides repeatedly, a
+  limited stock of vetoes per member and per period, which can be saved for decisions that matter more,
+  discourages routine blocking \citep[on storable votes]{Casella2005}. A budget within one decision would
+  break independence of clones: each clone added would cost a veto.
+  \item \textbf{No lower quota than needed.} The manipulability of the procedure falls quickly as
+  $\theta$ rises (Figure~\ref{fig:theta}).
+\end{itemize}

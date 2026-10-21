@@ -1,0 +1,3 @@
+numpy>=1.24
+scipy>=1.10           # max-flow test of the proportional veto core (voting.py), convex hulls (experiments.py)
+matplotlib>=3.7       # figures.py only

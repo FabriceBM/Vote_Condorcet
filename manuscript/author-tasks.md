@@ -1,0 +1,53 @@
+# Next steps for the author
+
+This file lists what Fabrice Borel-Mathurin needs to decide, check or extend to take the note from
+draft v0.1 to a version that can be circulated. Tick tasks off in the pull request that closes them.
+
+## 1. Decisions
+
+| | Task | Where |
+|---|---|---|
+| [ ] | Title, author line, affiliation, acknowledgements. `metadata.tex` currently says "Draft for discussion" | `metadata.tex` |
+| [ ] | Confirm θ = 1/3 as the default, or choose 1/4 for a more consensual setting | §6.5, `research-agenda.md` §3 |
+| [ ] | Decide whether the status quo is protected (a Debian-style ratio) for the intended use case | §6.5 |
+| [ ] | Decide on the revision round (on or off; its length) | §6.6 |
+| [ ] | Decide the target: an internal note, a working paper, or a journal | below, §4 |
+
+## 2. Checks
+
+| | Task | How |
+|---|---|---|
+| [ ] | Confirm the ~30 fields still marked `verify` in `references.bib`: mostly DOIs, plus Guilbaud's page range and the TEU page numbers | `grep -n verify manuscript/references.bib`; the sources are in `../literature/reference-checks_2026-10-21.md` |
+| [ ] | Read the key papers in full; the reference checks used publisher pages and abstracts | Bouton et al. (2018), Moulin (1981, 1982), Ianovski & Kondratev (2021), Kondratev & Ianovski (2024), Kondratev & Nesterov (2020), Greenberg (1979), Holliday & Pacuit (2023) |
+| [ ] | Check the characterisation of Majority Judgment as monotonic, and the Monotonic column of Table 3 for fallback bargaining and the majoritarian compromise | Balinski & Laraki (2010), Felsenthal (2012) |
+| [ ] | Check that Debian's 3:1 ratio for constitutional amendments is unchanged in constitution v1.9 | debian.org/devel/constitution |
+| [ ] | Proofread the propositions and proofs (Appendix A), in particular Proposition 2(ii) and Lemma 9 | |
+
+## 3. Extensions, by value
+
+1. **Real ballots.** Run the rules on Debian's published ranked ballots: options above and below
+   "None of the above" give the acceptability line. Extend to PrefLib data sets. This would replace the
+   stylised cultures with observed preferences.
+2. **Robustness of the simulation:**
+   - 1, 3 and 5 dimensions;
+   - other numbers of options (5, 12, 20);
+   - another veto tolerance;
+   - heterogeneous proposal activity (flooding by one bloc).
+
+   All are one-parameter changes in `cultures.py`.
+3. **Strategic vetoing in more depth:**
+   - optimal coalition strategies rather than three heuristics;
+   - the minimum coalition size needed to manipulate, per rule.
+4. **The revision round:** simulate a second round in which a compromise proposal is added when the
+   fallback triggers.
+5. **Open question §8.3:** is there a clone-independent rule with proportional veto power and a non-empty
+   core, or a proof that the three are incompatible?
+
+## 4. Outlets (to check against each one's scope)
+
+| Option | Fit |
+|---|---|
+| Internal or technical note | As is, after §1–2 |
+| *Social Choice and Welfare*, *Public Choice*, *Group Decision and Negotiation* | Needs extension 1 or 3, and a sharper statement of the new results: Propositions 2, 3 and 8, and the design argument |
+| *Mathematical Social Sciences* | If the open question of §8.3 gets an answer |
+| A practitioner outlet (governance, cooperatives, standards bodies) | §6 and §8.4, shortened |

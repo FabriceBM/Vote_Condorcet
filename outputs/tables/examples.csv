@@ -1,0 +1,5 @@
+Example,Plur.,Borda,Schul.,Fallb.,PVC,Unan.,Q 25%,Q 33%,Q 50%
+E1 (compromise),A,B,A,B,B,B,B,B,A
+E2 (flooding),A,A,A,A,A,B,B,B,A
+E3 (cycle),A,A,A,B,A,C (stuck),B (fb),A,A
+E4 (status quo),X,X,X,Y,X,S (stuck),X,X,X

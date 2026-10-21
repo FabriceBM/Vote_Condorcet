@@ -1,0 +1,87 @@
+%% ================================================================================================
+%%  Appendix A. Proofs
+%%  Code checks: simulations/python/voting.py --check (Propositions 4-7, the PVC test),
+%%  experiments.py --check (Proposition 2), examples.py --check (Examples E1-E4)
+%% ================================================================================================
+\section{Proofs}\label{app:proofs}
+
+\paragraph{Proposition~\ref{prop:majority-veto}.}
+Take $n$ large enough that some integer $k$ satisfies $\theta n < k < n/2$, and options
+$x, y, z_1, \dots, z_{m-2}$. Let $n-k$ voters rank $x \pref y \pref z_1 \pref \dots \pref z_{m-2}$ and
+veto nothing, and $k$ voters rank $y \pref z_1 \pref \dots \pref z_{m-2} \pref x$ and veto $x$ only. Since
+$n - k > n/2$, $x$ beats every other option: it is the Condorcet winner. It is vetoed by
+$k > \theta n$ voters, while $y$ is vetoed by none. A rule that elects the Condorcet winner elects here an
+option vetoed by at least $\theta n$ voters although $y$ is vetoed by fewer, which proves the first
+claim. For the second, the coalition $T$ of the $k$ minority voters unanimously prefers the $m-1$ other
+options to $x$; it blocks $x$ if $m - 1 \ge m - \lceil mk/n \rceil + 1$, that is, if
+$\lceil mk/n \rceil \ge 2$, which holds when $k/n > 1/m$. \hfill$\square$
+
+\paragraph{Proposition~\ref{prop:gridlock}.}
+(i) Suppose an option $y \neq \sq$ is strictly preferred to $\sq$ by every voter:
+$\|y - p_i\| < \|\sq - p_i\|$ for all $i$. Expanding the squares, this is
+$(y - \sq) \cdot p_i > (\|y\|^2 - \|\sq\|^2)/2$ for all $i$: every ideal point lies in the open half-space
+$H = \{z : (y - \sq) \cdot z > (\|y\|^2 - \|\sq\|^2)/2\}$. $H$ is convex, so it contains the convex hull of
+the ideal points. But $\sq \notin H$, since $(y - \sq) \cdot \sq - (\|y\|^2 - \|\sq\|^2)/2 = -\|y-\sq\|^2/2 < 0$.
+Hence $\sq$ is not in the convex hull, a contradiction. Under unanimity with the status quo as default,
+a proposal passes only if every voter prefers it to $\sq$, so none passes.
+
+(ii) Let $U$ be an open ball around $\sq$ contained in the support. Choose a simplex
+$\Delta \subset U$ with vertices $a_0, \dots, a_d$ that contains $\sq$ in its interior, and $\varepsilon > 0$
+small enough that every simplex with one vertex in each ball $B(a_j, \varepsilon)$ still contains $\sq$
+(the barycentric coordinates of $\sq$ depend continuously on the vertices). Each ball $B(a_j,\varepsilon)$
+lies in the support and has probability $q_j > 0$. If every ball contains at least one ideal point,
+$\sq$ is in their convex hull. The probability that some ball is empty is at most
+$\sum_j (1 - q_j)^n$, which tends to zero. \hfill$\square$
+
+\paragraph{Proposition~\ref{prop:pvc-clones}.}
+In Example~E1 ($n = 100$, $m = 3$), the 49 minority voters prefer $B$ and $C$ to $A$; since
+$2 \ge 3 - \lceil 3 \cdot 49/100 \rceil + 1 = 2$, they block $A$, which is outside the core. In Example~E2
+($m = 5$), they still prefer only $B$ and $C$ to $A$, and $2 < 5 - \lceil 5 \cdot 49/100 \rceil + 1 = 3$:
+they no longer block $A$. No other coalition does either, since a coalition that contains a majority
+voter has no option that all its members prefer to $A$, and a smaller coalition of minority voters has
+less veto power. So $A$ enters the core, and as the Condorcet winner it is elected by Schulze within the
+core, while $B$ was elected before (Table~\ref{tab:examples}). For fallback bargaining, in E1 the
+majority's top two $\{A, B\}$ and the minority's $\{B, C\}$ meet at $B$ at depth 2. In E2 the majority's
+top two are $\{A, A_2\}$ and nothing is common at depth 2; at depth 3 the majority's $\{A, A_2, A_3\}$ and
+the minority's $\{B, C, A\}$ meet at $A$, which wins. \hfill$\square$
+
+\paragraph{Proposition~\ref{prop:decisive}.}
+The admissible set is never empty: either some option is vetoed by fewer than $\theta n$ voters, or the
+fallback keeps the least-vetoed options. The Schulze method always has at least one winner on a non-empty
+set \citep{Schulze2011}, and the tie-break ends with a strict order, so exactly one option is selected. All
+steps use only the ballots, and treat every option, the status quo included, alike; the order of
+proposal enters nowhere. \hfill$\square$
+
+\paragraph{Proposition~\ref{prop:acceptability}.}
+If some option has $\veto(x) < \theta n$, the admissible set is $\{x : \veto(x) < \theta n\}$ and the
+winner belongs to it. Otherwise the winner belongs to $\arg\min \veto$. In both cases the winner is vetoed
+by at least $\theta n$ voters only if every option is, which no rule can avoid. \hfill$\square$
+
+\paragraph{Proposition~\ref{prop:condorcet-admissible}.}
+The Schulze method is Smith-consistent, hence Condorcet-consistent \citep{Schulze2011}; applied to the
+profile restricted to $\Adm$, its winners lie in the Smith set of $\Adm$, and the tie-break selects among
+them. If the Condorcet winner $c$ of $\Opts$ has $\veto(c) < \theta n$, then $\Adm$ is the set of options
+vetoed by fewer than $\theta n$ voters, $c \in \Adm$, and $c$ beats every option of $\Adm$, so it wins.
+For Pareto, let $y$ dominate $x$: every voter weakly prefers $y$ to $x$, some strictly. By consistency of the
+veto sets, any voter who vetoes $y$ also vetoes $x$, so $\veto(y) \le \veto(x)$ and $y \in \Adm$ whenever
+$x \in \Adm$, in both branches of the definition. Within $\Adm$, $y$ beats $x$, and the Schulze method never
+elects a Pareto-dominated option \citep{Schulze2011}. \hfill$\square$
+
+\paragraph{Proposition~\ref{prop:qvc-clones}.}
+Let $x'$ be a clone of $x$. By Definition~\ref{def:clones}, $\veto(x') = \veto(x)$ and the veto counts of
+the other options are unchanged. In the first branch, $x' \in \Adm$ if and only if $x \in \Adm$, and the
+other options keep their status; in the fallback branch, the minimum veto count is unchanged and
+$x' \in \arg\min \veto$ if and only if $x$ is. So the admissible set either gains $x'$ (if it contains
+$x$) or is unchanged, and $\{x, x'\}$ is a clone set in the profile restricted to it. The Schulze method is
+independent of clones \citep{Schulze2011}; the first tie-break (fewest vetoes) gives clones equal counts,
+and the second applies Schulze again. The winner is therefore unchanged up to the clone set, except when
+the final random order separates exactly tied options. \hfill$\square$
+
+\paragraph{Proposition~\ref{prop:blocking}.}
+A coalition $C$ with $|C| \ge \theta n$ that vetoes $x$ raises $\veto(x)$ to at least $\theta n$, so that
+$x \notin \Adm$ unless no option is vetoed by fewer than $\theta n$ voters. For the second claim, let $n$
+be a multiple of $m$ and split the voters into $m$ equal blocs; bloc $j$ ranks the options in the cyclic
+order $o_j \pref o_{j+1} \pref \dots \pref o_{j-1}$ (indices modulo $m$) and vetoes nothing, so every
+option is admissible. Whatever the winner $w = o_k$, every bloc except bloc $k$ prefers $o_{k-1}$ to $w$:
+a coalition of $(m-1)n/m \ge \theta n$ voters prefers another option and can make $w$ inadmissible by
+vetoing it, while the other options stay admissible. \hfill$\square$

@@ -1,0 +1,149 @@
+%% ================================================================================================
+%%  4. What research says about veto rights
+%%  Notes: ../literature/consensus-2026-10_review-notes.md (the Consensus review), research-agenda.md §4
+%% ================================================================================================
+\section{What research says about veto rights}\label{sec:veto}
+
+The literature on veto rights is split across three traditions that rarely cite each other: committee
+and legislative bargaining (economics and political science), the choice of a compromise from a finite
+set of options (social choice), and the study of consensus in real organisations. We review each, then
+summarise the evidence in Table~\ref{tab:evidence}.
+
+\subsection{Unanimity against majority with a veto}
+
+The sharpest comparison concerns committees that decide between a reform and the status quo.
+\citet{BoutonLlorenteSaguerMalherbe2018} compare unanimity with \emph{majority rule with veto power}, in
+which members vote by majority but each may also cast a veto that blocks the reform. When members share a common interest but hold private information, the second rule
+aggregates information better and dominates unanimity in large committees: under unanimity a member
+who doubts the reform can only block it, whereas majority with veto lets them vote against it without
+blocking and keeps the veto for the case where they are sure. A laboratory study confirms the ranking
+\citep{BoutonLlorenteSaguerMalherbe2017}. The lesson the authors draw, and the Consensus review
+endorses, is to separate the right to \emph{block an unacceptable outcome} from the right to
+\emph{approve a choice}.
+
+Bargaining models and experiments point the same way. Unanimity can be uniquely inefficient, with
+costly conflict and delay \citep{MiettinenVanberg2025,PiazoloVanberg2025}; laboratory committees show
+delay and a larger share captured by members who hold a veto
+\citep{LaingSlotznick1991,KagelSungWinter2010,AgranovTergiman2019}. The case for unanimity is
+conditional: it can improve the honesty of deliberation when members are held responsible for their
+votes \citep{BreitmoserValasek2024}, and the comparison with majority depends on what proposers know
+\citep{GlyniaThumXefteris2026}.
+
+\subsection{Veto players, agenda power and the status quo}
+
+In political systems, each additional veto player, and each increase in the distance between their
+positions, shrinks the set of policies that can replace the status quo; policy stability, or gridlock,
+follows \citep{Tsebelis1995,Tsebelis2002}. The status quo is not a neutral fallback: the worse it is for
+the others, the more an agenda setter can extract \citep{RomerRosenthal1978}, and whoever proposes holds
+power that grows with the patience of the others and the voting rule \citep{BaronFerejohn1989,Harrington1990}.
+When today's decision becomes tomorrow's status quo, the dynamics compound: an endogenous status quo
+produces inertia and inefficiency \citep{DziudaLoeper2016,AnesiSeidmann2015}, and in laboratory
+committees extra rounds strengthen the vetoer \citep{Nunnari2021}; on the stability of policies with
+veto players, see \citet{AnesiDuggan2017}. A veto also
+discourages experimentation, since a member who may lose from a reform can block the trial that would
+reveal its value \citep{AnesiBowen2021}. The best use of a veto player is sometimes to delegate the
+choice to them within an interval fixed in advance \citep{KartikKleinerVanWeelden2021}.
+
+Two implications for our design follow. First, the status quo should not be a privileged default:
+giving it that role turns every veto into a vote for inertia. Second, the agenda should not be
+sequential: in sequential and amendment procedures, the order in which options are put to the vote can be
+manipulated \citep{McKelvey1976,BarberaGerber2017}. Under H2, voters judge all options at once, which
+removes the agenda setter's power, provided the rule is robust to the composition of the agenda
+(Section~\ref{sec:aggregation}).
+
+\subsection{How many rounds?}
+
+There is no general result that more rounds are better. In proposal models with single-peaked
+preferences, recent procedures reach the Condorcet winner in one round, where each voter either proposes
+or votes \citep{Gersbach2025propose}, or in two rounds with randomly drawn proposers
+\citep{GersbachValkanova2024}; see also \citet{Gersbach2024forms}. When voting is costly, a sequence of
+rounds with a falling threshold can be optimal \citep{Bognar2015}. In bargaining with vetoes and an
+endogenous status quo, however, extra rounds tend to create delay and to strengthen vetoers rather than
+improve decisions \citep{Nunnari2021,DziudaLoeper2016}. The Consensus review concludes that one or two
+rounds suffice in structured settings, and that robustness of fast procedures to hard vetoes is an open
+question. Our design uses one ballot round, with at most one revision round (Section~\ref{sec:safeguards}).
+
+\subsection{Compromise rules with vetoes}
+
+Social choice offers several procedures that select a compromise from a finite set of options by
+vetoing.
+\begin{itemize}
+  \item \textbf{Voting by veto} \citep{Mueller1978}: each of $n$ members proposes one option, the status
+  quo is added, and in a random order each member strikes one option; the last one standing wins. The
+  procedure always decides and no member gets their worst outcome, but it is not anonymous and needs
+  exactly one more option than voters.
+  \item \textbf{Proportional veto} \citep{Moulin1981,Moulin1982,Moulin1983}: coalitions veto a share of
+  the options equal to their share of the voters (Definition~\ref{def:pvc}). The core is never empty,
+  and procedures of successive vetoes can implement it in strong equilibrium. The core can be computed,
+  and an option selected from it by an anonymous and neutral rule, in polynomial time
+  \citep{IanovskiKondratev2021}; \citet{KondratevIanovski2024} study which rules that always select from
+  the core are monotonic, satisfy participation or ignore options that everyone ranks last.
+  \item \textbf{Fallback bargaining} \citep{BramsKilgour2001}: members descend their rankings in
+  lockstep until an option appears on every list. The outcome is Pareto-optimal and maximises the worst
+  rank, but it may miss the Condorcet winner and even a majority's first choice; with an ``impasse'' line,
+  below which members refuse to go, it can end in no agreement.
+  \item \textbf{Majoritarian compromise} \citep{SertelYilmaz1999,HurwiczSertel1999}: the same descent,
+  stopped at the first depth at which an option appears in the lists of a majority; it is
+  majoritarian-optimal and implementable in subgame-perfect equilibrium.
+  \item \textbf{Shortlisting and veto-rank} for two parties: one party shortlists, the other chooses
+  \citep{BarberaCoelho2017,BarberaCoelho2022}; or parties strike options alternately
+  \citep{Anbarci1993}, or in proportion to ranks \citep{LaslierNunezSanver2021}. These rules can have
+  several equilibria, some Pareto-inefficient, and \citet{CaillouxNapolitanoSanver2022} argue that several
+  ``compromise'' rules fail to select an outcome that is a compromise once the result is known.
+\end{itemize}
+None of these was designed for an open agenda. Section~\ref{sec:aggregation} shows that fallback
+bargaining, the majoritarian compromise, sequential vetoes and the proportional veto core all reward
+flooding the agenda with clones.
+
+\subsection{Consensus in practice}
+
+Organisations that decide ``by consensus'' rarely give every member a hard veto. The Internet
+Engineering Task Force works by \emph{rough consensus}: lack of disagreement matters more than agreement,
+and consensus is reached when all objections have been addressed, though not necessarily accommodated;
+an objection judged unpersuasive does not block \citep[\S\S2--3]{Resnick2014rfc7282}. In bodies that
+decide by tacit consent, the formal right of every member to object is constrained by social pressure
+and by the prospect of a fallback majority vote, so that effective veto power is much smaller than the
+rule suggests \citep{Krick2017}. Where a hard individual veto has been taken literally, as in the
+\emph{liberum veto} of the Polish--Lithuanian Sejm, it paralysed decision-making \citep{Rohac2008}.
+Formal institutions grant vetoes to coalitions instead: the Council of the European Union's blocking
+minority needs at least four members \citep{TEU2016art16}.
+
+The closest existing procedure to the one we recommend is the Debian constitution
+\citep[\S A.5]{Debian2024constitution}. Developers rank all the options of a general resolution,
+including the default option ``None of the above''; options ranked above the default are deemed
+acceptable. An option is dropped if too few voters rank it above the default (a quorum) or if it fails
+to beat the default by its required majority (3:1 for constitutional amendments); the winner among the
+remaining options is chosen by the Schulze method. Debian thus combines open amendments, full ranked
+ballots, an acceptability line and a clone-independent Condorcet method, but it keeps the default
+option as a privileged fallback, a choice that suits a project in which ``no change'' is a safe
+outcome.
+
+\begin{table}[htbp]\centering\small
+\caption{What the literature supports}\label{tab:evidence}
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}X l >{\raggedright\arraybackslash}p{0.33\linewidth}}
+\toprule
+Claim & Evidence & Main sources \\
+\midrule
+Full unanimity is rarely optimal for open choices: it raises delay, status-quo bias and holdout power
+  & Strong & \citet{Tsebelis2002,DziudaLoeper2016,MiettinenVanberg2025,KagelSungWinter2010}; Prop.~\ref{prop:gridlock} \\
+Majority with a separate veto beats unanimity for information aggregation
+  & Strong & \citet{BoutonLlorenteSaguerMalherbe2018,BoutonLlorenteSaguerMalherbe2017} \\
+No rule is strategy-proof; the majority principle and minority vetoes conflict
+  & Theorem & \citet{Gibbard1973,Satterthwaite1975}; Prop.~\ref{prop:majority-veto} \\
+Simultaneous voting on all options removes agenda-setter power; clone independence removes the gain
+  from flooding & Strong (theory) & \citet{McKelvey1976,Tideman1987,Schulze2011} \\
+Condorcet winners exist in most structured electorates
+  & Strong & \citet{RegenwetterEtAl2006,TidemanPlassmann2012}; Table~\ref{tab:cw_probability} \\
+Fallback, shortlisting and veto-rank rules are useful second-best compromise devices
+  & Moderate & \citet{BramsKilgour2001,BarberaCoelho2022,CaillouxNapolitanoSanver2022} \\
+One or two rounds suffice in structured proposal settings
+  & Moderate & \citet{GersbachValkanova2024,Gersbach2025propose} \\
+In practice, a formal individual veto is socially constrained
+  & Weak to moderate & \citet{Krick2017,Resnick2014rfc7282} \\
+\bottomrule
+\end{tabularx}
+\figurenotes{Evidence: strong, several formal results and experiments or field evidence agree;
+moderate, formal results under restrictive assumptions; weak, case studies. Adapted and extended from
+the Consensus review of October 2026 (its Figure~6).}{Sections~\ref{sec:limits}--\ref{sec:aggregation}
+of this note.}
+\end{table}

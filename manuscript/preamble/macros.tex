@@ -1,0 +1,48 @@
+%% ------------------------------------------------------------------------------------------------
+%%  Notation and drafting macros. Journal-agnostic.
+%% ------------------------------------------------------------------------------------------------
+
+%% ---- Notation ----------------------------------------------------------------------------------
+\newcommand{\Voters}{N}                 % the voters, n = |N|
+\newcommand{\Opts}{A}                   % the options, m = |A|, the status quo s included
+\newcommand{\sq}{s}                     % the status quo
+\newcommand{\pref}{\succ}               % strict preference of a voter
+\newcommand{\wpref}{\succsim}           % weak preference
+\newcommand{\Maj}{\operatorname{N}}     % N(x,y): number of voters who prefer x to y
+\newcommand{\veto}{v}                   % v(x): number of voters who veto x
+\newcommand{\Adm}{A_\theta}             % admissible options under the blocking quota theta
+\newcommand{\QVC}{\textup{QVC}}         % Condorcet with a blocking quota
+\newcommand{\PVC}{\textup{PVC}}         % proportional veto core
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\conv}{\operatorname{conv}}
+\newcommand{\Normal}{\mathcal{N}}
+
+%% ---- Notes of figures and tables ------------------------------------------------------------------
+%% \figurenotes{notes}{source}  after \caption{title} in a figure: the notes and the source, smaller
+%% \tabnotes{notes}{source}     after a tabular boxed in \tabbox (generated tables): the same, as wide as
+%%                              the table but not narrower than 70% of the text
+\newcommand{\figurenotes}[2]{\par\vspace{3pt}%
+  {\footnotesize\raggedright\textit{Notes:} #1\par\textit{Source:} #2\par}}
+\newsavebox{\tabbox}
+\newlength{\tabnoteswidth}
+\newcommand{\tabnotes}[2]{\par\vspace{3pt}%
+  \setlength{\tabnoteswidth}{\wd\tabbox}%
+  \ifdim\tabnoteswidth<0.7\linewidth\setlength{\tabnoteswidth}{0.7\linewidth}\fi
+  \ifdim\tabnoteswidth>\linewidth\setlength{\tabnoteswidth}{\linewidth}\fi
+  \begin{minipage}{\tabnoteswidth}\footnotesize\raggedright
+  \textit{Notes:} #1\par\textit{Source:} #2\end{minipage}\par}
+
+%% ---- Drafting markers ----------------------------------------------------------------------------
+%% \placeholder{...}  work still to do (shown in red; must be empty before circulation)
+%% \prelim{...}       a number to update when the simulation is extended (shown in orange)
+%% Define \FinalVersion before \documentclass to hide the markers (as in Immo_S2).
+\definecolor{placeholdercolor}{rgb}{0.75,0.0,0.0}
+\definecolor{prelimcolor}{rgb}{0.85,0.45,0.0}
+\ifdefined\FinalVersion
+  \newcommand{\placeholder}[1]{}
+  \newcommand{\prelim}[1]{#1}
+\else
+  \newcommand{\placeholder}[1]{\textcolor{placeholdercolor}{\textbf{[To do:} #1\textbf{]}}}
+  \newcommand{\prelim}[1]{\textcolor{prelimcolor}{#1}}
+\fi

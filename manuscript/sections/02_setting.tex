@@ -1,0 +1,108 @@
+%% ================================================================================================
+%%  2. Setting and definitions
+%%  Notes: research-agenda.md §2; code: simulations/python/voting.py (Election, rules)
+%% ================================================================================================
+\section{Setting and definitions}\label{sec:setting}
+
+\subsection{Voters, options and ballots}
+
+A finite set $\Voters$ of $n$ voters chooses one option from a finite set $\Opts$ of $m$ options. The
+set $\Opts$ is the union of the proposals made by the voters during a nomination period (H1), plus the
+status quo $\sq$, which stands for ``keep things as they are'' or ``no decision'' and is treated as an
+option. Each voter casts one ballot on all the options (H2) with two parts:
+\begin{itemize}
+  \item a \emph{ranking}: a weak order $\wpref_i$ on $\Opts$ (ties allowed), whose strict part is
+  $\pref_i$;
+  \item a \emph{veto set} $V_i \subseteq \Opts$ of options the voter finds unacceptable (H3). The veto
+  set is consistent with the ranking: if $x \in V_i$ and $x \wpref_i y$, then $y \in V_i$. A ballot is
+  thus a ranking with an \emph{acceptability line} drawn in it, as in fallback bargaining with
+  impasse \citep{BramsKilgour2001}, in Majority Judgment's ``reject'' grade \citep{BalinskiLaraki2011},
+  or in Debian's ranking of options above or below the default option \citep{Debian2024constitution}.
+\end{itemize}
+We write $\Maj(x,y) = |\{i : x \pref_i y\}|$ for the number of voters who prefer $x$ to $y$, and
+$\veto(x) = |\{i : x \in V_i\}|$ for the number of voters who veto $x$. A \emph{rule} maps every
+profile of ballots to one option; rules that return a set of tied options are completed by a
+tie-breaking rule.
+
+\subsection{Majority relations}
+
+\begin{definition}[Condorcet winner, Smith set]\label{def:condorcet}
+Option $x$ \emph{beats} $y$ if $\Maj(x,y) > \Maj(y,x)$. A \emph{Condorcet winner} beats every other
+option. The \emph{Smith set} is the smallest non-empty set of options each of which beats every option
+outside it \citep{Smith1973,Fishburn1977}. A rule is \emph{Condorcet-consistent} if it elects the
+Condorcet winner whenever one exists, and \emph{Smith-consistent} if it always elects an option of the
+Smith set.
+\end{definition}
+
+The Condorcet winner is the natural majoritarian notion of a compromise: whatever other option is put
+against it, a majority prefers it. It need not exist (the Condorcet paradox), and when it exists it
+need not protect minorities (Section~\ref{sec:limits}).
+
+\subsection{Properties a procedure should have}
+
+\begin{definition}[Clones; \citealp{Tideman1987}]\label{def:clones}
+A set $C \subseteq \Opts$ with at least two options is a set of \emph{clones} if no voter ranks an
+option outside $C$ between two options of $C$ or level with one of them, and every voter vetoes either
+all the options of $C$ or none. A rule is \emph{independent of clones} if, whenever a clone of an option
+is added or removed, (i) an option outside the clone set wins after the change if and only if it won
+before, and (ii) a member of the clone set wins after the change if and only if one won before.
+\end{definition}
+
+Clones are variants of the same proposal: two near-identical sites, a budget and the same budget with
+one line moved. Under H1 anyone can create them, so independence of clones is what makes a rule robust
+to flooding the agenda.
+
+\begin{definition}[Decisiveness]\label{def:decisive}
+A procedure is \emph{decisive} if, for every profile, it selects one option after a number of rounds
+fixed in advance. It gives the status quo \emph{no default advantage} if the status quo is selected only
+when it would also be selected with its label removed, as an ordinary option.
+\end{definition}
+
+R2 asks for decisiveness. A procedure that keeps the status quo whenever no proposal clears a hurdle is
+decisive in a formal sense, but it gets the community stuck whenever the status quo is not what the
+voters want; this is why we also ask for no default advantage.
+
+\subsection{Veto structures}
+
+Three ways of granting veto power recur in the literature.
+\begin{itemize}
+  \item \textbf{Individual veto (unanimity).} Any single voter can exclude any option. With the status
+  quo as default, a proposal passes only if no one objects \citep{BuchananTullock1962,Tsebelis2002}.
+  \item \textbf{Blocking quota.} A coalition of at least a share $\theta$ of the voters can exclude any
+  option: an option is excluded if $\veto(x) \ge \theta n$. The qualified majority of the Council of the
+  European Union is of this kind: a blocking minority must represent more than 35\% of the population
+  and include at least four members \citep{TEU2016art16}.
+  \item \textbf{Proportional veto} \citep{Moulin1981,Moulin1982}. A coalition $T$ of $t$ voters can
+  veto $\lceil m t / n \rceil - 1$ options: ``$x$\% of the voters can veto $x$\% of the options''.
+\end{itemize}
+
+\begin{definition}[Proportional veto core; \citealp{Moulin1981}]\label{def:pvc}
+Option $x$ is \emph{blocked} by a coalition $T$ of $t$ voters if there is a set $B$ of at least
+$m - \lceil m t/n \rceil + 1$ options such that every member of $T$ strictly prefers every option of $B$
+to $x$. The \emph{proportional veto core} (\PVC) is the set of options that no coalition blocks. It is
+never empty \citep{Moulin1981}.
+\end{definition}
+
+The proportional veto core uses no veto marks: veto power is read from the bottom of the rankings. It
+can be computed in polynomial time by a max-flow test \citep{IanovskiKondratev2021}; our implementation
+is described in Appendix~\ref{app:algorithms}.
+
+\subsection{Notions of compromise}
+
+R1 asks for the ``best compromise''. The literature offers several precise readings, each the
+outcome of a rule:
+\begin{itemize}
+  \item \emph{majoritarian}: the Condorcet winner, or the option that comes closest to being one
+  \citep{Young1988,Schulze2011};
+  \item \emph{utilitarian on ranks}: the best average rank (Borda's rule; \citealp{Young1974});
+  \item \emph{egalitarian on ranks}: the best worst rank, reached by fallback bargaining
+  \citep{BramsKilgour2001}; or the earliest rank at which a majority agrees, the majoritarian compromise
+  \citep{SertelYilmaz1999};
+  \item \emph{acceptability}: the option the most voters find acceptable (approval voting;
+  \citealp{BramsFishburn1978}), or the best median grade (Majority Judgment;
+  \citealp{BalinskiLaraki2007});
+  \item \emph{proportional protection}: an option in the proportional veto core.
+\end{itemize}
+Section~\ref{sec:limits} shows these readings cannot all be satisfied at once. Section~\ref{sec:procedure}
+adopts a lexicographic reading: first acceptability to all but a minority of size $\theta$, then
+majority.

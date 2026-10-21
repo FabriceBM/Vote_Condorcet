@@ -1,0 +1,42 @@
+# ---- LaTeX build artefacts (PDFs of record go to versions/, never here) ----
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.synctex.gz
+*.run.xml
+*.bcf
+*-blx.bib
+/main.pdf
+journals/*/main.pdf
+summaries/*/*/main.pdf
+manuscript/*.pdf
+overleaf.zip
+
+# ---- Office lock / temp files ----
+~$*
+*.tmp
+.~lock.*#
+
+# ---- R / Python ----
+.Rhistory
+.RData
+.Rproj.user/
+Rplots.pdf
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
+
+# ---- Licensed material: never committed, the repository is public (see literature/README.md) ----
+literature/private/

@@ -1,0 +1,70 @@
+%% ================================================================================================
+%%  8. Discussion
+%%  Notes: research-agenda.md §8 (open questions), author-tasks.md
+%% ================================================================================================
+\section{Discussion}\label{sec:discussion}
+
+\subsection{How firm are the conclusions?}
+
+Three conclusions rest on theorems and are not in doubt: no procedure is immune to manipulation; the
+majority principle and a minority veto conflict in some profiles; and individual vetoes with the status
+quo as default deadlock a large assembly. Two rest on a broad and consistent literature: Condorcet methods
+achieve the best welfare among common rules when preferences have structure, and an open agenda calls for
+independence of clones. The recommendation of a blocking quota of one third is a judgement on a
+trade-off, supported by simulations on stylised electorates; the shape of the trade-off is robust across
+our cultures, the precise numbers are not.
+
+\subsection{Limits of this note}
+
+The note considers a single decision. Repeated decisions raise questions it does not treat: today's
+outcome becomes tomorrow's status quo \citep{DziudaLoeper2016}, vetoes can be traded or saved
+\citep{Casella2005}, and reputations form. It takes preferences and proposals as given, whereas
+deliberation changes both, and the IETF's practice suggests that much of the value of a consensus process
+lies in how objections are discussed rather than counted \citep{Resnick2014rfc7282}. All voters have equal
+weight; weighted assemblies (shareholders, federations) would need weighted counts and a weighted quota,
+which the procedure accommodates but we have not analysed. Finally, the literature search behind the
+Consensus review, and our own additions, focus on economics, political science and computational social
+choice; work in management science on group decision support, and in law on supermajority requirements,
+is not covered.
+
+\subsection{Open questions}
+
+\begin{itemize}
+  \item \textbf{A clone-proof proportional veto?} The proportional veto core protects minorities in a
+  way that no coalition can undo, but fails independence of clones; the blocking quota is clone-proof
+  but open to strategic blocking (Propositions~\ref{prop:pvc-clones} and~\ref{prop:blocking}). Whether
+  some rule combines independence of clones, veto power proportional to size and a non-empty core, or
+  whether the three are incompatible, is open as far as we know.
+  \item \textbf{Fast procedures with hard vetoes.} One- and two-round proposal procedures reach the
+  Condorcet winner quickly under single-peaked preferences \citep{Gersbach2025propose,GersbachValkanova2024};
+  their behaviour with binding vetoes and several dimensions is unknown (a gap also noted by the Consensus
+  review).
+  \item \textbf{Strategic comparison of compromise rules.} Fallback bargaining, shortlisting, veto-rank and
+  proportional veto have been analysed under different assumptions; a common framework with strategic
+  voters and many parties is missing \citep{BarberaCoelho2022,CaillouxNapolitanoSanver2022}.
+  \item \textbf{Behaviour.} Do named and reasoned vetoes reduce strategic blocking in practice? The
+  evidence on responsibility in committees \citep{BreitmoserValasek2024} and on tacit consent
+  \citep{Krick2017} suggests so; a laboratory test of \QVC\ with and without such safeguards would settle
+  it.
+  \item \textbf{Real ballots.} The conclusions should be checked on observed ranked ballots with
+  acceptability lines, of which Debian's general resolutions are a public source
+  \citep{Debian2024constitution,MatteiWalsh2013}.
+\end{itemize}
+
+\subsection{Putting the procedure to work}
+
+For an organisation that wants to adopt it, the procedure fits on one page.
+\begin{enumerate}
+  \item \textbf{Fix the parameters in advance}: the blocking quota (one third by default; as a number of
+  voters, $\lceil n/3 \rceil$), whether the status quo is protected (by default not), the length of the
+  nomination period, and the rule for the optional revision round.
+  \item \textbf{Nomination}: anyone may propose any number of options; the status quo, or ``none of the
+  above'', is on the ballot. Identical proposals may be merged, but variants need not be.
+  \item \textbf{Ballot}: rank or grade every option, ties allowed, and mark the unacceptable ones; a veto
+  is named and gives a reason.
+  \item \textbf{Count} with Algorithm~\ref{alg:qvc}; publish the veto counts, the admissible options, the
+  pairwise matrix and the winner. The count can be checked by any member with the reference code
+  (\texttt{simulations/python/voting.py}).
+  \item \textbf{Revision round}, only if every option was vetoed by the quota: reopen nominations briefly,
+  vote again, and accept the second result as final.
+\end{enumerate}

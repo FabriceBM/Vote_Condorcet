@@ -1,0 +1,67 @@
+%% ================================================================================================
+%%  Appendix B. Algorithms
+%%  Code: simulations/python/voting.py (schulze, split_cycle, ranked_pairs, qvc, pvc_member)
+%% ================================================================================================
+\section{Algorithms}\label{app:algorithms}
+
+The reference implementation is \texttt{simulations/python/voting.py}; its \texttt{--check} option tests
+each algorithm below against a brute-force or textbook result (Appendix~\ref{app:simulation}).
+
+\paragraph{Pairwise counts.} $\Maj(x,y) = |\{i : x \pref_i y\}|$ for all pairs, in $O(nm^2)$ operations.
+Ties in a ballot count for neither option.
+
+\paragraph{Schulze method} \citep{Schulze2011}. On a set $S$ of options, the link from $x$ to $y$ has
+strength $d(x,y) = \Maj(x,y)$ if $\Maj(x,y) > \Maj(y,x)$ and $0$ otherwise (winning votes). The strength
+$p(x,y)$ of the strongest path from $x$ to $y$ is the largest, over paths $x = c_0, c_1, \dots, c_k = y$ in
+$S$, of the weakest link $\min_j d(c_{j-1}, c_j)$. It is computed by the Floyd--Warshall recursion for
+widest paths:
+\begin{equation*}
+p(x,y) \gets \max\bigl(p(x,y),\ \min(p(x,z), p(z,y))\bigr) \quad \text{for } z \in S, \text{ then all } x, y,
+\end{equation*}
+starting from $p = d$, in $O(|S|^3)$ operations. The winners are the options $x$ with
+$p(x,y) \ge p(y,x)$ for every $y \in S$; there is always at least one.
+
+\paragraph{Split Cycle} \citep{HollidayPacuit2023splitcycle}. With margins $M(x,y) = \Maj(x,y) -
+\Maj(y,x)$, let $q(y,x)$ be the strength of the strongest path from $y$ to $x$ through positive margins,
+computed as above. Option $x$ defeats $y$ if $M(x,y) > 0$ and $M(x,y) > q(y,x)$: the majority of $x$ over
+$y$ is not the weakest link of a cycle. The winners are the undefeated options.
+
+\paragraph{Ranked Pairs} \citep{Tideman1987}. Sort the pairwise majorities by decreasing strength and lock
+each one in turn unless it would close a cycle with those already locked; the winner is the option with no
+locked defeat.
+
+\paragraph{\QVC($\theta$).} Algorithm~\ref{alg:qvc}: veto counts in $O(nm)$, the admissible set in $O(m)$,
+the Schulze winners of the admissible set in $O(nm^2 + m^3)$.
+
+\paragraph{Proportional veto core.} Testing every coalition is exponential in $n$. A max-flow test is
+polynomial; \citet{IanovskiKondratev2021} give a polynomial algorithm, and the test below is the one we
+implement.
+
+\begin{lemma}\label{lem:pvc-flow}
+For option $x$ and voter $i$, let $W_i(x)$ be the set of options that $i$ ranks at or below $x$ ($x$
+included). Then $x$ is in the proportional veto core if and only if, for every coalition $T$,
+$\bigl|\bigcup_{i \in T} W_i(x)\bigr| \ge m |T| / n$. Equivalently, in the network with a source, one
+node per voter and per option, and a sink, with arcs source $\to i$ of capacity $m$, $i \to y$ of
+unbounded capacity for $y \in W_i(x)$, and $y \to$ sink of capacity $n$, the maximum flow equals $mn$.
+\end{lemma}
+
+\begin{proof}
+Coalition $T$ of $t$ voters blocks $x$ if at least $m - \lceil mt/n \rceil + 1$ options are preferred to
+$x$ by all its members. The options preferred to $x$ by every member of $T$ are the complement of
+$\bigcup_{i \in T} W_i(x)$, so $T$ blocks $x$ if and only if
+$m - |\bigcup_T W_i(x)| \ge m - \lceil mt/n \rceil + 1$, that is
+$|\bigcup_T W_i(x)| < \lceil mt/n \rceil$, which for an integer left-hand side is
+$|\bigcup_T W_i(x)| < mt/n$. For the flow, a cut that keeps the voters of $T$ on the source side must also
+keep $\bigcup_T W_i(x)$ there (the arcs from voters are unbounded); its capacity is
+$m(n-t) + n\,|\bigcup_T W_i(x)|$. The minimum cut, hence the maximum flow, equals $mn$ if and only if
+$n\,|\bigcup_T W_i(x)| \ge mt$ for every $T$. \qedhere
+\end{proof}
+
+The test takes one max-flow computation per option, on a network of $n + m + 2$ nodes. Our check compares
+it with the definition, by enumeration of all coalitions, on random profiles with up to seven voters and
+six options, with and without ties.
+
+\paragraph{Tie-breaking.} Every rule in the simulations returns a set of tied winners, broken by fewest
+vetoes, then the Schulze winners among the tied options, then the lowest index (the order of options is
+random). Both criteria are independent of clones, so the tie-break does not undo that property where a
+rule has it.
