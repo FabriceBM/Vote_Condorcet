@@ -2,8 +2,10 @@
 %%
 %% Overleaf compiles from the project root, but the wrapper lives in journals/working-paper/ and loads
 %% the manuscript with paths relative to that folder (../../manuscript/...). This file sets the search
-%% path so those paths also resolve from the root, then loads the wrapper unchanged (its \documentclass
-%% included). Figure, table and bibliography paths are in the root latexmkrc. Same layout as Immo_S2.
+%% path so those paths also resolve from the root, points the bibliography to its root-relative path,
+%% then loads the wrapper unchanged (its \documentclass included). The figures are found through the
+%% root-relative entries of the wrapper's \graphicspath. Nothing depends on latexmkrc, which Overleaf
+%% may not apply. Same layout as Immo_S2.
 %%
 %% On Overleaf the main document must be this file (Menu > Main document).
 %% Local builds: `latexmk main.tex` from the root, or `cd journals/working-paper && latexmk main.tex`.
@@ -14,4 +16,5 @@
 \makeatletter
 \def\input@path{{journals/working-paper/}}
 \makeatother
+\newcommand{\NoteBibliography}{manuscript/references}
 \input{journals/working-paper/main.tex}

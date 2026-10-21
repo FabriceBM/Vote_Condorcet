@@ -7,10 +7,15 @@
 %%  Garder aligné sur summaries/en/executive/main.tex (même structure, mêmes chiffres).
 %% =====================================================================================
 \documentclass[10pt,a4paper]{article}
-\input{../../shared/layout}
+%% Paths that work from this folder (local build) and from the repository root (Overleaf compiles from
+%% the project root whatever the main document): files are looked up under each prefix in turn.
+\makeatletter
+\def\input@path{{../../}{../../../}{summaries/}{./}}
+\makeatother
+\input{shared/layout}
 \usepackage[french]{babel}
 \frenchsetup{StandardLists=true}          % lists follow the shared layout (enumitem), as in en/
-\input{../../../outputs/tables/key_numbers_fr}
+\input{outputs/tables/key_numbers_fr}
 
 \begin{document}
 
