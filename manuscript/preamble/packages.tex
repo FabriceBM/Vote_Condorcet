@@ -1,0 +1,27 @@
+%% ------------------------------------------------------------------------------------------------
+%%  Packages the content needs. Journal-agnostic: no page layout, class or bibliography style here
+%%  (those live in journals/<journal>/main.tex).
+%% ------------------------------------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs,array}             % generated tables in outputs/tables/ need both
+\usepackage{tabularx}
+\usepackage{caption}
+%% Captions: a short title in the caption; notes and source under the table or figure, smaller
+%% (\figurenotes for figures, \tabnotes for tables).
+\captionsetup{font=small,labelfont=bf,labelsep=period,skip=4pt}
+\captionsetup[table]{position=top}
+\captionsetup[figure]{position=bottom}
+\usepackage{xcolor}
+\usepackage[authoryear,round]{natbib}
+\usepackage{authblk}
+\usepackage{url}
+\Urlmuskip=0mu plus 1mu                 % let long URLs in the references stretch and break
+\expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks\do\-}
+\usepackage{enumitem}
+\setlist{itemsep=1pt,topsep=3pt}
+\usepackage{algorithm}
+\usepackage{algpseudocode}              % the procedure, Algorithm 1

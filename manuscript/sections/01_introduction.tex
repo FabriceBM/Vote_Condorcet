@@ -1,0 +1,85 @@
+%% ================================================================================================
+%%  1. Introduction
+%%  Notes: research-agenda.md §0 (question, hypotheses, requirements), §1 (answer in brief)
+%% ================================================================================================
+\section{Introduction}\label{sec:intro}
+
+\subsection{The question}
+
+A group has to choose one option among several: a site, a design, a budget allocation, a policy. The
+group wants a \emph{consensus} choice, one that everyone can live with, and it wants a procedure that
+produces one. This note asks what the research literature says about the optimal way to vote in that
+situation, and turns the answer into a procedure that can be implemented. We work under three
+hypotheses, set by the use case:
+\begin{description}
+  \item[H1 (open agenda)] any voter may propose as many options as they wish;
+  \item[H2 (full ballots)] every voter expresses a view on \emph{all} the options proposed;
+  \item[H3 (veto rights)] voters have a right of veto.
+\end{description}
+The procedure must meet two requirements:
+\begin{description}
+  \item[R1 (best compromise)] the option chosen is the best compromise, in a sense to be made precise;
+  \item[R2 (no deadlock)] the community never gets stuck, so the veto must not be too stringent.
+\end{description}
+
+The two requirements pull against each other. The traditional consensus rule, unanimity, gives every
+member a veto: nothing passes to which anyone objects. It protects every minority, which is the spirit
+of R1, but a single objector can block every change, and in large or divided groups someone always
+objects (Section~\ref{sec:limits}). The Polish--Lithuanian \emph{liberum veto} is the textbook
+case of a constitution paralysed by individual vetoes \citep{Rohac2008}. Majority rule, at the other
+extreme, always decides (R2) but can impose on a large minority an outcome it finds unacceptable, which
+is not a compromise. The question is therefore one of design: how much veto power, held by whom, over
+what, and how to aggregate the rest of the ballot.
+
+\subsection{The answer in brief}
+
+\begin{enumerate}
+  \item \textbf{No rule is optimal in every respect.} Every rule that is not dictatorial can be
+  manipulated \citep{Gibbard1973,Satterthwaite1975}, majorities can cycle \citep{Condorcet1785}, and
+  the majority principle cannot be reconciled with an effective minority veto: some profiles force a
+  choice between the option a majority prefers and the one a large minority can accept
+  (Proposition~\ref{prop:majority-veto}). A procedure is a choice of trade-off, which should be explicit
+  and tunable.
+  \item \textbf{The literature does not support hard unanimity.} Theory, experiments and institutional
+  studies agree that unanimity raises delay, strengthens the status quo and gives holdouts bargaining
+  power. Veto rights work better when they are separated from the approval of options and limited to
+  blocking outcomes that are unacceptable
+  \citep{BoutonLlorenteSaguerMalherbe2018,MiettinenVanberg2025,Tsebelis2002,DziudaLoeper2016}. In a large
+  assembly, unanimity with the status quo as default deadlocks almost surely
+  (Proposition~\ref{prop:gridlock}; 99.6\% of our simulated elections with 101 voters).
+  \item \textbf{An open agenda requires a rule that is independent of clones.} When anyone can add
+  options, a faction can flood the agenda with variants of its favourite. Borda's rule, fallback
+  bargaining and the proportional veto core reward such flooding; the Schulze, Ranked Pairs and Split
+  Cycle methods do not \citep{Tideman1987,Schulze2011,HollidayPacuit2023splitcycle}.
+  \item \textbf{The procedure we recommend, \QVC($\theta$)}, Condorcet with a blocking quota, uses a
+  single ballot on which each voter ranks all the options and marks those they find unacceptable.
+  Options vetoed by at least a share $\theta$ of the voters are excluded; if that excludes them all, the
+  least-vetoed are kept; the Schulze winner among the options left is elected. By default
+  $\theta = 1/3$. The procedure always decides in one round, the status quo has no default advantage, the
+  winner is acceptable to more than two thirds of the voters whenever some option is, the option that
+  beats every other acceptable option in pairwise majority wins, and adding variants of an option changes
+  nothing (Section~\ref{sec:procedure}).
+  \item \textbf{The price is strategic vetoing.} A blocking minority can block strategically as well as
+  sincerely. In our simulations, the share of elections that a coalition of 10\% of the voters can
+  manipulate rises from 5--7\% under Schulze to 11--27\% under \QVC(1/3) in structured electorates
+  (Section~\ref{sec:simulation}). Named and reasoned vetoes, a quota no lower than $1/4$ and at most one
+  revision round contain this risk (Section~\ref{sec:safeguards}).
+\end{enumerate}
+
+\subsection{What this note adds and how it is organised}
+
+The note starts from a literature review of optimal voting with veto rights produced with the
+Consensus search engine in October 2026 (summarised in the repository's \texttt{literature/} folder). That
+review covers committee bargaining and the comparison of unanimity with majority-with-veto. We add the
+social-choice literature on Condorcet methods, clones and proportional veto, the evidence from
+institutions that already vote this way, formal results on deadlock and on the procedure, and a Monte
+Carlo study of 21 rules on 2,000 simulated elections per setting. Every number in the note comes from
+code in the repository (\texttt{simulations/python/}), with checks against known results.
+
+Section~\ref{sec:setting} sets out the model and the definitions. Section~\ref{sec:limits} states what
+no procedure can achieve. Section~\ref{sec:veto} reviews the research on veto rights,
+Section~\ref{sec:aggregation} the rules that aggregate full ballots. Section~\ref{sec:procedure} defines
+and analyses the procedure, Section~\ref{sec:simulation} compares it with the alternatives by
+simulation, and Section~\ref{sec:discussion} discusses limits, open questions and implementation.
+Proofs are in Appendix~\ref{app:proofs}, algorithms in Appendix~\ref{app:algorithms} and the details of
+the simulation in Appendix~\ref{app:simulation}.

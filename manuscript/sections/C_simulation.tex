@@ -1,0 +1,66 @@
+%% ================================================================================================
+%%  Appendix C. The simulation in detail
+%%  Code: simulations/python/cultures.py, experiments.py (--check), voting.py (--check), examples.py
+%% ================================================================================================
+\section{The simulation in detail}\label{app:simulation}
+
+\paragraph{Elections.} Each election has $n = 101$ voters (odd, to limit pairwise ties) and $m = 8$
+options. Seven are open proposals: each is made by a voter drawn at random and placed at that voter's
+ideal point plus a Gaussian perturbation of standard deviation 0.25 per coordinate; the eighth, the status
+quo, is drawn from $\Normal(0, I_2)$ independently of the voters. Utilities are minus the Euclidean
+distance between a voter's ideal point and an option.
+\begin{itemize}
+  \item \emph{Spatial}: ideal points drawn from $\Normal(0, I_2)$.
+  \item \emph{Polarised}: each voter belongs to one of two blocs with probabilities 0.55 and 0.45, centred at
+  $(-1.2, 0)$ and $(1.2, 0)$, with ideal points drawn around the bloc centre with standard deviation 0.6
+  per coordinate.
+  \item \emph{Impartial}: utilities drawn independently and uniformly on $[0,1]$; no spatial structure.
+  \item \emph{Spatial (1D)}, for Table~\ref{tab:cw_probability} and the checks: as spatial, on a line.
+\end{itemize}
+The exact draws are in \texttt{cultures.py}.
+
+\paragraph{Vetoes and grades.} Voter $i$ vetoes the options beyond a personal tolerance: distance above
+$\rho_i \sim U(1.5, 2.5)$ in the spatial cultures ($U(0.75, 1.25)$ on the line), utility below
+$\tau_i \sim U(0.2, 0.5)$ in the impartial culture. Voters veto 38\% of the options on average in the
+spatial culture, 40\% in the polarised and 35\% in the impartial culture. The tolerance does not depend
+on the menu, so a voter never vetoes an option ranked above one they accept, and clones inherit the
+vetoes of the original. Majority Judgment uses grades 0--5: 0 (reject) for a vetoed option; acceptable
+options are graded 1--5 by their utility relative to the voter's tolerance.
+
+\paragraph{Measures.} For a winner $w$ and a score $S$ over options, efficiency is
+$(S(w) - \bar S)/(\max_x S(x) - \bar S)$, with $\bar S$ the mean over options \citep{Merrill1984}; $S$
+is the sum of utilities (utility efficiency) or the 10th percentile of utilities across voters (worst-off
+efficiency). Condorcet efficiency is computed on the elections that have a Condorcet winner. Monte Carlo
+standard errors of a share $p$ estimated on $R$ elections are $\sqrt{p(1-p)/R}$: at most 1.1 points for
+the 2,000 elections of the performance tables, 1.6 points for 1,000 elections, 2.2 points for 500.
+
+\paragraph{Manipulation.} For a winner $w$ and each other option $y$, the coalition is the set of voters
+who strictly prefer $y$ to $w$, or the first 10 of them (10\% of the voters; voters are exchangeable, so
+the first in index order are a random subset). The coalition tries three joint ballots: (1) $y$ ranked
+first and acceptable, $w$ ranked last and vetoed, other rankings and vetoes sincere; (2) as (1), with
+every option but $y$ vetoed; (3) $w$ ranked last and vetoed, the rest sincere. The election is
+manipulable if one of them elects $y$. Other strategies may succeed where these fail, so the shares are
+lower bounds, as in \citet{GreenArmytageTidemanCosman2016}.
+
+\paragraph{Clones.} Three clones of an option are added: each voter ranks them next to the original, in a
+random order among themselves, and grades and vetoes them as the original. A clone of the original winner
+counts as the original.
+
+\paragraph{Reproducibility and checks.} Every election is drawn from its own seed, so results do not
+depend on the number of processes; \texttt{experiments.py} writes all tables in a few minutes on four cores. Three scripts check the code:
+\begin{itemize}
+  \item \texttt{voting.py --check}: the max-flow test of the proportional veto core against its
+  definition; Condorcet consistency, Smith consistency and Pareto optimality of Schulze, Split Cycle and
+  Ranked Pairs; the Schulze path strengths against an enumeration of paths; textbook examples; and
+  Propositions~\ref{prop:decisive}--\ref{prop:qvc-clones} on random profiles;
+  \item \texttt{experiments.py --check}: the probability of a Condorcet winner under the impartial
+  culture with 1,001 voters against the limits for three to five options; the median-voter result in one
+  dimension \citep{Black1948}; Proposition~\ref{prop:gridlock}(i); and the consistency of the measures;
+  \item \texttt{examples.py --check}: the winners stated in Section~\ref{sec:examples}.
+\end{itemize}
+
+\input{../../outputs/tables/perf_impartial}
+
+\input{../../outputs/tables/theta_sweep}
+
+\input{../../outputs/tables/deadlock_n}

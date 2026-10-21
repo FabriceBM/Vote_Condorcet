@@ -1,0 +1,137 @@
+%% ================================================================================================
+%%  5. Aggregating full ballots on an open agenda
+%%  Notes: research-agenda.md §5; code: simulations/python/voting.py (rules), examples.py (E2)
+%% ================================================================================================
+\section{Aggregating full ballots on an open agenda}\label{sec:aggregation}
+
+Under H2 every voter ranks every option, so the procedure needs a rule that aggregates full rankings. This
+section compares the main families of rules on the properties that matter under H1--H3.
+
+\subsection{The families of rules}
+
+\begin{itemize}
+  \item \textbf{Positional rules} give points by rank: plurality (one point to the first choice), Borda
+  ($m-k$ points to the $k$-th choice; \citealp{Young1974}).
+  \item \textbf{Runoff rules}: instant-runoff voting (IRV) eliminates the option with the fewest first
+  choices until one has a majority.
+  \item \textbf{Condorcet methods} elect the Condorcet winner when there is one and differ in how they
+  resolve cycles. Copeland counts pairwise wins; Minimax (Simpson--Kramer) minimises the worst pairwise
+  defeat \citep{Simpson1969}; Kemeny--Young finds the ranking that disagrees least with the voters'
+  pairwise preferences \citep{Kemeny1959,YoungLevenglick1978}; Ranked Pairs locks pairwise majorities
+  from the strongest down, skipping any that would close a cycle \citep{Tideman1987}; the Schulze method
+  elects the option whose strongest chains of pairwise victories against every other option are at
+  least as strong as the reverse chains \citep{Schulze2011}; Split Cycle discards the weakest majority in
+  every cycle and elects the options left undefeated \citep{HollidayPacuit2023splitcycle}, and Stable
+  Voting refines it to a single winner \citep{HollidayPacuit2023stable}.
+  \item \textbf{Evaluative rules} ask for grades rather than rankings: approval voting elects the option
+  the most voters find acceptable \citep{BramsFishburn1978,LaslierSanver2010}; Majority Judgment elects
+  the option with the best median grade \citep{BalinskiLaraki2007,BalinskiLaraki2011}; see
+  \citet{FelsenthalMachover2008} for a critical evaluation.
+  \item \textbf{Probabilistic rules}: maximal lotteries choose a lottery over options that no other
+  lottery beats in expected pairwise majority \citep{Fishburn1984,LaffondLaslierLeBreton1993}; they are
+  the only rule with a set of strong consistency properties \citep{BrandlBrandtSeedig2016}, but a group
+  choosing a single option by lot is a hard sell for most organisations.
+  \item \textbf{Compromise rules} with vetoes, reviewed in Section~\ref{sec:veto}: fallback bargaining,
+  the majoritarian compromise, voting by veto and the proportional veto core.
+\end{itemize}
+Kemeny--Young and Dodgson's rule are NP-hard to compute \citep{BartholdiToveyTrick1989hard}; all the
+other rules above run in polynomial time, Schulze in $O(m^3)$ after the $O(nm^2)$ count of pairwise
+preferences. \citet{ElkindFaliszewskiSlinko2015} show that many of these rules can be read as finding the
+nearest ``consensus'' profile (unanimous, or with a Condorcet winner) under some distance between
+profiles, which makes the choice of a rule a choice of what counts as consensus. \citet{BrandtEtAl2016handbook}
+survey the axiomatic and computational results on all these rules.
+
+\begin{table}[htbp]\centering\small
+\caption{Properties of the rules compared}\label{tab:properties}
+\footnotesize
+\begin{tabular}{l c c c c c c}
+\toprule
+Rule & \shortstack{Condorcet\\winner} & \shortstack{Independent\\of clones} & Monotonic & Polynomial & \shortstack{Uses\\vetoes} & \shortstack{Never\\stuck} \\
+\midrule
+Plurality              & $\times$     & $\times$     & \checkmark & \checkmark & $\times$   & \checkmark \\
+IRV                    & $\times$     & \checkmark   & $\times$   & \checkmark & $\times$   & \checkmark \\
+Borda                  & $\times$     & $\times$     & \checkmark & \checkmark & $\times$   & \checkmark \\
+Copeland               & \checkmark   & $\times$     & \checkmark & \checkmark & $\times$   & \checkmark \\
+Minimax                & \checkmark   & $\times$     & \checkmark & \checkmark & $\times$   & \checkmark \\
+Kemeny--Young          & \checkmark   & $\times$     & \checkmark & $\times$   & $\times$   & \checkmark \\
+Ranked Pairs           & \checkmark   & \checkmark   & \checkmark & \checkmark & $\times$   & \checkmark \\
+Schulze                & \checkmark   & \checkmark   & \checkmark & \checkmark & $\times$   & \checkmark \\
+Split Cycle$^a$        & \checkmark   & \checkmark   & \checkmark & \checkmark & $\times$   & \checkmark \\
+\midrule
+Approval               & $\times$     & \checkmark$^b$ & \checkmark & \checkmark & \checkmark$^c$ & \checkmark \\
+Majority Judgment      & $\times$     & \checkmark$^b$ & \checkmark & \checkmark & \checkmark$^c$ & \checkmark \\
+\midrule
+Fallback bargaining    & $\times$     & $\times$     & \checkmark & \checkmark & $\times$   & \checkmark \\
+\quad with impasse     & $\times$     & $\times$     & \checkmark & \checkmark & \checkmark & $\times$   \\
+Majoritarian compromise & $\times$    & $\times$     & \checkmark & \checkmark & $\times$   & \checkmark \\
+Unanimity, status quo default & $\times$ & \checkmark & \checkmark & \checkmark & \checkmark & $\times$ \\
+Schulze within the PVC & $\times$ & $\times$ & --- & \checkmark & \checkmark$^d$ & \checkmark \\
+\QVC($\theta$), Section~\ref{sec:procedure} & $\times^e$ & \checkmark & \checkmark$^f$ & \checkmark & \checkmark & \checkmark \\
+\bottomrule
+\end{tabular}
+\figurenotes{Condorcet winner: elects it whenever it exists. Independent of clones: Definition~\ref{def:clones}.
+Monotonic: raising the winner in some rankings never makes it lose. Never stuck: always selects an option
+in a fixed number of rounds without a privileged default (Definition~\ref{def:decisive}). $\times$: fails
+in some profiles; ---: not established, to our knowledge. $^a$Not resolute: ties are frequent and need a
+tie-break. $^b$When voters grade or approve clones alike. $^c$The lowest grade, or non-approval, acts as a
+veto mark but blocks nothing. $^d$PVC: proportional veto core; veto power read from the bottom of the rankings. $^e$Elects the Condorcet
+winner of the admissible options (Proposition~\ref{prop:condorcet-admissible}). $^f$For changes in the
+rankings that leave the veto marks unchanged.}{\citet{Tideman1987,Schulze2011,HollidayPacuit2023splitcycle,
+BramsKilgour2001,Felsenthal2012review,BartholdiToveyTrick1989hard}; Propositions~\ref{prop:pvc-clones}
+and~\ref{prop:decisive}--\ref{prop:qvc-clones}; simulations of Table~\ref{tab:clones}.}
+\end{table}
+
+Table~\ref{tab:properties} summarises the properties; \citet{Felsenthal2012review} reviews the paradoxes
+that afflict each rule in more detail. Three properties sort the candidates for our use.
+
+\subsection{An open agenda calls for independence of clones}\label{sec:clones}
+
+When anyone can propose options, the composition of the agenda becomes a strategy. Adding variants of an
+option, its clones, affects rules in three ways \citep{Tideman1987}: under plurality the clones split
+their supporters' votes and lose (vote splitting); under Borda's rule they push other options down
+everyone's ranking and gain (teaming); under some other rules they can crowd out third options. A
+faction can therefore flood the agenda with variants of its favourite, or, under plurality, sink an
+option by proposing its near-copies. Ranked Pairs, the Schulze method and Split Cycle are independent of
+clones \citep{Tideman1987,ZavistTideman1989,Schulze2011,HollidayPacuit2023splitcycle}; Copeland, Minimax
+and Kemeny--Young are not.
+
+Veto-based compromise rules are exposed too, because the number of options enters their definition. In
+fallback bargaining, clones of the majority's favourite fill the top of the majority's rankings and delay
+the depth at which the compromise appears on every list. In the proportional veto core, a coalition's
+veto power is a share of the number of options, so each clone added by the majority costs the minority a
+veto that it can no longer spend elsewhere.
+
+\begin{proposition}[Flooding defeats proportional veto]\label{prop:pvc-clones}
+Neither the proportional veto core nor fallback bargaining is independent of clones: there are profiles
+in which adding clones of an option outside the core (respectively, not chosen) brings that option into
+the core (respectively, gets it chosen).
+\end{proposition}
+
+Example~E2 of Section~\ref{sec:examples} gives such a profile: in Example~E1, the 49\% minority blocks the
+majority's favourite $A$, which is outside the core; once the majority proposes two variants of $A$, the
+minority's three vetoes no longer cover them all, $A$ enters the core, and Schulze within the core elects
+$A$ (Table~\ref{tab:examples}). In our simulations, three clones of a losing option change the winner of
+the proportional veto core with Schulze in 15\% of polarised elections and in 54\% under the impartial
+culture; they change the outcome of fallback bargaining in 25--36\% of elections, of the majoritarian
+compromise in 23--52\% and of Borda's rule in 14--24\%, but never that of Schulze, Ranked Pairs or Split
+Cycle (Table~\ref{tab:clones}).
+
+Independence of clones also answers the agenda-setting concern of Section~\ref{sec:veto}. With all
+options on one ballot, nobody controls the order of votes; with a clone-independent rule, nobody gains
+by inflating the agenda. H1 and H2 together then neutralise most of the power that proposal rights confer
+in sequential procedures \citep{BaronFerejohn1989,BarberaGerber2017}.
+
+\subsection{Majority efficiency, manipulation and welfare}
+
+Condorcet methods are the natural candidates when the group wants the majority principle respected
+whenever it can be. Among them, Ranked Pairs and Schulze are Condorcet- and Smith-consistent, independent
+of clones, monotonic and computable for any realistic number of options. Schulze is used by many organisations, Debian among them
+\citep{Debian2024constitution}; Split Cycle adds stronger protections against spoilers and no-show effects at the cost of
+frequent ties \citep{HollidayPacuit2023splitcycle}.
+
+On manipulation, \citet{GreenArmytageTidemanCosman2016} compare 54 rules on survey data, spatial models
+and random cultures: IRV and its Condorcet hybrid (elect the Condorcet winner, else run IRV) are the
+least manipulable, while most rules have very similar utilitarian efficiency, with plurality,
+anti-plurality and random dictatorship clearly worse. Adding a Condorcet step to a rule almost never
+creates new opportunities for manipulation. Plurality is the rule experts like least \citep{Laslier2012loser}.
+Section~\ref{sec:simulation} repeats such a comparison for our setting, with vetoes and an open agenda.

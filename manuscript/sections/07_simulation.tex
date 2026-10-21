@@ -1,0 +1,119 @@
+%% ================================================================================================
+%%  7. Simulation evidence
+%%  Notes: research-agenda.md §7; details in C_simulation.tex
+%%  Code: simulations/python/cultures.py, experiments.py (tables perf_*, manipulability, clones,
+%%        theta_sweep), figures.py (fig_theta)
+%% ================================================================================================
+\section{Simulation evidence}\label{sec:simulation}
+
+The propositions say what the procedure guarantees; they do not say how often the guarantees bite, nor
+what they cost in the typical case. A Monte Carlo study answers both, and compares \QVC\ with twenty
+other rules on the same elections.
+
+\subsection{Design}
+
+Each simulated election has 101 voters and 8 options: 7 open proposals and the status quo. The
+proposals are made by voters drawn at random, near their own position, so that larger blocs propose more
+and near-duplicates arise as they would under H1. Three electorates (``cultures'') are used:
+\begin{itemize}
+  \item \textbf{spatial}: voters' ideal points spread over a plane, preferences decreasing with distance;
+  \item \textbf{polarised}: two blocs of 55\% and 45\% on either side of the plane, the case in which a
+  compromise matters most;
+  \item \textbf{impartial}: random independent rankings, a worst case for majority rule, reported in
+  Appendix~\ref{app:simulation}.
+\end{itemize}
+Each voter vetoes the options beyond a personal tolerance, fixed before the proposals are known, so that
+the veto reflects acceptability rather than the composition of the menu; on average a voter vetoes 35--40\% of
+the options. Ballots are sincere, except in the manipulation study. Each rule is scored on:
+\begin{itemize}
+  \item \emph{Condorcet efficiency}: how often it elects the Condorcet winner when there is one;
+  \item \emph{utility efficiency}: total utility of the winner, scaled from 0 for the average option to
+  100 for the best \citep{Merrill1984};
+  \item \emph{worst-off efficiency}: the same scale for the voter at the 10th percentile of utility, a
+  measure of how well the least satisfied voters fare;
+  \item \emph{acceptance}: the share of voters who do not veto the winner, and \emph{contested}: how often
+  at least a third of the voters veto the winner;
+  \item \emph{deadlock}: how often the status quo stays because nothing passes.
+\end{itemize}
+Details, calibration and the checks of the code are in Appendix~\ref{app:simulation}.
+
+\subsection{Results}
+
+\input{../../outputs/tables/perf_polarised}
+
+\paragraph{Condorcet methods lead on welfare.} In both structured electorates, the Condorcet methods
+(Copeland, Minimax, Schulze, Ranked Pairs, Split Cycle) reach the highest utility efficiency, 99.5 in
+the spatial and 97.2--97.4 in the polarised electorate (Tables~\ref{tab:perf_polarised}
+and~\ref{tab:perf_spatial}). Borda's rule and the evaluative rules (approval, Majority Judgment) come next;
+plurality and instant-runoff trail far behind in the polarised case, where they elect a bloc's
+favourite (utility efficiency 34 and 70). This confirms, with vetoes and an open agenda, the ranking of
+\citet{Merrill1984} and \citet{GreenArmytageTidemanCosman2016}.
+
+\paragraph{Hard vetoes deadlock.} Unanimity with the status quo as default keeps it in 98--99\% of
+elections, and fallback bargaining with impasse never reaches an agreement: with 101 voters, no
+proposal is acceptable to everyone. Their outcome is then the status quo, whose utility efficiency is close to that of a random option. This is Proposition~\ref{prop:gridlock} in numbers.
+
+\paragraph{The veto quota buys protection for the worst-off.} In the polarised electorate, the Schulze
+winner is vetoed by at least a third of the voters in 10.1\% of elections. \QVC(1/3) halves that, to
+5.9\%, the minimum any rule can reach (Proposition~\ref{prop:acceptability}): in those 5.9\% of elections
+every option is vetoed by a third. It raises worst-off efficiency from 85.2 to 88.4, and it does so with
+no loss of total utility (97.7 against 97.4): the compromise it picks is better for the minority bloc
+and about as good on average. The cost is in Condorcet efficiency, 94.3\%: in 5.7\% of the elections that have a Condorcet winner, the
+majority's preferred option is set aside because a blocking third rejects it. With $\theta = 1/4$ the
+trade goes further (worst-off efficiency 92.8, Condorcet efficiency 83.2), towards the ``least-vetoed''
+outcome of approval voting. In the spatial electorate, where most options are broadly acceptable,
+\QVC(1/3) and Schulze agree in 99.5\% of cases with a Condorcet winner. The proportional veto core with
+Schulze moves in the same direction as \QVC\ but less (worst-off efficiency 86.7, contested 10.2\%).
+
+\input{../../outputs/tables/perf_spatial}
+
+\paragraph{Only clone-independent rules resist flooding.} Adding three clones of a losing option never
+changes the outcome of Schulze, Ranked Pairs, Split Cycle or \QVC\ (Table~\ref{tab:clones}). It changes
+that of Borda's rule in 14--24\% of elections (teaming), of fallback bargaining in 25--36\%, of the
+majoritarian compromise in 23--52\%, of sequential vetoes in 68--82\%, and of the proportional veto core
+in up to 54\%. Cloning the winner defeats it under plurality in 94--100\% of elections (vote splitting).
+
+\input{../../outputs/tables/clones}
+
+\paragraph{Vetoes are a strategic instrument.} Table~\ref{tab:manipulability} reports how often a
+coalition of voters who prefer some option $y$ to the winner can elect $y$ with simple joint strategies:
+ranking $y$ first and the winner last, and vetoing the winner or every option but $y$. With full coalitions, most decisive rules are manipulable in a majority of elections, as the
+Gibbard--Satterthwaite theorem leads one to expect (instant-runoff is the least exposed, as in
+\citealp{GreenArmytageTidemanCosman2016}); \QVC\ with $\theta < 1/2$ in nearly all, because the voters who prefer $y$ to the
+winner usually number more than $\theta n$ and can veto the winner (Proposition~\ref{prop:blocking}).
+The more realistic case is a small coalition, at most 10\% of the voters. Schulze, Ranked Pairs, Split Cycle and Minimax are then manipulable in only 4--7\% of structured
+elections (Copeland in 20--31\%), against 37--45\% for instant-runoff and 69--85\% for
+approval voting and Majority Judgment. \QVC(1/3) stands between, at 11\% in the spatial and 27\% in the
+polarised electorate; \QVC(1/4) at 52--57\%. Under the impartial culture all rules are highly
+manipulable. Unanimity is almost never manipulable, for the wrong reason: it rarely decides anything.
+
+\input{../../outputs/tables/manipulability}
+
+\paragraph{The trade-off in the quota.} Figure~\ref{fig:theta} traces the measures as $\theta$ varies.
+Condorcet efficiency rises and worst-off efficiency falls with $\theta$; the fallback, frequent below
+20\%, all but disappears above 30\%; small-coalition manipulability falls steeply between 20\% and 40\%.
+At $\theta = 1/3$ the fallback is rare (1\% of spatial and 6\% of polarised elections), Condorcet
+efficiency is at least 94\% and most of the gain in worst-off efficiency is kept; a quarter buys more protection at the price of a fallback in a quarter of polarised elections and two
+to four times the small-coalition manipulability.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{fig_theta}
+\caption{QVC: what the blocking quota buys and costs}\label{fig:theta}
+\figurenotes{Each line is a measure of the winner of \QVC($\theta$) as the blocking quota $\theta$
+varies, from a single veto ($1/n$, plotted at 1\%) to half of the voters. Condorcet efficiency,
+worst-off efficiency and fallback as in Table~\ref{tab:perf_polarised}; manipulable (10\%): share of
+elections a coalition of at most 10\% of the voters can manipulate (Table~\ref{tab:manipulability}).
+1,000 elections per culture (300 for manipulability), 101 voters, 8 options. The vertical line marks the
+recommended quota, $\theta = 1/3$. Values in Table~\ref{tab:theta_sweep}.}{Monte Carlo simulation,
+\texttt{experiments.py}; \texttt{figures.py}.}
+\end{figure}
+
+\subsection{What the simulation does not show}
+
+The cultures are stylised: two dimensions, Euclidean preferences, a fixed tolerance for vetoes, and a
+proposal process with no deliberation. The manipulation study gives full information to the coalition
+and only counts three strategies, so it bounds manipulability from below; it does not model the
+safeguards of Section~\ref{sec:safeguards}, which act on the willingness to veto strategically rather
+than on the counting rule. Ballots from real assemblies, for instance from the PrefLib library
+\citep{MatteiWalsh2013}, would test the conclusions on observed preferences; Debian's published ballots
+would be a natural start.
