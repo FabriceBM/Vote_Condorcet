@@ -1,0 +1,99 @@
+key,concepts,key_ideas
+Condorcet1785,C01;C02,Founding text of mathematical voting theory: group majorities can be cyclic (the Condorcet paradox); the candidate who beats each other in pairwise majority should win.
+Arrow1951,C13,"No rule turning individual rankings into a social ranking satisfies Pareto, independence of irrelevant alternatives and non-dictatorship when there are three options or more."
+Gibbard1973,C13;C14,Every non-dictatorial voting scheme with at least three possible outcomes can be manipulated: some voter gains by misreporting.
+Satterthwaite1975,C13;C14,Proves the same strategy-proofness impossibility independently and shows its correspondence with Arrow's theorem.
+Black1948,C16;C01,"With single-peaked preferences, the median voter's favourite beats every other option in pairwise majority: majority rule is then transitive."
+May1952,C01,"Between two options, simple majority is the only rule that is anonymous, neutral and positively responsive."
+Guilbaud1952,C02,"Probability of the Condorcet paradox for three options under random preferences, about 8.8% for a large electorate."
+Kemeny1959,C07,Proposes the ranking that minimises the total number of pairwise disagreements with the voters' rankings (the Kemeny rule).
+Plott1967,C17;C18,"A majority-rule equilibrium in several dimensions needs very restrictive symmetry of preferences, so it generally fails to exist."
+McKelvey1976,C17;C22,"When no majority equilibrium exists in two or more dimensions, majority cycles span the whole space: an agenda setter can reach almost any outcome."
+Nakamura1979,C18;C21,"The core of a simple game is non-empty for all preference profiles if and only if there are fewer options than the Nakamura number; with a veto player, the core is never empty."
+Greenberg1979,C18,"A q-majority rule has an undominated option for every profile in d dimensions if and only if q exceeds d/(d+1) (with T options, (T-1)/T). Basis of Proposition 8."
+CaplinNalebuff1988,C18;C19,"With a concave density of ideal points, a 64% majority (1 - 1/e) has an unbeatable proposal and no cycles."
+BuchananTullock1962,C19;C21,"The optimal voting quota minimises the sum of external costs, which fall as the quota rises towards unanimity, and decision costs, which rise with it."
+Rae1969,C19;C01,Simple majority maximises a voter's expected agreement with collective decisions when the voter does not know their future preferences.
+RomerRosenthal1978,C22;C21,An agenda setter making take-it-or-leave-it proposals extracts more the worse the reversion point (status quo) is for the voters.
+Moulin1988noshow,C15;C01,Every Condorcet-consistent rule violates participation (the no-show paradox) when there are four options or more.
+GehrleinFishburn1976,C02;C32,A computable solution for the probability of the voting paradox under random preferences.
+Gehrlein2006,C02;C32,Monograph on the probability of Condorcet's paradox under various probability models of preferences.
+RegenwetterEtAl2006,C02;C32,Behavioural social choice: majority cycles are rare in real election data; the impartial culture overstates them.
+Mallows1957,C32,A ranking model in which rankings are more likely the closer they are to a central ranking; a standard generator of structured preferences (not yet cited in the note).
+Smith1973,C03,"Aggregation of preferences with a variable electorate; origin of the Smith set, the smallest set of options that beat all outside options."
+Young1974,C09,Axiomatic characterisation of Borda's rule.
+Fishburn1977,C03;C08,Classification and properties of Condorcet social choice functions.
+YoungLevenglick1978,C07;C01,"Kemeny's rule is the unique ranking rule that is neutral, consistent and Condorcet-consistent."
+Young1988,C07;C01,Reinterprets Condorcet's own theory: his maximum-likelihood approach leads to the Kemeny ranking.
+Simpson1969,C08,Measures of voter choice behind the minimax (Simpson-Kramer) rule: elect the option whose worst pairwise defeat is smallest.
+Tideman1987,C12;C05;C09,"Defines independence of clones and proposes Ranked Pairs, which satisfies it; plurality suffers vote splitting and Borda teaming."
+ZavistTideman1989,C05;C12,A tie-breaking refinement makes Ranked Pairs completely independent of clones.
+Schulze2011,C04;C12;C03,"The Schulze (beatpath) method: Condorcet- and Smith-consistent, independent of clones, monotonic, reversal-symmetric, computable in O(m^3)."
+HollidayPacuit2023splitcycle,C06;C12;C15,"Split Cycle discards the weakest majority in every cycle: independent of clones, immune to spoilers, satisfies positive and negative involvement; often not single-winner."
+HollidayPacuit2023stable,C06,"Stable Voting, a single-winner refinement of Split Cycle."
+ElkindFaliszewskiSlinko2015,C07,Many voting rules elect the winner of the nearest consensus profile under some distance: choosing a rule is choosing what counts as consensus.
+Fishburn1984,C11,"Probabilistic social choice based on pairwise majorities, the origin of maximal lotteries."
+LaffondLaslierLeBreton1993,C11;C03,"The bipartisan set: the support of the optimal mixed strategy of the majority tournament game, a Condorcet-consistent tournament solution."
+BrandlBrandtSeedig2016,C11,Maximal lotteries are characterised by population-consistency and composition-consistency.
+BramsFishburn1978,C10,Proposes approval voting: voters approve any number of candidates and the most approved wins; analyses its strategic and normative properties.
+LaslierSanver2010,C10,"Handbook on approval voting: theory, experiments and practice."
+BalinskiLaraki2007,C10,"Majority Judgment: voters grade every candidate on a common scale, and candidates are ranked by their median grade."
+BalinskiLaraki2011,C10,"Book-length theory of Majority Judgment: measuring, ranking and electing with grades."
+FelsenthalMachover2008,C10;C14,Critical evaluation of Majority Judgment: the paradoxes and properties it violates.
+Felsenthal2012review,C09;C12;C15,"Systematic review of the paradoxes affecting single-winner procedures: non-monotonicity, no-show, clone effects, and others."
+TidemanPlassmann2012,C32;C02,"Spatial models reproduce observed ballots better than the impartial culture, under which cycles are overstated."
+Laslier2012loser,C09;C10;C32,Experts in voting theory voted on voting rules at a 2010 workshop: plurality came last.
+Merrill1984,C32;C09,"Compares multi-candidate rules by simulation and defines social utility efficiency, the efficiency measure used in Section 7."
+GreenArmytageTidemanCosman2016,C32;C14,54 rules compared on survey data and simulations: IRV and Condorcet-IRV hybrids are the least manipulable; most rules have similar utilitarian efficiency.
+Tideman2006,C32;C02;C05,"Book on collective decisions and voting, including evidence on Condorcet winners in real elections and the design of Ranked Pairs."
+MatteiWalsh2013,C32,"PrefLib, a public library of real preference data for testing voting rules."
+BartholdiToveyTrick1989hard,C14;C07,Computing the winner of Kemeny's and Dodgson's rules is NP-hard.
+BartholdiToveyTrick1989manip,C14,"Computational complexity as a barrier to manipulation: for some rules, finding a successful manipulation is NP-hard."
+FaliszewskiProcaccia2010,C14,Survey: worst-case hardness of manipulation does not protect typical elections.
+BrandtEtAl2016handbook,C03;C07;C14,"Handbook of computational social choice: axioms, algorithms and complexity of voting rules, tournament solutions and manipulation."
+Mueller1978,C25,"Voting by veto: each member proposes one option, the status quo is added, and members strike options in turn; it always decides and no member gets their worst outcome."
+Moulin1981,C26,"The proportional veto principle: a coalition can veto a number of options proportional to its size, and the resulting core is never empty."
+Moulin1982,C26;C25,Neutral rules implementable in strong equilibrium need veto power distributed roughly in proportion to coalition size; voting by successive veto is an example.
+Moulin1983,C26;C25;C13,"Textbook on the strategy of social choice: manipulation, implementation and veto procedures."
+IanovskiKondratev2021,C26,"Computes the proportional veto core in polynomial time and gives an anonymous, neutral rule that selects from it; a pessimist can manipulate the core in polynomial time."
+KondratevIanovski2024,C26;C15,"Families of rules that always select from the veto core, examined against monotonicity, participation and independence of unanimous losers."
+KondratevNesterov2020,C27;C26,"Measures the majority power and veto power of common rules: more majority power usually comes with more veto power; proportional veto, Borda and Black's rule favour minorities."
+BramsKilgour2001,C28,Fallback bargaining: parties descend their rankings in lockstep until an option is common to all; Pareto-optimal and maximises the worst rank; with an impasse line it can end without agreement.
+SertelYilmaz1999,C28,The majoritarian compromise (descend until a majority agrees) is majoritarian-optimal and implementable in subgame-perfect equilibrium.
+HurwiczSertel1999,C28,Proposes the majoritarian compromise as an electoral mechanism and discusses its design.
+BarberaCoelho2022,C29,"Compares compromise rules between two parties, such as shortlisting, and their strategic properties."
+BarberaCoelho2017,C29,Shortlisting procedures to balance two parties' power when appointing an officer.
+LaslierNunezSanver2021,C29,"Veto-rank, a solution to the two-person implementation problem that selects compromise outcomes."
+CaillouxNapolitanoSanver2022,C29;C28,Defines compromise as an equal-loss principle and shows that several 'compromise' rules fail to select one once the result is known.
+Anbarci1993,C29;C25,Alternating vetoes give non-cooperative foundations to the area-monotonic bargaining solution.
+BoutonLlorenteSaguerMalherbe2018,C20,Majority rule with veto power aggregates information better than unanimity and dominates it in large committees: separate blocking from approving.
+BoutonLlorenteSaguerMalherbe2017,C20;C33,Laboratory evidence that majority with veto outperforms unanimity.
+Tsebelis1995,C21,"More veto players, and more distance between them, reduce the ability to change the status quo (policy stability)."
+Tsebelis2002,C21,Book-length veto-player theory across political institutions.
+BaronFerejohn1989,C22;C23,"Legislative bargaining with random recognition: proposers capture a large share, depending on the voting rule and the members' patience."
+DziudaLoeper2016,C23;C21,"With an endogenous status quo, collective choice becomes inert and inefficient: today's decision constrains tomorrow's."
+Nunnari2021,C23;C21;C33,"Dynamic bargaining with a veto player, theory and experiments: the vetoer's power grows over rounds."
+KagelSungWinter2010,C33;C20;C21,"Experiment: veto players capture more of the surplus, and committees with vetoers take longer to agree."
+MiettinenVanberg2025,C20,"In unanimity bargaining, the possibility of commitment creates conflict and inefficient delay."
+PiazoloVanberg2025,C20;C33,Majority against unanimity with private information: unanimity brings more delay and costlier bargaining.
+KartikKleinerVanWeelden2021,C35,"With a veto player and incomplete information, the optimal mechanism delegates an interval of options to the vetoer."
+AnesiBowen2021,C21;C23,Veto rights deter policy experimentation under redistributive constraints: a case against vetoes.
+AnesiDuggan2017,C23;C21,Stability of policies in dynamic bargaining with veto players.
+AnesiSeidmann2015,C23,Bargaining in standing committees whose default option is the previous decision: dynamics and inefficiency.
+BarberaGerber2017,C22;C17,Sequential voting procedures are open to agenda manipulation.
+Harrington1990,C22,"When the agenda is formed endogenously, the proposal maker holds substantial power."
+Gersbach2025propose,C24;C16,Propose or vote: a one-round procedure in which each member either proposes or votes; it reaches the Condorcet winner under symmetric single-peaked preferences.
+GersbachValkanova2024,C24,Voting with random proposers: two rounds may suffice to reach the Condorcet winner.
+Gersbach2024forms,C24;C22,New forms of democratic procedure designed to improve collective decisions.
+GlyniaThumXefteris2026,C20;C22,Unanimity against majority when proposers have incomplete information: the comparison depends on what proposers know.
+BreitmoserValasek2024,C33;C20,"When members are responsible for their votes (expressive payoffs), unanimity can improve communication in committees."
+AgranovTergiman2019,C33;C20,Experiments on communication before voting in bargaining games with unanimity.
+LaingSlotznick1991,C33;C20,Laboratory committees in which anyone can veto (unanimity rule).
+Krick2017,C30,"Under tacit consent, effective veto power is much smaller than formal power: social pressure and a fallback majority vote constrain objections."
+Rohac2008,C31;C21,"The liberum veto (unanimity) of the Polish-Lithuanian Sejm, linked to religious fractionalisation, paralysed decision-making."
+Bognar2015,C24,"When voting is costly, the optimal procedure is sequential, with a threshold that falls over rounds."
+Resnick2014rfc7282,C30,"IETF rough consensus: lack of disagreement matters more than agreement; consensus is reached when all objections are addressed, not necessarily accommodated."
+Debian2024constitution,C31;C04,"Debian general resolutions: ranked ballots including 'None of the above' as default, quorum and supermajority against the default, Schulze count."
+TEU2016art16,C31,EU Council qualified majority: 55% of members and 65% of the population; a blocking minority needs at least four members.
+Casella2005,C34,Storable votes: voters can save votes across decisions and spend them where they care most.
+BrandtGeistPeters2017,C15,SAT solving gives the optimal voter bound (12) for the no-show paradox of Condorcet-consistent rules.

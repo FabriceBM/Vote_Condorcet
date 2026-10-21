@@ -14,6 +14,7 @@ The sources of the note, grouped by theme, with how each is used.
 | File | Content |
 |---|---|
 | `consensus-2026-10_review-notes.md` | The uploaded Consensus review "State of Optimal Voting With Veto Rights" (Oct. 2026): its conclusions, how the note uses them, what we added, and the errors in its references |
+| `concept-map/concept-map.xlsx` | Spreadsheet linking every concept of the note to the bibliography and back, with the key ideas of each entry. Built by `../tools/concept_map.py` from `concept-map/concepts.csv` and `concept-map/references.csv`; see [`concept-map/README.md`](concept-map/README.md) |
 | `reference-checks_2026-10-21.md` | Verification log of all 98 entries (publisher pages, RePEc, repositories), and answers to content questions: the definitions of the proportional veto core, Debian's counting rules, RFC 7282, TEU art. 16(4), Split Cycle's properties, … |
 
 ## By theme (key: use in the note)

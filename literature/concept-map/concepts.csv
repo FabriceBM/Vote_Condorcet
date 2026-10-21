@@ -1,0 +1,36 @@
+id,concept,definition_and_role,note_sections
+C01,Condorcet winner and the majority principle,"An option that beats every other option in pairwise majority. The majoritarian reading of a compromise, and the second step of QVC.","2.2, 2.5, 3.3, 5, 6"
+C02,Majority cycles and their frequency,Majority preferences can be cyclic (Condorcet paradox); how often a Condorcet winner exists depends on the structure of preferences.,"3.2, Table 1"
+C03,Smith set and Condorcet completions,The smallest set of options that each beat every option outside it; Condorcet methods differ in how they choose within it.,"2.2, 5.1"
+C04,Schulze method,"Condorcet method based on the strongest paths of pairwise victories: Smith-consistent, clone-independent, monotonic, O(m^3). The majority step of QVC.","5, 6, App. B"
+C05,Ranked Pairs,Locks pairwise majorities from the strongest down unless they close a cycle; clone-independent. Could replace Schulze in QVC.,"5, App. B"
+C06,Split Cycle and Stable Voting,"Discards the weakest majority in every cycle; clone-independent and immune to spoilers, but often not single-winner. Stable Voting refines it to one winner.","5, App. B"
+C07,Kemeny-Young and distance-based consensus,"The ranking closest to the voters' pairwise preferences; more generally, rules read as the nearest consensus profile. Kemeny is NP-hard.","2.5, 5.1"
+C08,Copeland and Minimax,Condorcet methods that count pairwise wins (Copeland) or minimise the worst defeat (Minimax); neither is independent of clones.,5
+C09,Positional and runoff rules,"Plurality, Borda and instant-runoff (IRV): score ranks or eliminate by first choices. Vote splitting (plurality), teaming (Borda), non-monotonicity (IRV).","5, 7"
+C10,Evaluative rules: approval and Majority Judgment,"Voters approve or grade options; approval elects the most acceptable option, Majority Judgment the best median grade. The acceptability line of the QVC ballot borrows from them.","2.1, 5.1"
+C11,Probabilistic social choice,Maximal lotteries and tournament solutions: lotteries over options unbeaten in expected pairwise majority.,5.1
+C12,Independence of clones and agenda flooding,"Adding variants of an option must not change the outcome. Required by an open agenda (H1); fails for Borda, fallback bargaining and the proportional veto core.","2.3, 5.2, Prop. 3 and 7, Table 7"
+C13,Impossibility theorems,"Arrow: no ranking rule meets Pareto, independence of irrelevant alternatives and non-dictatorship. Gibbard-Satterthwaite: every non-dictatorial rule with 3+ options is manipulable.",3.1
+C14,Manipulation and its complexity,"How often, by whom and how hard strategic voting is; computational hardness as a barrier; measured by coalitional manipulability.","3.1, 7, Table 8"
+C15,Participation and the no-show paradox,Condorcet-consistent rules can reward abstention with 4+ options; related: positive and negative involvement.,3.1
+C16,Single-peaked preferences and the median voter,"With single-peaked preferences the median voter's favourite is the Condorcet winner, and majority rule is transitive.","3.2, App. C"
+C17,"Spatial voting, chaos and agenda control","In two or more dimensions majority equilibria rarely exist and cycles span the space, so whoever controls the agenda can steer the outcome.","3.4, 4.2"
+C18,"Supermajority, stability and the core","When quota rules have undominated options: Nakamura number, Greenberg's d/(d+1), the 64% rule. Vetoes make cores non-empty but favour the status quo.","3.4, Prop. 8"
+C19,Choice of the voting quota,The quota trades decision costs against external costs (Buchanan-Tullock); simple majority maximises expected agreement (Rae).,3.4
+C20,Unanimity versus majority with veto,"Comparisons of unanimity with majority rule plus a separate veto: information aggregation, delay, bargaining costs.",4.1
+C21,"Veto players, status-quo bias and gridlock","More veto players mean more policy stability; with the status quo as default, vetoes become a vote for inertia. Prop. 2: unanimity deadlocks a large assembly.","3.4, 4.2, Prop. 2"
+C22,Agenda setting and proposal power,"Proposers and agenda setters gain power from the reversion point, the order of votes and the right to propose.",4.2
+C23,Dynamic bargaining and endogenous status quo,"When today's decision is tomorrow's status quo: inertia, inefficiency, capture by vetoers.",4.2
+C24,Number of rounds and fast proposal procedures,One or two rounds suffice in structured proposal models; more rounds can empower vetoers. QVC uses one ballot and at most one revision round.,"4.3, 6.6"
+C25,Voting by veto (sequential vetoes),"Members strike options in turn until one is left; decisive, but not anonymous and not clone-independent.","4.4, Tables 5-7"
+C26,Proportional veto and the veto core,"Coalitions veto a share of options equal to their share of voters; the core is never empty and computable by max-flow, but fails independence of clones.","2.4, 4.4, 5.2, App. B"
+C27,Majority power versus veto power,The share of voters that guarantees a majority its favourites against the share that lets a minority exclude its worst options.,3.3
+C28,Compromise by descent: fallback bargaining and majoritarian compromise,Voters descend their rankings in lockstep until all (fallback bargaining) or a majority (majoritarian compromise) agree.,"4.4, Tables 5-7"
+C29,Two-party compromise rules,"Shortlisting, alternating vetoes and veto-rank between two parties; strategic properties and the meaning of a compromise.",4.4
+C30,Consensus decision-making in practice,"Rough consensus (objections addressed, not unanimity) and tacit consent: how organisations decide without formal individual vetoes.","4.5, 6.6"
+C31,Institutional design of vetoes,"Blocking minorities, default options, quorums and supermajorities in real institutions; the liberum veto as the failure case.","2.4, 4.5, 6.5"
+C32,Evaluating rules with simulations and data,"Comparing rules on random cultures and real ballots: Condorcet efficiency, utility efficiency, probability models, preference libraries.","3.2, 7, App. C"
+C33,"Communication, accountability and experiments in committees","Laboratory and theoretical work on how deliberation, communication and responsibility for one's vote change committee outcomes.","4.1, 6.6, 8"
+C34,Veto budgets and storable votes,"A limited stock of votes or vetoes across decisions, spent where members care most; a safeguard against routine blocking.","6.6, 8.2"
+C35,Delegation in veto bargaining,"Under incomplete information, the best use of a veto player can be to let them choose within an interval fixed in advance.",4.2
