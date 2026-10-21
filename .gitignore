@@ -15,6 +15,7 @@
 *-blx.bib
 /main.pdf
 journals/*/main.pdf
+summaries/*/*/main.pdf
 manuscript/*.pdf
 overleaf.zip
 

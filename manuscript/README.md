@@ -77,7 +77,10 @@ The scripts are in `../simulations/python/`. Run them from the repository root.
     - the consistency of the measures.
 - **(b) `examples.py`** (the worked examples E1–E4): writes the table `examples`. `--check` tests the winners
   stated in Section 6.4.
-- **(c) `figures.py`**: builds `fig_theta` and `fig_deadlock` from the CSV tables (PDF, plus a PNG preview).
+- **(c) `figures.py`**: builds `fig_theta` (and its French version `fig_theta_fr`) and `fig_deadlock` from
+  the CSV tables (PDF, plus a PNG preview).
+- **(d) `key_numbers.py`**: writes the headline numbers as LaTeX macros, `key_numbers_en.tex` and
+  `key_numbers_fr.tex`, for the executive summaries in `../summaries/`.
 
 Each script writes:
 - its tables to `../outputs/tables/`, as `.csv` and `.tex`, label `tab:<name>`;

@@ -1,0 +1,45 @@
+%% ------------------------------------------------------------------------------------------------
+%%  Layout of the executive summaries, shared by every language (en/, fr/). Content and the babel
+%%  language are set in <lang>/main.tex; numbers come from outputs/tables/key_numbers_<lang>.tex.
+%% ------------------------------------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage[a4paper,margin=18mm,top=15mm,bottom=15mm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs,array,tabularx}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{accent}{HTML}{2A78D6}      % slot 1 of the figures' palette
+\definecolor{accentlight}{HTML}{EAF2FC}
+\definecolor{ink}{HTML}{0B0B0B}
+\definecolor{muted}{HTML}{52514E}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.4\baselineskip}
+\setlist{itemsep=1pt,topsep=2pt,leftmargin=*}
+\pagestyle{plain}
+
+\titleformat{\section}{\normalfont\large\bfseries\color{accent}}{}{0pt}{}
+\titlespacing*{\section}{0pt}{8pt}{2pt}
+
+%% A shaded box for the question and the recommendation
+\newtcolorbox{keybox}[1]{enhanced, breakable=false, colback=accentlight, colframe=accent,
+  boxrule=0.6pt, arc=2pt, left=6pt, right=6pt, top=4pt, bottom=4pt,
+  fonttitle=\bfseries, coltitle=white, title={#1}}
+
+%% Title block: \summarytitle{title}{subtitle}{author and date line}
+\newcommand{\summarytitle}[3]{%
+  {\color{accent}\rule{\linewidth}{1.2pt}}\par\vspace{2pt}
+  {\LARGE\bfseries #1\par}\vspace{2pt}
+  {\large\color{muted} #2\par}\vspace{2pt}
+  {\small\color{muted} #3\par}
+  {\color{accent}\rule{\linewidth}{0.6pt}}\par}
+
+\graphicspath{{../../../outputs/figures/}}

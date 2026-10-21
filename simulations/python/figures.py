@@ -1,6 +1,7 @@
 """Figures of the note, drawn from the tables written by experiments.py (outputs/tables/*.csv).
 
-    fig_theta     QVC: what the blocking quota theta buys and costs (table theta_sweep), two panels
+    fig_theta     QVC: what the blocking quota theta buys and costs (table theta_sweep), two panels;
+                  also fig_theta_fr, the same with French labels, for the French executive summary
     fig_deadlock  unanimity with the status quo as default against QVC as the assembly grows (deadlock_n)
 
 Writes outputs/figures/<name>.pdf (label fig:<name without fig_>). Run from the repository root, after
@@ -50,15 +51,24 @@ def direct_labels(ax, ends, x):
                     color=INK, annotation_clip=False)
 
 
-def fig_theta():
+THETA_TEXT = {
+    "en": {"series": ["Condorcet efficiency", "Worst-off efficiency", "Fallback", "Manipulable (10%)"],
+           "titles": ["Spatial", "Polarised"], "xlabel": r"Blocking quota $\theta$ (%)", "name": "fig_theta"},
+    "fr": {"series": ["Efficacité de Condorcet", "Efficacité (moins bien lotis)", "Repli",
+                      "Manipulable (10 %)"],
+           "titles": ["Spatial", "Polarisé"], "xlabel": r"Quota $\theta$ (en %)",
+           "name": "fig_theta_fr"},
+}
+
+
+def fig_theta(lang="en"):
+    text = THETA_TEXT[lang]
     header, rows = read("theta_sweep")
     col = {h: k for k, h in enumerate(header)}
-    series = [("Condorcet eff. (%)", "Condorcet efficiency"),
-              ("Worst-off eff. (%)", "Worst-off efficiency"),
-              ("Fallback (%)", "Fallback"),
-              ("Manip. 10% (%)", "Manipulable (10%)")]
+    series = list(zip(["Condorcet eff. (%)", "Worst-off eff. (%)", "Fallback (%)", "Manip. 10% (%)"],
+                      text["series"]))
     fig, axes = plt.subplots(1, 2, figsize=(6.6, 3.0), sharey=True)
-    for ax, culture in zip(axes, ("Spatial", "Polarised")):
+    for ax, culture, title in zip(axes, ("Spatial", "Polarised"), text["titles"]):
         sub = [r for r in rows if r[0].startswith(culture) and "none" not in r[0]]
         theta = [100 / 101 if "1/n" in r[0] else float(r[0].split(", ")[1].rstrip("%")) for r in sub]
         ends = []
@@ -69,17 +79,17 @@ def fig_theta():
             ends.append((y[-1], label))
         ax.axvline(100 / 3, color=MUTED, lw=0.8)
         ax.text(100 / 3, 103, r"$\theta=1/3$", ha="center", va="bottom", fontsize=8, color=MUTED)
-        ax.set_title(culture, fontsize=9, color=INK, loc="left", pad=12)
+        ax.set_title(title, fontsize=9, color=INK, loc="left", pad=12)
         ax.set_xlim(0, 50)
         ax.set_ylim(0, 100)
         ax.set_xticks([0, 10, 20, 30, 40, 50])
-        ax.set_xlabel(r"Blocking quota $\theta$ (%)")
+        ax.set_xlabel(text["xlabel"])
     axes[0].set_ylabel("%")
     direct_labels(axes[1], ends, 50)
     handles, labels = axes[0].get_legend_handles_labels()
     fig.legend(handles, labels, loc="lower center", ncol=4, fontsize=8, bbox_to_anchor=(0.5, -0.02))
-    fig.tight_layout(rect=(0, 0.07, 0.86, 1))
-    save(fig, "fig_theta")
+    fig.tight_layout(rect=(0, 0.07, 0.86 if lang == "en" else 0.82, 1))
+    save(fig, text["name"])
 
 
 def fig_deadlock():
@@ -108,7 +118,8 @@ def fig_deadlock():
 
 def save(fig, name):
     os.makedirs(FIGURES, exist_ok=True)
-    fig.savefig(os.path.join(FIGURES, f"{name}.pdf"), bbox_inches="tight")
+    fig.savefig(os.path.join(FIGURES, f"{name}.pdf"), bbox_inches="tight",
+                metadata={"CreationDate": None})                                    # reproducible file
     fig.savefig(os.path.join(FIGURES, f"{name}.png"), bbox_inches="tight", dpi=150)   # preview only
     plt.close(fig)
     print(f"  {name}")
@@ -116,4 +127,5 @@ def save(fig, name):
 
 if __name__ == "__main__":
     fig_theta()
+    fig_theta("fr")
     fig_deadlock()
