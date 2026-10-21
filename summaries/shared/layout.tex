@@ -1,8 +1,8 @@
 %% ------------------------------------------------------------------------------------------------
 %%  Layout of the summaries, shared by every language and every kind of document
 %%  (summaries/<lang>/<kind>/main.tex, which sets the text and the babel language). Numbers come from
-%%  outputs/tables/key_numbers_<lang>.tex. Every main.tex sits two levels below summaries/, so the
-%%  relative paths below hold for all of them.
+%%  outputs/tables/key_numbers_<lang>.tex. Every main.tex sits two levels below summaries/; the paths below
+%%  work from that folder and from the repository root (Overleaf).
 %% ------------------------------------------------------------------------------------------------
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -44,4 +44,4 @@
   {\small\color{muted} #3\par}
   {\color{accent}\rule{\linewidth}{0.6pt}}\par}
 
-\graphicspath{{../../../outputs/figures/}}
+\graphicspath{{../../../outputs/figures/}{outputs/figures/}}   % local build, then build from the root

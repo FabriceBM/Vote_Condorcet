@@ -7,9 +7,14 @@
 %%  Keep in step with summaries/fr/executive/main.tex (same structure, same numbers).
 %% =====================================================================================
 \documentclass[10pt,a4paper]{article}
-\input{../../shared/layout}
+%% Paths that work from this folder (local build) and from the repository root (Overleaf compiles from
+%% the project root whatever the main document): files are looked up under each prefix in turn.
+\makeatletter
+\def\input@path{{../../}{../../../}{summaries/}{./}}
+\makeatother
+\input{shared/layout}
 \usepackage[english]{babel}
-\input{../../../outputs/tables/key_numbers_en}
+\input{outputs/tables/key_numbers_en}
 
 \begin{document}
 
