@@ -1,6 +1,6 @@
 key,status,source,doi,differences
-Condorcet1785,"found, differs",Crossref (search),10.1017/cbo9781139923972,year: bib '1785' vs record '2014/2016' (major)
-Arrow1951,"found, differs",Crossref (search),10.12987/9780300186987,year: bib '1951' vs record '2017' (major)
+Condorcet1785,match,Library of Congress https://www.loc.gov/item/06005363/,,
+Arrow1951,match,Library of Congress https://www.loc.gov/item/51009755/,,
 Gibbard1973,minor,Crossref (DOI),10.2307/1914083,pages: bib '587-601' vs record '587' (minor)
 Satterthwaite1975,match,Crossref (DOI),10.1016/0022-0531(75)90050-2,
 Black1948,match,Crossref (DOI),10.1086/256633,
@@ -12,13 +12,13 @@ McKelvey1976,match,Crossref (DOI),10.1016/0022-0531(76)90040-5,
 Nakamura1979,match,Crossref (DOI),10.1007/BF01763051,
 Greenberg1979,minor,Crossref (DOI),10.2307/1910410,pages: bib '627-636' vs record '627' (minor)
 CaplinNalebuff1988,minor,Crossref (DOI),10.2307/1912699,pages: bib '787-814' vs record '787' (minor)
-BuchananTullock1962,"found, differs",Crossref (search),10.2307/1913055,"authors: bib 'buchanan, tullock' vs record 'rothenberg, buchanan, tullock' (minor); year: bib '1962' vs record '1964' (major)"
+BuchananTullock1962,match,Library of Congress https://www.loc.gov/item/62007705/,,
 Rae1969,match,Crossref (DOI),10.2307/1954283,
 RomerRosenthal1978,match,Crossref (DOI),10.1007/BF03187594,
 Moulin1988noshow,match,Crossref (DOI),10.1016/0022-0531(88)90253-0,
 GehrleinFishburn1976,match,Crossref (DOI),10.1016/0022-0531(76)90063-6,
 Gehrlein2006,match,Crossref (DOI),10.1007/3-540-33799-7,
-RegenwetterEtAl2006,"found, differs",Crossref (search),10.5860/choice.44-3496,year: bib '2006' vs record '2007' (major)
+RegenwetterEtAl2006,match,Library of Congress https://www.loc.gov/item/2005023291/,,
 Mallows1957,minor,Crossref (DOI),10.1093/biomet/44.1-2.114,issue: bib '1–2' vs record '1-2' (minor)
 Smith1973,minor,Crossref (DOI),10.2307/1914033,pages: bib '1027-1041' vs record '1027' (minor)
 Young1974,match,Crossref (DOI),10.1016/0022-0531(74)90073-8,
@@ -45,7 +45,7 @@ TidemanPlassmann2012,minor,Crossref (DOI),10.1007/978-3-642-20441-8_9,"journal: 
 Laslier2012loser,minor,Crossref (DOI),10.1007/978-3-642-20441-8_13,"journal: bib 'Electoral Systems: Paradoxes, Assumptions, and Procedures' vs record 'Studies in Choice and Welfare' (minor)"
 Merrill1984,minor,Crossref (DOI),10.2307/2110786,pages: bib '23-48' vs record '23' (minor)
 GreenArmytageTidemanCosman2016,match,Crossref (DOI),10.1007/s00355-015-0909-0,
-Tideman2006,not found,,,
+Tideman2006,match,Library of Congress https://www.loc.gov/item/2006021134/,,
 MatteiWalsh2013,minor,Crossref (DOI),10.1007/978-3-642-41575-3_20,title: bib 'PrefLib: A Library for Preferences' vs record 'PrefLib: A Library for Preferences http://www.preflib.org' (minor); journal: bib 'Algorithmic Decision Theory (ADT 2013)' vs record 'Lecture Notes in Computer Science' (minor)
 BartholdiToveyTrick1989hard,match,Crossref (DOI),10.1007/BF00303169,
 BartholdiToveyTrick1989manip,match,Crossref (DOI),10.1007/BF00295861,
@@ -94,6 +94,6 @@ Rohac2008,match,Crossref (DOI),10.1007/s10602-008-9037-5,
 Bognar2015,match,Crossref (DOI),10.1016/j.jet.2014.11.008,
 Resnick2014rfc7282,match,https://www.rfc-editor.org/rfc/rfc7282.txt,10.17487/RFC7282,
 Debian2024constitution,match,https://www.debian.org/devel/constitution,,
-TEU2016art16,page check failed (HTTP 202),https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:12016M/TXT,,
+TEU2016art16,match,"EU Publications Office, CELEX 12016M/TXT",,
 Casella2005,match,Crossref (DOI),10.1016/j.geb.2004.09.009,
 BrandtGeistPeters2017,match,Crossref (DOI),10.1016/j.mathsocsci.2016.09.003,

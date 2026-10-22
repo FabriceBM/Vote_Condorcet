@@ -5,13 +5,18 @@ For each entry:
                      resolve at doi.org;
     without a DOI    a Crossref bibliographic search (title, first author), then OpenAlex if Crossref finds
                      nothing close; a match proposes a DOI;
+    books with lccn  the Library of Congress catalogue record (www.loc.gov/item/<lccn>/?fo=json): title,
+                     year, publisher, and every person the record names must be an author of the entry;
+    EU law (celex)   the record of the EU Publications Office (SPARQL endpoint): English title, date, Official
+                     Journal series and number; with pdftotext installed, the page cited in the entry must carry
+                     the article cited;
     arXiv preprints  the arXiv record (export.arxiv.org);
-    web documents    the page itself must contain the title (RFC, Debian constitution, EU Treaty).
+    web documents    the page itself must contain the title (RFC, Debian constitution).
 Compared fields: title, authors (surnames, in order), year, journal or book title, volume, issue, pages.
 
 Writes literature/reference-checks/<date>_official-records.md (one line per entry, then the details of every
-difference) and .csv. Needs network access to api.crossref.org, doi.org, api.openalex.org, export.arxiv.org
-and the sites of the web documents.
+difference) and .csv. Needs network access to api.crossref.org, doi.org, api.openalex.org, export.arxiv.org,
+www.loc.gov, publications.europa.eu and the sites of the web documents.
 
 Run from the repository root:
     python3 tools/check_references.py
@@ -22,7 +27,10 @@ import difflib
 import json
 import os
 import re
+import shutil
+import subprocess
 import sys
+import tempfile
 import time
 import unicodedata
 import urllib.parse
@@ -37,9 +45,8 @@ UA = "Vote_Condorcet reference check (https://github.com/FabriceBM/Vote_Condorce
 WEB = {   # web documents: url, text the page must contain
     "Resnick2014rfc7282": ("https://www.rfc-editor.org/rfc/rfc7282.txt", "On Consensus and Humming in the IETF"),
     "Debian2024constitution": ("https://www.debian.org/devel/constitution", "Constitution for the Debian Project"),
-    "TEU2016art16": ("https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:12016M/TXT",
-                     "Treaty on European Union"),
 }
+EU_SPARQL = "https://publications.europa.eu/webapi/rdf/sparql"
 
 
 def get(url, accept="application/json", tries=3):
@@ -217,6 +224,94 @@ def check_web(key, e):
     return ("match" if ok else f"page check failed (HTTP {code})"), [], {"source": url}
 
 
+def status_of(d):
+    return "match" if not d else ("differs" if any(x[3] == "major" for x in d) else "minor")
+
+
+def check_loc(key, e):
+    """Book against its Library of Congress catalogue record, found by LCCN."""
+    url = f"https://www.loc.gov/item/{e['lccn'].strip()}/"
+    code, body, _ = get(url + "?fo=json")
+    if code != 200:
+        return f"LoC record not found (HTTP {code})", [], {"source": url}
+    it = json.loads(body).get("item", {})
+    persons = [norm(n.split(",")[0]).split()[-1] for n in it.get("contributor_names", [])
+               if "," in n and norm(n.split(",")[0])]                 # corporate names carry no comma
+    published = " ".join(it.get("created_published", []))
+    r = {"title": it.get("title", ""), "surnames": [], "venue": "", "volume": "", "issue": "", "page": "",
+         "years": {int(y) for y in re.findall(r"\d{4}", it.get("date", ""))[:1]}, "doi": "",
+         "source": "Library of Congress " + url}
+    d = compare(e, r)
+    bs = bib_surnames(e)
+    if not persons or not bs or persons[0] != bs[0]:
+        d.append(("authors", ", ".join(bs), ", ".join(persons), "major"))
+    elif set(persons) - set(bs):
+        d.append(("authors", ", ".join(bs), ", ".join(persons), "minor"))
+    words = [w for w in norm(e.get("publisher", "")).split() if len(w) >= 5]
+    if words and not set(words) & set(norm(published).split()):
+        d.append(("publisher", detex(e["publisher"]), published, "minor"))
+    return status_of(d), d, r
+
+
+def check_eu(key, e):
+    """EU legal act against the record of the EU Publications Office, found by CELEX number."""
+    celex = e["celex"].strip()
+    query = f"""PREFIX cdm: <http://publications.europa.eu/ontology/cdm#>
+SELECT ?title ?date ?ojnum ?ojcoll ?pdf WHERE {{
+  ?w cdm:resource_legal_id_celex "{celex}"^^<http://www.w3.org/2001/XMLSchema#string> ;
+     cdm:work_date_document ?date ; cdm:resource_legal_published_in_official-journal ?oj .
+  ?oj cdm:official-journal_number ?ojnum ; cdm:official-journal_part_of_collection_document ?ojcoll .
+  ?x cdm:expression_belongs_to_work ?w ; cdm:expression_title ?title ;
+     cdm:expression_uses_language <http://publications.europa.eu/resource/authority/language/ENG> .
+  OPTIONAL {{ ?pdf cdm:manifestation_manifests_expression ?x ; cdm:manifestation_type ?t .
+             FILTER(STR(?t) = "pdfa1a") }}
+}} LIMIT 1"""
+    url = EU_SPARQL + "?" + urllib.parse.urlencode({"query": query, "format": "application/sparql-results+json"})
+    code, body, _ = get(url, accept="application/sparql-results+json")
+    rows = json.loads(body)["results"]["bindings"] if code == 200 else []
+    if not rows:
+        return f"EU record not found (HTTP {code})", [], {"source": "EU Publications Office"}
+    v = {k: x["value"] for k, x in rows[0].items()}
+    y, m, dd = (int(x) for x in v["date"][:10].split("-"))
+    series = v["ojcoll"].rsplit("-", 1)[-1]                          # .../document-collection/OJ-C -> C
+    oj = f"{series} {v['ojnum']}, {dd}.{m}.{y}"
+    r = {"title": v["title"], "source": f"EU Publications Office, CELEX {celex}", "doi": "", "oj": oj}
+    d = []
+    if norm(v["title"]) not in norm(e.get("title", "")):
+        d.append(("title", detex(e.get("title", "")), v["title"], "major"))
+    if oj not in detex(e.get("howpublished", "")):
+        d.append(("Official Journal", detex(e.get("howpublished", "")), oj, "major"))
+    if str(y) != e.get("year"):
+        d.append(("year", e.get("year", ""), str(y), "major"))
+    page = re.search(r"p\.\s*~?(\d+)", e.get("howpublished", ""))
+    article = re.search(r"Article (\d+)", detex(e.get("title", "")))
+    if page and article:
+        found = oj_page_has(v.get("pdf"), f"{series} {v['ojnum']}/{page.group(1)}", f"Article {article.group(1)}")
+        if found is not True:
+            d.append(("page", page.group(1), found or f"Article {article.group(1)} not on that page",
+                      "minor" if found and found.startswith("not checked") else "major"))
+    return status_of(d), d, r
+
+
+def oj_page_has(manifestation, label, heading):
+    """True if the page of the Official Journal labelled `label` carries the heading; otherwise why not."""
+    if not manifestation:
+        return "no PDF in the record"
+    if not shutil.which("pdftotext"):
+        return "not checked: pdftotext not installed"
+    with tempfile.TemporaryDirectory() as tmp:
+        pdf = os.path.join(tmp, "oj.pdf")
+        req = urllib.request.Request(manifestation + "/DOC_1", headers={"User-Agent": UA})
+        try:
+            with urllib.request.urlopen(req, timeout=120) as resp, open(pdf, "wb") as fh:
+                fh.write(resp.read())
+        except Exception as err:                                    # noqa: BLE001
+            return f"not checked: PDF not downloaded ({err})"
+        text = subprocess.run(["pdftotext", "-layout", pdf, "-"], capture_output=True, text=True).stdout
+    pages = [p for p in text.split("\f") if re.search(rf"(^|\s){re.escape(label)}(\s|$)", p)]
+    return bool(pages) and any(re.search(rf"^\s*{re.escape(heading)}\s*$", p, re.M) for p in pages)
+
+
 def main():
     bib = read_bib(BIB)
     today = datetime.date.today().isoformat()
@@ -225,8 +320,12 @@ def main():
         arxiv = re.search(r"arXiv:(\d{4}\.\d{4,5})", e.get("note", "") + " " + e.get("url", ""))
         if k in WEB:
             status, d, r = check_web(k, e)
+        elif e.get("celex"):
+            status, d, r = check_eu(k, e)
         elif e.get("doi"):
             status, d, r = check_doi(k, e)
+        elif e.get("lccn"):
+            status, d, r = check_loc(k, e)
         elif arxiv:
             status, d, r = check_arxiv(k, e, arxiv.group(1))
         else:
@@ -249,7 +348,8 @@ def main():
     with open(base + ".md", "w", encoding="utf8") as fh:
         fh.write(f"# Bibliography against official records, {today}\n\n")
         fh.write("Written by `tools/check_references.py`: every entry of `manuscript/references.bib` compared with "
-                 "its Crossref record (by DOI, or found by search), OpenAlex, arXiv, or the page of a web document. "
+                 "its Crossref record (by DOI, or found by search), OpenAlex, the Library of Congress catalogue (books "
+                 "with an LCCN), the EU Publications Office (EU law), arXiv, or the page of a web document. "
                  "Fields: title, authors, year, journal, volume, issue, pages.\n\n")
         fh.write("| Status | Entries |\n|---|---|\n")
         for s, n in sorted(counts.items(), key=lambda x: -x[1]):

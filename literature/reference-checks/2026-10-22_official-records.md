@@ -1,29 +1,16 @@
 # Bibliography against official records, 2026-10-22
 
-Written by `tools/check_references.py`: every entry of `manuscript/references.bib` compared with its Crossref record (by DOI, or found by search), OpenAlex, arXiv, or the page of a web document. Fields: title, authors, year, journal, volume, issue, pages.
+Written by `tools/check_references.py`: every entry of `manuscript/references.bib` compared with its Crossref record (by DOI, or found by search), OpenAlex, the Library of Congress catalogue (books with an LCCN), the EU Publications Office (EU law), arXiv, or the page of a web document. Fields: title, authors, year, journal, volume, issue, pages.
 
 | Status | Entries |
 |---|---|
-| match | 66 |
+| match | 72 |
 | minor | 19 |
-| found, differs | 5 |
-| not found | 4 |
+| not found | 3 |
 | differs | 3 |
-| page check failed (HTTP 202) | 1 |
+| found, differs | 1 |
 
 ## Entries to look at
-
-### Condorcet1785: found, differs
-
-Source: Crossref (search); DOI 10.1017/cbo9781139923972
-
-- **year** (major): bib `1785`; record `2014/2016`
-
-### Arrow1951: found, differs
-
-Source: Crossref (search); DOI 10.12987/9780300186987
-
-- **year** (major): bib `1951`; record `2017`
 
 ### Gibbard1973: minor
 
@@ -58,19 +45,6 @@ Source: Crossref (DOI); DOI 10.2307/1910410
 Source: Crossref (DOI); DOI 10.2307/1912699
 
 - **pages** (minor): bib `787-814`; record `787`
-
-### BuchananTullock1962: found, differs
-
-Source: Crossref (search); DOI 10.2307/1913055
-
-- **authors** (minor): bib `buchanan, tullock`; record `rothenberg, buchanan, tullock`
-- **year** (major): bib `1962`; record `1964`
-
-### RegenwetterEtAl2006: found, differs
-
-Source: Crossref (search); DOI 10.5860/choice.44-3496
-
-- **year** (major): bib `2006`; record `2007`
 
 ### Mallows1957: minor
 
@@ -129,9 +103,6 @@ Source: Crossref (DOI); DOI 10.2307/2110786
 
 - **pages** (minor): bib `23-48`; record `23`
 
-### Tideman2006: not found
-
-
 ### MatteiWalsh2013: minor
 
 Source: Crossref (DOI); DOI 10.1007/978-3-642-41575-3_20
@@ -189,9 +160,4 @@ Source: Crossref (DOI); DOI 10.1515/9781400831456
 Source: Crossref (DOI); DOI 10.1007/s11127-026-01383-9
 
 - **issue** (minor): bib `3–4`; record `3-4`
-
-### TEU2016art16: page check failed (HTTP 202)
-
-Source: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:12016M/TXT
-
 

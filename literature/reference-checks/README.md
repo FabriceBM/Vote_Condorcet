@@ -5,36 +5,37 @@ Has the bibliography of the note (`../../manuscript/references.bib`, 98 entries)
 | File | Check |
 |---|---|
 | `2026-10-21_web-search.md` | First check, by two agents through web search: publisher pages, RePEc, JSTOR listings, repositories. The official databases (Crossref, doi.org) were blocked at the time, so fields that could not be confirmed were flagged with `verify` |
-| `2026-10-22_official-records.md`, `.csv` | Second check, against the official records. Written by `../../tools/check_references.py`: each entry is compared with its Crossref record (by DOI, or found by search), and with arXiv or the document's own page for preprints and web documents, on title, authors, year, journal, volume, issue and pages. Every DOI is also tested at doi.org |
+| `2026-10-22_official-records.md`, `.csv` | Second check, against the official records. Written by `../../tools/check_references.py`. Each entry is compared, on title, authors, year, journal, volume, issue and pages, with: its Crossref record (by DOI, or found by search), tested at doi.org; for books without a DOI, the Library of Congress catalogue record (by LCCN); for the EU Treaty, the record and the Official Journal of the EU Publications Office (by CELEX number); arXiv or the document's own page for preprints and web documents |
 
 ## Result of the second check (22 Oct. 2026)
 
-**No entry is fabricated.** Every one of the 98 works was found in an official record, or for the few the
-databases do not cover, in an independent index or through papers that cite it.
+**95 of the 98 entries are confirmed by their official record. 3 are not yet, because no official record of
+them is reachable from the checking environment.** No entry is fabricated: the 3 are also found in the
+reference lists of other papers.
 
 | Status | Entries | Meaning |
 |---|---|---|
-| match | 66 | Every compared field agrees with the official record, and the DOI resolves |
+| match | 72 | Every compared field agrees with the official record, and the DOI resolves |
 | minor | 19 | Formatting only: Crossref stores only the first page of old JSTOR articles; issue `1-2` against `1–2`; a book series named instead of the book title; a URL appended to a title in the record |
-| explained | 13 | See the table below |
+| confirmed by hand | 4 | The official record exists and agrees, but the script cannot match it (first table below) |
+| not yet confirmed | 3 | No official record reachable (second table below). Marked `verify` in `references.bib` |
 
-### The 13 entries the script could not match automatically
+### Confirmed by hand
 
-| Entry | Why | Verified by |
+| Entry | Why the script does not match it | Official record |
 |---|---|---|
-| Condorcet (1785) | The only Crossref record is the Cambridge University Press reissue (2014) | The reissue (doi 10.1017/cbo9781139923972) reproduces the 1785 Essai |
-| Arrow (1951) | The only Crossref record is the Yale re-edition (2012/2017) | Reviews of the 1951 edition (e.g. Baumol, *Econometrica* 1952) |
-| Buchanan & Tullock (1962) | The search returned a 1964 review of the book | The book's University of Michigan Press record (doi 10.3998/mpub.7687, which gives 1960) and reviews of 1963–64 |
-| Regenwetter et al. (2006) | The book has no Crossref record. The DOI that the first check had suggested (and flagged, never used) belongs to another book | Reviews in *Social Choice and Welfare* 31(2), 2008, and *Choice* 44-3496, 2007 |
-| Tideman (2006) | The Ashgate edition has no Crossref record | Routledge reissue (doi 10.4324/9781315259963); three reviews in *Public Choice* 133, 2007 |
 | Moulin (1983) | The book itself has no Crossref record | Its chapters' records (Elsevier, ISBN 978-0-444-86371-3) |
 | Balinski & Laraki (2011) | Crossref stores the title without its subtitle | DOI 10.7551/mitpress/9780262015134.001.0001, MIT Press, 2011 |
 | Tsebelis (2002) | Crossref stores the title without its subtitle | DOI 10.1515/9781400831456, Princeton University Press, 2002 |
 | Brandt et al. (2016), handbook | Crossref lists the author of the foreword (Moulin) rather than the editors | DOI 10.1017/CBO9781107446984; title and year agree |
-| Plott (1967) | No Crossref record (*American Economic Review*, 1967) | The paper in the Consensus index, and McKelvey et al. (1976) citing it as *Amer. Econom. Rev.* 57: 787–806 |
-| Felsenthal & Machover (2008) | No Crossref record (*Homo Oeconomicus*) | The paper in the Consensus index (Felsenthal & Machover, 2008) |
-| Kemeny (1959) | No Crossref record (*Daedalus*, 1959) | Reference lists deposited in Crossref by Young & Levenglick (1978), Young (1988), Bartholdi et al. (1989): *Daedalus* 88: 571–591. Kondratev & Nesterov (2020) give 577. The entry now uses 571–591 and stays flagged until JSTOR settles it |
-| EU Treaty, art. 16 | EUR-Lex refuses automated requests (HTTP 202) | The article text was checked on 21 Oct. through the Council of the EU and legislation.gov.uk; only the Official Journal page numbers remain unconfirmed |
+
+### Not yet confirmed
+
+| Entry | Why | What other papers say | To settle it |
+|---|---|---|---|
+| Plott (1967) | No Crossref record; JSTOR refuses automated access | McKelvey (1976, *JET*, doi 10.1016/0022-0531(76)90040-5): *Amer. Econ. Rev.* 57, 1967. The first check read 57(4): 787–806 on the Caltech repository record | JSTOR [1815369](https://www.jstor.org/stable/1815369), in a browser |
+| Kemeny (1959) | No Crossref record; JSTOR refuses automated access | *Daedalus* 88, first page 577 in Fishburn (1977) and Kondratev & Nesterov (2020), and in most lists found by the first check; 571 in Young & Levenglick (1978), Young (1988) and Bartholdi et al. (1989). The entry keeps 577–591 | JSTOR [20026529](https://www.jstor.org/stable/20026529), in a browser |
+| Felsenthal & Machover (2008) | No Crossref record. The LSE repository record now redirects to `researchonline.lse.ac.uk`, outside the environment's allowed hosts | *Homo Oeconomicus* 25, first page 319 in Balinski & Laraki (2014); pages 319–333 in Felsenthal (2012). The first check read 25(3/4): 319–334 on the LSE record | LSE Research Online [24213](https://eprints.lse.ac.uk/24213/), in a browser, or by adding that host |
 
 ## Corrections made after the second check
 
@@ -43,6 +44,23 @@ databases do not cover, in an independent index or through papers that cite it.
   - Simpson (1969), Fishburn (1984), Laffond, Laslier & Le Breton (1993), Bartholdi et al. (1989, manipulation);
   - Faliszewski & Procaccia (2010), Brandt, Geist & Peters (2017), Guilbaud (1952), Kondratev & Ianovski (2024);
   - Casella (2005), Tsebelis (2002), Balinski & Laraki (2011).
+- **Library of Congress control numbers added** to the 5 books without a DOI. Each record agrees on title,
+  year, publisher and authors:
+  - Condorcet (1785), [06005363](https://www.loc.gov/item/06005363/): Paris, Imprimerie royale;
+  - Arrow (1951), [51009755](https://www.loc.gov/item/51009755/): New York, Wiley. The series, Cowles
+    Commission Monograph No. 12, is confirmed by the record of a 1951 review (doi 10.1515/jbnst-1951-1630148);
+  - Buchanan & Tullock (1962), [62007705](https://www.loc.gov/item/62007705/): Ann Arbor, University of
+    Michigan Press;
+  - Regenwetter et al. (2006), [2005023291](https://www.loc.gov/item/2005023291/): Cambridge University Press.
+    The record names the first author only; the four authors and the ISBN are on the catalogue records it
+    shares with Open Library. The book has no DOI: the one suggested by the first check (never used) belongs
+    to another book;
+  - Tideman (2006), [2006021134](https://www.loc.gov/item/2006021134/): Aldershot, Ashgate. The ISBN as
+    above.
+- **The EU Treaty.** The EU Publications Office confirms the CELEX number 12016M/TXT, the English title, and
+  publication in the Official Journal C 202 of 7 June 2016. Its PDF of that issue shows Article 16 on page
+  C 202/24, with the blocking minority of "at least four Council members" in paragraph 4. The entry now
+  cites that page, with the ELI identifier `data.europa.eu/eli/treaty/teu_2016/oj` as its URL.
 - **Guilbaud (1952).** The Persée record confirms *Économie appliquée* 5(4): 501–584. The alternative range
   501–551 is wrong.
 - **Balinski & Laraki.** The year is 2011, as in the MIT Press record; the first check had set 2010 from the
@@ -52,13 +70,8 @@ databases do not cover, in an independent index or through papers that cite it.
   - Glynia et al. (2026), 208(3–4);
   - Kondratev & Nesterov (2020), 183(1–2), with the second author's first name, Alexander;
   - Krick (2017), issue 1.
-- **Kemeny (1959).** Pages 571–591, from the three earliest citing papers.
-- **Flags removed:** 24 `verify` fields are now confirmed by the records.
-
-**Still flagged, 3 entries** (`grep -n verify ../../manuscript/references.bib`):
-- Kemeny (1959): the first page;
-- Regenwetter et al. (2006): no DOI known;
-- the EU Treaty: the Official Journal page numbers.
+- **Flags:** 26 of the 28 `verify` fields of v0.1 are now confirmed by the records; Plott and Kemeny keep
+  theirs. Felsenthal & Machover is newly flagged: the citing papers disagree on its last page.
 
 ## What these checks do not cover
 
@@ -69,5 +82,8 @@ the note attributes to it: that rests on the abstracts and on the first check's 
 ## Rerun
 
 ```bash
-python3 tools/check_references.py     # needs api.crossref.org, doi.org, export.arxiv.org and the document sites
+python3 tools/check_references.py
 ```
+
+It needs api.crossref.org, doi.org, api.openalex.org, export.arxiv.org, www.loc.gov, publications.europa.eu
+and the document sites; `pdftotext` (poppler) for the Official Journal page check.

@@ -5,10 +5,12 @@
 | `Vote_Condorcet_SOTA_note_v0.1.1.pdf` | The note (36 pages) | `cd journals/working-paper && latexmk main.tex` |
 
 **What changed since v0.1: the bibliography only.** Every entry was checked against its official record:
-Crossref, doi.org, arXiv and the publishers' pages (`literature/reference-checks/README.md`). As a result:
+Crossref, doi.org, the Library of Congress catalogue, the EU Publications Office, arXiv and the publishers'
+pages (`literature/reference-checks/README.md`). 95 of the 98 entries are confirmed; Plott (1967), Kemeny
+(1959) and Felsenthal & Machover (2008) are not yet. As a result:
 - 16 DOIs were added;
 - Balinski & Laraki is dated 2011;
-- Kemeny (1959) has pages 571–591;
+- the EU Treaty is cited at its page in the Official Journal (C 202, 7.6.2016, p. 24);
 - four issue numbers were aligned on the records.
 
 The text, the tables and the figures are unchanged. The executive summaries cite no reference, so their PDFs

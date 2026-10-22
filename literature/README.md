@@ -8,7 +8,9 @@ The sources of the note, grouped by theme, with how each is used.
 - **Full references.** Every citation key below is in
   [`../manuscript/references.bib`](../manuscript/references.bib).
 - **How they were checked.** First by web search (21 Oct. 2026), then against the official records: Crossref, doi.org,
-  arXiv and the publishers' pages (22 Oct. 2026). See [`reference-checks/README.md`](reference-checks/README.md).
+  the Library of Congress catalogue, the EU Publications Office, arXiv and the publishers' pages (22 Oct. 2026).
+  95 of the 98 are confirmed; 3 wait for a check by hand on JSTOR and the LSE repository. See
+  [`reference-checks/README.md`](reference-checks/README.md).
 
 ## Starting point
 

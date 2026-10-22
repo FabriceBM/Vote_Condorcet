@@ -12,18 +12,24 @@ The newest entry comes first.
 **No result changed.** Every table is unchanged (`python3 tools/results_diff.py` reports none), and so is
 the text.
 
-`tools/check_references.py` compared the 98 entries of `references.bib` with their records in Crossref,
-doi.org, arXiv and on the publishers' pages; the details are in `../literature/reference-checks/README.md`.
-- **No entry is fabricated.** 66 match exactly, 19 differ only in formatting, and the 13 left were verified
-  by other means (reissues, reviews, chapter records, citing papers).
+`tools/check_references.py` compared the 98 entries of `references.bib` with their official records:
+Crossref and doi.org, the Library of Congress catalogue for books without a DOI, the EU Publications Office
+for the Treaty, arXiv, and the publishers' pages. The details are in
+`../literature/reference-checks/README.md`.
+- **95 entries are confirmed by their official record.** 3 are not yet (below). No entry is fabricated.
 - **Corrections:**
   - 16 DOIs added, all resolving;
+  - Library of Congress control numbers added to the 5 books without a DOI (Condorcet, Arrow,
+    Buchanan & Tullock, Regenwetter et al., Tideman);
+  - the EU Treaty cited at its page, OJ C 202, 7.6.2016, p. 24, with its ELI identifier;
   - Balinski & Laraki dated 2011, as in the MIT Press record (2010 before);
-  - Kemeny (1959), pages 571–591 (577–591 before), from the three earliest citing papers;
   - issue numbers of Holliday & Pacuit, Glynia et al., Kondratev & Nesterov and Krick aligned on the
     records;
   - the second author of Kondratev & Nesterov given in full.
-- **Still flagged:** 3 entries, down from 28.
+- **Not yet confirmed: 3 entries,** down from 28 flagged. JSTOR holds the record of two of them and refuses
+  automated access: Plott (1967) and Kemeny (1959), whose first page is 577 or 571 depending on the citing
+  paper. The third is Felsenthal & Machover (2008), whose last page is 334 or 333. They stay marked
+  `verify` until checked by hand (`author-tasks.md` §2).
 
 The note's PDF of record is in `../versions/v0.1.1_2026-10-22/`.
 
