@@ -10,13 +10,15 @@ For each entry:
     EU law (celex)   the record of the EU Publications Office (SPARQL endpoint): English title, date, Official
                      Journal series and number; with pdftotext installed, the page cited in the entry must carry
                      the article cited;
+    repository       for articles with no DOI whose journal has no online record, the record of the author's
+                     institutional repository (InvenioRDM JSON, as at Caltech, or EPrints metadata, as at LSE);
     arXiv preprints  the arXiv record (export.arxiv.org);
     web documents    the page itself must contain the title (RFC, Debian constitution).
 Compared fields: title, authors (surnames, in order), year, journal or book title, volume, issue, pages.
 
 Writes literature/reference-checks/<date>_official-records.md (one line per entry, then the details of every
 difference) and .csv. Needs network access to api.crossref.org, doi.org, api.openalex.org, export.arxiv.org,
-www.loc.gov, publications.europa.eu and the sites of the web documents.
+www.loc.gov, publications.europa.eu, the repositories and the sites of the web documents.
 
 Run from the repository root:
     python3 tools/check_references.py
@@ -24,6 +26,7 @@ Run from the repository root:
 import csv
 import datetime
 import difflib
+import html
 import json
 import os
 import re
@@ -47,6 +50,10 @@ WEB = {   # web documents: url, text the page must contain
     "Debian2024constitution": ("https://www.debian.org/devel/constitution", "Constitution for the Debian Project"),
 }
 EU_SPARQL = "https://publications.europa.eu/webapi/rdf/sparql"
+REPOSITORY = {   # articles with no DOI: the record of the author's institutional repository
+    "Plott1967": "https://authors.library.caltech.edu/api/records/rzmbm-kft47",
+    "FelsenthalMachover2008": "https://researchonline.lse.ac.uk/id/eprint/24213/",
+}
 
 
 def get(url, accept="application/json", tries=3):
@@ -224,6 +231,34 @@ def check_web(key, e):
     return ("match" if ok else f"page check failed (HTTP {code})"), [], {"source": url}
 
 
+def check_repository(key, e):
+    """Article against its record in the author's institutional repository."""
+    url = REPOSITORY[key]
+    api = "/api/records/" in url                                    # InvenioRDM; otherwise EPrints
+    code, body, _ = get(url, accept="application/json" if api else "text/html")
+    if code != 200:
+        return f"repository record not found (HTTP {code})", [], {"source": url}
+    if api:
+        md = json.loads(body).get("metadata", {})
+        j = json.loads(body).get("custom_fields", {}).get("journal:journal", {})
+        names = [(c.get("person_or_org") or {}).get("name", "") for c in md.get("creators", [])]
+        rec = {"title": md.get("title", ""), "date": md.get("publication_date", ""), "venue": j.get("title", ""),
+               "volume": j.get("volume", ""), "issue": j.get("issue", ""), "page": j.get("pages", "")}
+    else:
+        meta = {}
+        for content, name in re.findall(r'<meta content="([^"]*)" name="eprints\.(\w+)"', body):
+            meta.setdefault(name, []).append(html.unescape(content))
+        one = lambda k: meta.get(k, [""])[0]                        # noqa: E731
+        names = meta.get("creators_name", [])
+        rec = {"title": one("title"), "date": one("date"), "venue": one("publication"), "volume": one("volume"),
+               "issue": one("number"), "page": one("pagerange")}
+    r = {**rec, "surnames": [norm(n.split(",")[0]).split()[-1] for n in names if norm(n.split(",")[0])],
+         "years": {int(rec["date"][:4])} if rec["date"][:4].isdigit() else set(), "doi": "",
+         "source": "repository record " + url}
+    d = compare(e, r)
+    return status_of(d), d, r
+
+
 def status_of(d):
     return "match" if not d else ("differs" if any(x[3] == "major" for x in d) else "minor")
 
@@ -320,6 +355,8 @@ def main():
         arxiv = re.search(r"arXiv:(\d{4}\.\d{4,5})", e.get("note", "") + " " + e.get("url", ""))
         if k in WEB:
             status, d, r = check_web(k, e)
+        elif k in REPOSITORY:
+            status, d, r = check_repository(k, e)
         elif e.get("celex"):
             status, d, r = check_eu(k, e)
         elif e.get("doi"):
@@ -349,7 +386,8 @@ def main():
         fh.write(f"# Bibliography against official records, {today}\n\n")
         fh.write("Written by `tools/check_references.py`: every entry of `manuscript/references.bib` compared with "
                  "its Crossref record (by DOI, or found by search), OpenAlex, the Library of Congress catalogue (books "
-                 "with an LCCN), the EU Publications Office (EU law), arXiv, or the page of a web document. "
+                 "with an LCCN), the EU Publications Office (EU law), an institutional repository, arXiv, or the page "
+                 "of a web document. "
                  "Fields: title, authors, year, journal, volume, issue, pages.\n\n")
         fh.write("| Status | Entries |\n|---|---|\n")
         for s, n in sorted(counts.items(), key=lambda x: -x[1]):

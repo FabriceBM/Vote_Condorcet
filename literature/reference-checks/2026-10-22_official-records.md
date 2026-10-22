@@ -1,14 +1,14 @@
 # Bibliography against official records, 2026-10-22
 
-Written by `tools/check_references.py`: every entry of `manuscript/references.bib` compared with its Crossref record (by DOI, or found by search), OpenAlex, the Library of Congress catalogue (books with an LCCN), the EU Publications Office (EU law), arXiv, or the page of a web document. Fields: title, authors, year, journal, volume, issue, pages.
+Written by `tools/check_references.py`: every entry of `manuscript/references.bib` compared with its Crossref record (by DOI, or found by search), OpenAlex, the Library of Congress catalogue (books with an LCCN), the EU Publications Office (EU law), an institutional repository, arXiv, or the page of a web document. Fields: title, authors, year, journal, volume, issue, pages.
 
 | Status | Entries |
 |---|---|
-| match | 72 |
+| match | 74 |
 | minor | 19 |
-| not found | 3 |
 | differs | 3 |
 | found, differs | 1 |
+| not found | 1 |
 
 ## Entries to look at
 
@@ -30,9 +30,6 @@ Source: Crossref (search); DOI 10.1093/0198240341.001.0001
 
 - **authors** (major): bib `kemeny`; record `hellman`
 - **year** (major): bib `1959`; record `1993/2003`
-
-### Plott1967: not found
-
 
 ### Greenberg1979: minor
 
@@ -75,9 +72,6 @@ Source: Crossref (DOI); DOI 10.1007/s11127-023-01042-3
 Source: Crossref (DOI); DOI 10.7551/mitpress/9780262015134.001.0001
 
 - **title** (major): bib `Majority Judgment: Measuring, Ranking, and Electing`; record `Majority Judgment`
-
-### FelsenthalMachover2008: not found
-
 
 ### Felsenthal2012review: minor
 

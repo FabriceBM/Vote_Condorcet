@@ -7,7 +7,7 @@ Black1948,match,Crossref (DOI),10.1086/256633,
 May1952,minor,Crossref (DOI),10.2307/1907651,pages: bib '680-684' vs record '680' (minor)
 Guilbaud1952,match,Crossref (DOI),10.3406/ecoap.1952.3831,
 Kemeny1959,"found, differs",Crossref (search),10.1093/0198240341.001.0001,authors: bib 'kemeny' vs record 'hellman' (major); year: bib '1959' vs record '1993/2003' (major)
-Plott1967,not found,,,
+Plott1967,match,repository record https://authors.library.caltech.edu/api/records/rzmbm-kft47,,
 McKelvey1976,match,Crossref (DOI),10.1016/0022-0531(76)90040-5,
 Nakamura1979,match,Crossref (DOI),10.1007/BF01763051,
 Greenberg1979,minor,Crossref (DOI),10.2307/1910410,pages: bib '627-636' vs record '627' (minor)
@@ -39,7 +39,7 @@ BramsFishburn1978,match,Crossref (DOI),10.2307/1955105,
 LaslierSanver2010,match,Crossref (DOI),10.1007/978-3-642-02839-7,
 BalinskiLaraki2007,match,Crossref (DOI),10.1073/pnas.0702634104,
 BalinskiLaraki2011,differs,Crossref (DOI),10.7551/mitpress/9780262015134.001.0001,"title: bib 'Majority Judgment: Measuring, Ranking, and Electing' vs record 'Majority Judgment' (major)"
-FelsenthalMachover2008,not found,,,
+FelsenthalMachover2008,match,repository record https://researchonline.lse.ac.uk/id/eprint/24213/,,
 Felsenthal2012review,minor,Crossref (DOI),10.1007/978-3-642-20441-8_3,"journal: bib 'Electoral Systems: Paradoxes, Assumptions, and Procedures' vs record 'Studies in Choice and Welfare' (minor)"
 TidemanPlassmann2012,minor,Crossref (DOI),10.1007/978-3-642-20441-8_9,"journal: bib 'Electoral Systems: Paradoxes, Assumptions, and Procedures' vs record 'Studies in Choice and Welfare' (minor)"
 Laslier2012loser,minor,Crossref (DOI),10.1007/978-3-642-20441-8_13,"journal: bib 'Electoral Systems: Paradoxes, Assumptions, and Procedures' vs record 'Studies in Choice and Welfare' (minor)"
