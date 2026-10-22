@@ -9,16 +9,14 @@ Has the bibliography of the note (`../../manuscript/references.bib`, 98 entries)
 
 ## Result of the second check (22 Oct. 2026)
 
-**97 of the 98 entries are confirmed by their official record. One is not yet, Kemeny (1959): its only
-record is on JSTOR, which refuses automated access.** No entry is fabricated: Kemeny (1959) is also found
-in the reference lists of other papers.
+**All 98 entries are confirmed by their official record.** 93 automatically; 5 by hand, among them Kemeny
+(1959), read on JSTOR by the author because JSTOR refuses automated access.
 
 | Status | Entries | Meaning |
 |---|---|---|
 | match | 74 | Every compared field agrees with the official record, and the DOI resolves |
 | minor | 19 | Formatting only: Crossref stores only the first page of old JSTOR articles; issue `1-2` against `1–2`; a book series named instead of the book title; a URL appended to a title in the record |
-| confirmed by hand | 4 | The official record exists and agrees, but the script cannot match it (first table below) |
-| not yet confirmed | 1 | No official record reachable (second table below). Marked `verify` in `references.bib` |
+| confirmed by hand | 5 | The official record exists and agrees, but the script cannot match it or cannot reach it (table below) |
 
 ### Confirmed by hand
 
@@ -28,12 +26,7 @@ in the reference lists of other papers.
 | Balinski & Laraki (2011) | Crossref stores the title without its subtitle | DOI 10.7551/mitpress/9780262015134.001.0001, MIT Press, 2011 |
 | Tsebelis (2002) | Crossref stores the title without its subtitle | DOI 10.1515/9781400831456, Princeton University Press, 2002 |
 | Brandt et al. (2016), handbook | Crossref lists the author of the foreword (Moulin) rather than the editors | DOI 10.1017/CBO9781107446984; title and year agree |
-
-### Not yet confirmed
-
-| Entry | Why | What other papers say | To settle it |
-|---|---|---|---|
-| Kemeny (1959) | No Crossref record; JSTOR refuses automated access, and no other record of *Daedalus* 1959 is reachable | *Daedalus* 88, first page 577 in Fishburn (1977) and Kondratev & Nesterov (2020), and in most lists found by the first check; 571 in Young & Levenglick (1978), Young (1988) and Bartholdi et al. (1989). The entry keeps 577–591 | JSTOR [20026529](https://www.jstor.org/stable/20026529), in a browser |
+| Kemeny (1959) | No Crossref record, and JSTOR refuses automated access; the script's search returns an unrelated book | JSTOR [20026529](https://www.jstor.org/stable/20026529), read in a browser by the author on 22 Oct. 2026: the article starts on page 577 and runs 15 pages, so 577–591, as in the entry. Citing papers had disagreed on the first page: 577 in Fishburn (1977) and Kondratev & Nesterov (2020), 571 in Young & Levenglick (1978), Young (1988) and Bartholdi et al. (1989), which is wrong |
 
 ## Corrections made after the second check
 
@@ -77,8 +70,7 @@ in the reference lists of other papers.
   - Glynia et al. (2026), 208(3–4);
   - Kondratev & Nesterov (2020), 183(1–2), with the second author's first name, Alexander;
   - Krick (2017), issue 1.
-- **Flags:** 27 of the 28 `verify` fields of v0.1 are now confirmed by the records; Kemeny (1959) keeps its
-  flag.
+- **Flags:** all 28 `verify` fields of v0.1 are now confirmed by the records; none is left.
 
 ## What these checks do not cover
 

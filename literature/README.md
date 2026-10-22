@@ -9,8 +9,7 @@ The sources of the note, grouped by theme, with how each is used.
   [`../manuscript/references.bib`](../manuscript/references.bib).
 - **How they were checked.** First by web search (21 Oct. 2026), then against the official records: Crossref, doi.org,
   the Library of Congress catalogue, the EU Publications Office, institutional repositories, arXiv and the
-  publishers' pages (22 Oct. 2026). 97 of the 98 are confirmed; Kemeny (1959) waits for a check by hand on
-  JSTOR. See
+  publishers' pages, and JSTOR by hand for Kemeny (1959) (22 Oct. 2026). All 98 are confirmed. See
   [`reference-checks/README.md`](reference-checks/README.md).
 
 ## Starting point

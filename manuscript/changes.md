@@ -15,8 +15,9 @@ the text.
 `tools/check_references.py` compared the 98 entries of `references.bib` with their official records:
 Crossref and doi.org, the Library of Congress catalogue for books without a DOI, the EU Publications Office
 for the Treaty, the authors' institutional repositories for two articles without a DOI, arXiv, and the
-publishers' pages. The details are in `../literature/reference-checks/README.md`.
-- **97 entries are confirmed by their official record.** One is not yet (below). No entry is fabricated.
+publishers' pages. Kemeny (1959) was read on JSTOR by hand. The details are in
+`../literature/reference-checks/README.md`.
+- **All 98 entries are confirmed by their official record.** No entry is fabricated.
 - **Corrections:**
   - 16 DOIs added, all resolving;
   - Library of Congress control numbers added to the 5 books without a DOI (Condorcet, Arrow,
@@ -27,9 +28,8 @@ publishers' pages. The details are in `../literature/reference-checks/README.md`
   - issue numbers of Holliday & Pacuit, Glynia et al., Kondratev & Nesterov and Krick aligned on the
     records;
   - the second author of Kondratev & Nesterov given in full.
-- **Not yet confirmed: 1 entry,** down from 28 flagged. Kemeny (1959): its only record is on JSTOR, which
-  refuses automated access, and the citing papers give 577 or 571 as its first page. It stays marked
-  `verify` until checked by hand (`author-tasks.md` §2).
+- **No entry is flagged any more,** down from 28. The last, Kemeny (1959), keeps its pages 577–591: the
+  JSTOR record confirms them, against the 571 that some citing papers give.
 
 The note's PDF of record is in `../versions/v0.1.1_2026-10-22/`.
 

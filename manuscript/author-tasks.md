@@ -17,7 +17,7 @@ draft v0.1 to a version that can be circulated. Tick tasks off in the pull reque
 
 | | Task | How |
 |---|---|---|
-| [ ] | Confirm Kemeny (1959), the one entry still marked `verify` in `references.bib`: is the first page 577 or 571? Its only record is on JSTOR, which refuses automated access. The other 97 entries are confirmed by their official records (`../literature/reference-checks/README.md`) | In a browser: JSTOR [20026529](https://www.jstor.org/stable/20026529) |
+| [x] | Confirm Kemeny (1959), the last entry marked `verify`: first page 577 or 571? Its only record is on JSTOR, which refuses automated access. With it, all 98 entries are confirmed by their official records (`../literature/reference-checks/README.md`) | Read on JSTOR [20026529](https://www.jstor.org/stable/20026529), 22 Oct. 2026: starts on page 577, 15 pages, so 577–591 |
 | [ ] | Read the key papers in full; the reference checks used publisher pages and abstracts | Bouton et al. (2018), Moulin (1981, 1982), Ianovski & Kondratev (2021), Kondratev & Ianovski (2024), Kondratev & Nesterov (2020), Greenberg (1979), Holliday & Pacuit (2023) |
 | [ ] | Check the characterisation of Majority Judgment as monotonic, and the Monotonic column of Table 3 for fallback bargaining and the majoritarian compromise | Balinski & Laraki (2011), Felsenthal (2012) |
 | [x] | Check that Debian's 3:1 ratio for constitutional amendments is unchanged in constitution v1.9 | Confirmed on debian.org, 22 Oct. 2026: "Amend this constitution, provided they agree with a 3:1 majority"; default option "None of the above"; quorum 3Q |
