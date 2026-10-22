@@ -1,0 +1,99 @@
+key,status,source,doi,differences
+Condorcet1785,match,Library of Congress https://www.loc.gov/item/06005363/,,
+Arrow1951,match,Library of Congress https://www.loc.gov/item/51009755/,,
+Gibbard1973,minor,Crossref (DOI),10.2307/1914083,pages: bib '587-601' vs record '587' (minor)
+Satterthwaite1975,match,Crossref (DOI),10.1016/0022-0531(75)90050-2,
+Black1948,match,Crossref (DOI),10.1086/256633,
+May1952,minor,Crossref (DOI),10.2307/1907651,pages: bib '680-684' vs record '680' (minor)
+Guilbaud1952,match,Crossref (DOI),10.3406/ecoap.1952.3831,
+Kemeny1959,"found, differs",Crossref (search),10.1093/0198240341.001.0001,authors: bib 'kemeny' vs record 'hellman' (major); year: bib '1959' vs record '1993/2003' (major)
+Plott1967,match,repository record https://authors.library.caltech.edu/api/records/rzmbm-kft47,,
+McKelvey1976,match,Crossref (DOI),10.1016/0022-0531(76)90040-5,
+Nakamura1979,match,Crossref (DOI),10.1007/BF01763051,
+Greenberg1979,minor,Crossref (DOI),10.2307/1910410,pages: bib '627-636' vs record '627' (minor)
+CaplinNalebuff1988,minor,Crossref (DOI),10.2307/1912699,pages: bib '787-814' vs record '787' (minor)
+BuchananTullock1962,match,Library of Congress https://www.loc.gov/item/62007705/,,
+Rae1969,match,Crossref (DOI),10.2307/1954283,
+RomerRosenthal1978,match,Crossref (DOI),10.1007/BF03187594,
+Moulin1988noshow,match,Crossref (DOI),10.1016/0022-0531(88)90253-0,
+GehrleinFishburn1976,match,Crossref (DOI),10.1016/0022-0531(76)90063-6,
+Gehrlein2006,match,Crossref (DOI),10.1007/3-540-33799-7,
+RegenwetterEtAl2006,match,Library of Congress https://www.loc.gov/item/2005023291/,,
+Mallows1957,minor,Crossref (DOI),10.1093/biomet/44.1-2.114,issue: bib '1–2' vs record '1-2' (minor)
+Smith1973,minor,Crossref (DOI),10.2307/1914033,pages: bib '1027-1041' vs record '1027' (minor)
+Young1974,match,Crossref (DOI),10.1016/0022-0531(74)90073-8,
+Fishburn1977,match,Crossref (DOI),10.1137/0133030,
+YoungLevenglick1978,match,Crossref (DOI),10.1137/0135023,
+Young1988,match,Crossref (DOI),10.2307/1961757,
+Simpson1969,minor,Crossref (DOI),10.2307/1880533,pages: bib '478-490' vs record '478' (minor)
+Tideman1987,match,Crossref (DOI),10.1007/BF00433944,
+ZavistTideman1989,match,Crossref (DOI),10.1007/BF00303170,
+Schulze2011,match,Crossref (DOI),10.1007/s00355-010-0475-4,
+HollidayPacuit2023splitcycle,minor,Crossref (DOI),10.1007/s11127-023-01042-3,issue: bib '1–2' vs record '1-2' (minor)
+HollidayPacuit2023stable,match,Crossref (DOI),10.1007/s10602-022-09383-9,
+ElkindFaliszewskiSlinko2015,match,Crossref (DOI),10.1007/s00355-015-0892-5,
+Fishburn1984,match,Crossref (DOI),10.2307/2297786,
+LaffondLaslierLeBreton1993,match,Crossref (DOI),10.1006/game.1993.1010,
+BrandlBrandtSeedig2016,match,Crossref (DOI),10.3982/ECTA13337,
+BramsFishburn1978,match,Crossref (DOI),10.2307/1955105,
+LaslierSanver2010,match,Crossref (DOI),10.1007/978-3-642-02839-7,
+BalinskiLaraki2007,match,Crossref (DOI),10.1073/pnas.0702634104,
+BalinskiLaraki2011,differs,Crossref (DOI),10.7551/mitpress/9780262015134.001.0001,"title: bib 'Majority Judgment: Measuring, Ranking, and Electing' vs record 'Majority Judgment' (major)"
+FelsenthalMachover2008,match,repository record https://researchonline.lse.ac.uk/id/eprint/24213/,,
+Felsenthal2012review,minor,Crossref (DOI),10.1007/978-3-642-20441-8_3,"journal: bib 'Electoral Systems: Paradoxes, Assumptions, and Procedures' vs record 'Studies in Choice and Welfare' (minor)"
+TidemanPlassmann2012,minor,Crossref (DOI),10.1007/978-3-642-20441-8_9,"journal: bib 'Electoral Systems: Paradoxes, Assumptions, and Procedures' vs record 'Studies in Choice and Welfare' (minor)"
+Laslier2012loser,minor,Crossref (DOI),10.1007/978-3-642-20441-8_13,"journal: bib 'Electoral Systems: Paradoxes, Assumptions, and Procedures' vs record 'Studies in Choice and Welfare' (minor)"
+Merrill1984,minor,Crossref (DOI),10.2307/2110786,pages: bib '23-48' vs record '23' (minor)
+GreenArmytageTidemanCosman2016,match,Crossref (DOI),10.1007/s00355-015-0909-0,
+Tideman2006,match,Library of Congress https://www.loc.gov/item/2006021134/,,
+MatteiWalsh2013,minor,Crossref (DOI),10.1007/978-3-642-41575-3_20,title: bib 'PrefLib: A Library for Preferences' vs record 'PrefLib: A Library for Preferences http://www.preflib.org' (minor); journal: bib 'Algorithmic Decision Theory (ADT 2013)' vs record 'Lecture Notes in Computer Science' (minor)
+BartholdiToveyTrick1989hard,match,Crossref (DOI),10.1007/BF00303169,
+BartholdiToveyTrick1989manip,match,Crossref (DOI),10.1007/BF00295861,
+FaliszewskiProcaccia2010,match,Crossref (DOI),10.1609/aimag.v31i4.2314,
+BrandtEtAl2016handbook,differs,Crossref (DOI),10.1017/CBO9781107446984,"authors: bib 'brandt, conitzer, endriss, lang, procaccia' vs record 'moulin' (major)"
+Mueller1978,match,Crossref (DOI),10.1016/0047-2727(78)90005-1,
+Moulin1981,minor,Crossref (DOI),10.2307/2297154,pages: bib '407-416' vs record '407' (minor)
+Moulin1982,minor,Crossref (DOI),10.2307/1912535,pages: bib '145-162' vs record '145' (minor)
+Moulin1983,not found,,,
+IanovskiKondratev2021,match,Crossref (DOI),10.1609/aaai.v35i6.16691,
+KondratevIanovski2024,minor,Crossref (DOI),10.65109/hmhq1427,journal: bib 'Proceedings of the 23rd International Conference on Autonomous Agents and Multiagent Systems (AAMAS 2024)' vs record 'International Joint Conference on Autonomous Agents and Multiagent Systems' (minor)
+KondratevNesterov2020,minor,Crossref (DOI),10.1007/s11127-019-00697-1,issue: bib '1–2' vs record '1-2' (minor)
+BramsKilgour2001,match,Crossref (DOI),10.1023/A:1011252808608,
+SertelYilmaz1999,match,Crossref (DOI),10.1007/s003550050164,
+HurwiczSertel1999,minor,Crossref (DOI),10.1007/978-1-349-14540-9_4,"journal: bib 'Contemporary Economic Issues, Volume 4: Economic Behaviour and Design' vs record 'Contemporary Economic Issues' (minor)"
+BarberaCoelho2022,match,Crossref (DOI),10.1111/1756-2171.12401,
+BarberaCoelho2017,match,Crossref (DOI),10.1016/j.geb.2015.10.005,
+LaslierNunezSanver2021,match,Crossref (DOI),10.1016/j.jet.2021.105261,
+CaillouxNapolitanoSanver2022,match,Crossref (DOI),10.1007/s10058-022-00302-w,
+Anbarci1993,match,Crossref (DOI),10.2307/2118502,
+BoutonLlorenteSaguerMalherbe2018,match,Crossref (DOI),10.1086/695477,
+BoutonLlorenteSaguerMalherbe2017,match,Crossref (DOI),10.1016/j.geb.2016.12.001,
+Tsebelis1995,match,Crossref (DOI),10.1017/S0007123400007225,
+Tsebelis2002,differs,Crossref (DOI),10.1515/9781400831456,title: bib 'Veto Players: How Political Institutions Work' vs record 'Veto Players' (major)
+BaronFerejohn1989,match,Crossref (DOI),10.2307/1961664,
+DziudaLoeper2016,match,Crossref (DOI),10.1086/686747,
+Nunnari2021,match,Crossref (DOI),10.1016/j.geb.2020.11.006,
+KagelSungWinter2010,match,Crossref (DOI),10.1007/s10683-010-9234-8,
+MiettinenVanberg2025,match,Crossref (DOI),10.1257/mic.20230208,
+PiazoloVanberg2025,match,Crossref (DOI),10.1016/j.geb.2025.07.010,
+KartikKleinerVanWeelden2021,match,Crossref (DOI),10.1257/aer.20201817,
+AnesiBowen2021,match,Crossref (DOI),10.1257/mic.20190023,
+AnesiDuggan2017,match,Crossref (DOI),10.1016/j.geb.2016.04.010,
+AnesiSeidmann2015,match,Crossref (DOI),10.1093/restud/rdv009,
+BarberaGerber2017,match,Crossref (DOI),10.3982/TE2118,
+Harrington1990,match,Crossref (DOI),10.1007/BF00125914,
+Gersbach2025propose,match,arXiv,,
+GersbachValkanova2024,match,arXiv,,
+Gersbach2024forms,match,Crossref (DOI),10.1007/s00355-023-01505-y,
+GlyniaThumXefteris2026,minor,Crossref (DOI),10.1007/s11127-026-01383-9,issue: bib '3–4' vs record '3-4' (minor)
+BreitmoserValasek2024,match,Crossref (DOI),10.1111/1756-2171.12457,
+AgranovTergiman2019,match,Crossref (DOI),10.1007/s10683-018-9571-6,
+LaingSlotznick1991,match,Crossref (DOI),10.1002/bs.3830360303,
+Krick2017,match,Crossref (DOI),10.3917/neg.027.0109,
+Rohac2008,match,Crossref (DOI),10.1007/s10602-008-9037-5,
+Bognar2015,match,Crossref (DOI),10.1016/j.jet.2014.11.008,
+Resnick2014rfc7282,match,https://www.rfc-editor.org/rfc/rfc7282.txt,10.17487/RFC7282,
+Debian2024constitution,match,https://www.debian.org/devel/constitution,,
+TEU2016art16,match,"EU Publications Office, CELEX 12016M/TXT",,
+Casella2005,match,Crossref (DOI),10.1016/j.geb.2004.09.009,
+BrandtGeistPeters2017,match,Crossref (DOI),10.1016/j.mathsocsci.2016.09.003,

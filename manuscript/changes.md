@@ -7,6 +7,32 @@ Each entry gives:
 
 The newest entry comes first.
 
+## v0.1.1, 22 Oct. 2026: the bibliography checked against the official records
+
+**No result changed.** Every table is unchanged (`python3 tools/results_diff.py` reports none), and so is
+the text.
+
+`tools/check_references.py` compared the 98 entries of `references.bib` with their official records:
+Crossref and doi.org, the Library of Congress catalogue for books without a DOI, the EU Publications Office
+for the Treaty, the authors' institutional repositories for two articles without a DOI, arXiv, and the
+publishers' pages. Kemeny (1959) was read on JSTOR by hand. The details are in
+`../literature/reference-checks/README.md`.
+- **All 98 entries are confirmed by their official record.** No entry is fabricated.
+- **Corrections:**
+  - 16 DOIs added, all resolving;
+  - Library of Congress control numbers added to the 5 books without a DOI (Condorcet, Arrow,
+    Buchanan & Tullock, Regenwetter et al., Tideman);
+  - the EU Treaty cited at its page, OJ C 202, 7.6.2016, p. 24, with its ELI identifier;
+  - Felsenthal & Machover (2008) linked to its LSE record, where the manuscript is free to read;
+  - Balinski & Laraki dated 2011, as in the MIT Press record (2010 before);
+  - issue numbers of Holliday & Pacuit, Glynia et al., Kondratev & Nesterov and Krick aligned on the
+    records;
+  - the second author of Kondratev & Nesterov given in full.
+- **No entry is flagged any more,** down from 28. The last, Kemeny (1959), keeps its pages 577–591: the
+  JSTOR record confirms them, against the 571 that some citing papers give.
+
+The note's PDF of record is in `../versions/v0.1.1_2026-10-22/`.
+
 ## v0.1, 21 Oct. 2026: first version
 
 There is no earlier version to compare against. During development, before the first commit, three

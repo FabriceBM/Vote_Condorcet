@@ -145,6 +145,8 @@ def full_reference(e):
 def link(e):
     if e.get("doi"):
         return "https://doi.org/" + e["doi"].strip()
+    if e.get("lccn") and not e.get("url"):
+        return f"https://www.loc.gov/item/{e['lccn'].strip()}/"
     return e.get("url", "").strip()
 
 
