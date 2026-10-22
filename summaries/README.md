@@ -13,10 +13,12 @@ summaries/
 │                             boxes, title block
 ├── en/                       everything in English
 │   └── executive/            executive summary, 2 pages
+│       ├── executive-summary_en.pdf   the current PDF
 │       ├── main.tex
 │       └── latexmkrc
 └── fr/                       tout en français
     └── executive/            synthèse, 2 pages
+        ├── synthese_fr.pdf            le PDF à jour
         ├── main.tex
         └── latexmkrc
 ```
@@ -58,5 +60,7 @@ project root, and every `main.tex` sets `\input@path` so that its paths work fro
 its own folder. The French documents need the TeX Live French language support (`texlive-lang-french` on
 Debian or Ubuntu; it is included on Overleaf).
 
-Built PDFs are not committed here. The PDFs of record go to `../versions/<version>/`, next to the PDF of
-the note they summarise.
+Each document's folder holds its current PDF, named after the document (`executive-summary_en.pdf`,
+`synthese_fr.pdf`), so readers find it next to its source. After a rebuild, copy `main.pdf` to that name
+and commit it; `main.pdf` itself is not committed. The PDFs of record of each version also go to
+`../versions/<version>/`, next to the PDF of the note they summarise.

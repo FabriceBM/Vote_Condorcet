@@ -8,12 +8,18 @@ A state-of-the-art note, with its code, on how a group should vote when:
 
 and the procedure must reach **the best compromise (R1)** without the group ever **getting stuck (R2)**.
 
-**The PDFs of record** are in [`versions/v0.1_2026-10-21/`](versions/v0.1_2026-10-21/):
-- the note;
-- its two-page executive summary in English;
-- its *synthèse* in French.
-
 Audience: engineers, actuaries and readers with a quantitative background.
+
+## Documents
+
+| Document | File |
+|---|---|
+| **Executive summary**, English, 2 pages | [`summaries/en/executive/executive-summary_en.pdf`](summaries/en/executive/executive-summary_en.pdf) |
+| **Synthèse**, français, 2 pages | [`summaries/fr/executive/synthese_fr.pdf`](summaries/fr/executive/synthese_fr.pdf) |
+| **The note**, 36 pages | [`versions/v0.1_2026-10-21/Vote_Condorcet_SOTA_note_v0.1.pdf`](versions/v0.1_2026-10-21/Vote_Condorcet_SOTA_note_v0.1.pdf) |
+| **Concept map**, Excel: concepts ↔ bibliography, with key ideas | [`literature/concept-map/concept-map.xlsx`](literature/concept-map/concept-map.xlsx) |
+
+The PDFs of record of each version (the note and its summaries) are kept in `versions/`.
 
 ## The answer in one paragraph
 
