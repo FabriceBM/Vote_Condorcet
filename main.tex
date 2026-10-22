@@ -7,7 +7,10 @@
 %% root-relative entries of the wrapper's \graphicspath. Nothing depends on latexmkrc, which Overleaf
 %% may not apply. Same layout as Immo_S2.
 %%
-%% On Overleaf the main document must be this file (Menu > Main document).
+%% On Overleaf the main document must be this file (Menu > Main document). Any other file called main.tex
+%% would compile this one instead: Overleaf writes its output to the project root, where pdfLaTeX looks
+%% first for the main file. That is harmless for journals/working-paper/main.tex, which is this same
+%% note; every other document needs its own name (summaries/<lang>/<kind>/<document>.tex).
 %% Local builds: `latexmk main.tex` from the root, or `cd journals/working-paper && latexmk main.tex`.
 %\def\FinalVersion{}
 \iffalse

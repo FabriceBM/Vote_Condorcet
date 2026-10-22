@@ -1,2 +1,3 @@
 # latexmk configuration for the French executive summary (run in this folder).
 $pdf_mode = 1;
+@default_files = ('synthese_fr.tex');

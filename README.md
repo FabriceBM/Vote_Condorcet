@@ -65,17 +65,19 @@ python3 simulations/python/figures.py
 python3 simulations/python/key_numbers.py           # headline numbers for the summaries
 python3 tools/concept_map.py                        # concept map (literature/concept-map/)
 latexmk main.tex                                    # or: cd journals/working-paper && latexmk main.tex
-(cd summaries/en/executive && latexmk main.tex)     # executive summary, English
-(cd summaries/fr/executive && latexmk main.tex)     # synthèse, French
+(cd summaries/en/executive && latexmk)              # executive summary, English
+(cd summaries/fr/executive && latexmk)              # synthèse, French
 python3 tools/overleaf_zip.py --test                # overleaf.zip, tested as Overleaf compiles it
 ```
 
-**On Overleaf**, upload `overleaf.zip` as a new project, or link the GitHub repository. Overleaf
-compiles from the project root, whatever the main document, so every path works from there. Choose the
-main document in Menu > Main document:
+**On Overleaf**, upload `overleaf.zip` as a new project, or link the GitHub repository. Choose the main
+document in Menu > Settings > Main document, compiler pdfLaTeX:
 - `main.tex` for the note;
-- `summaries/en/executive/main.tex` for the English summary;
-- `summaries/fr/executive/main.tex` for the French synthèse.
+- `summaries/en/executive/executive-summary_en.tex` for the English summary;
+- `summaries/fr/executive/synthese_fr.tex` for the French synthèse.
+
+Only the note is called `main.tex`. Overleaf writes its output to the project root, where pdfLaTeX looks
+first for the main file, so any other document called `main.tex` would compile the note instead.
 
 Every election is drawn from its own seed, so the tables are identical from run to run.
 

@@ -1,14 +1,16 @@
 %% =====================================================================================
 %%  Synthèse (français) de la note « Voting for a consensus with veto rights », v0.1
 %% -------------------------------------------------------------------------------------
-%%  Compilation : cd summaries/fr/executive && latexmk main.tex
+%%  Compilation : cd summaries/fr/executive && latexmk      (écrit synthese_fr.pdf)
 %%  Mise en page : summaries/shared/layout.tex. Chiffres : outputs/tables/key_numbers_fr.tex, écrit par
 %%  simulations/python/key_numbers.py -- ne jamais saisir à la main un chiffre calculé par la note.
-%%  Garder aligné sur summaries/en/executive/main.tex (même structure, mêmes chiffres).
+%%  Garder aligné sur summaries/en/executive/executive-summary_en.tex (même structure, mêmes chiffres).
 %% =====================================================================================
 \documentclass[10pt,a4paper]{article}
-%% Paths that work from this folder (local build) and from the repository root (Overleaf compiles from
-%% the project root whatever the main document): files are looked up under each prefix in turn.
+%% Paths that work whether TeX runs in this folder (local build; Overleaf, which moves to the main
+%% document's folder) or at the repository root: files are looked up under each prefix in turn.
+%% Never name this file main.tex: Overleaf writes its output to the project root, pdfLaTeX looks there
+%% first, and would compile the root main.tex (the note) instead of this file.
 \makeatletter
 \def\input@path{{../../}{../../../}{summaries/}{./}}
 \makeatother

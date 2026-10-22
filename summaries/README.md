@@ -13,13 +13,13 @@ summaries/
 │                             boxes, title block
 ├── en/                       everything in English
 │   └── executive/            executive summary, 2 pages
+│       ├── executive-summary_en.tex   the source
 │       ├── executive-summary_en.pdf   the current PDF
-│       ├── main.tex
 │       └── latexmkrc
 └── fr/                       tout en français
     └── executive/            synthèse, 2 pages
+        ├── synthese_fr.tex            la source
         ├── synthese_fr.pdf            le PDF à jour
-        ├── main.tex
         └── latexmkrc
 ```
 
@@ -32,8 +32,10 @@ Why this order:
   every language that needs it, with the same name (`en/slides/`, `fr/slides/`). To add a language, add a
   folder next to `en/` and `fr/`.
 - **Layout once.** `shared/layout.tex` holds everything that does not depend on the language. Every
-  `main.tex` sits two levels below `summaries/` (`<lang>/<kind>/main.tex`), so it loads the layout with
-  `\input{../../shared/layout}` and the same relative paths to `../outputs/` work for all of them.
+  document sits two levels below `summaries/` (`<lang>/<kind>/<document>.tex`), so it loads the layout
+  through the same relative paths, and the same paths to `../outputs/` work for all of them.
+- **Each source named after its document,** as its PDF: `executive-summary_en.tex` gives
+  `executive-summary_en.pdf`. Never `main.tex`, which on Overleaf would compile the note instead (below).
 
 ## Numbers and figures come from the note's outputs
 
@@ -51,16 +53,18 @@ summaries. The numbers follow automatically; the words may still need editing, i
 ## Build
 
 ```bash
-cd summaries/en/executive && latexmk main.tex
-cd summaries/fr/executive && latexmk main.tex
+cd summaries/en/executive && latexmk      # writes executive-summary_en.pdf
+cd summaries/fr/executive && latexmk      # writes synthese_fr.pdf
 ```
 
-On Overleaf, set `summaries/<lang>/<kind>/main.tex` as the main document. Overleaf compiles from the
-project root, and every `main.tex` sets `\input@path` so that its paths work from the root as well as from
-its own folder. The French documents need the TeX Live French language support (`texlive-lang-french` on
-Debian or Ubuntu; it is included on Overleaf).
+On Overleaf, set the document as the main document (Menu > Settings > Main document), for example
+`summaries/fr/executive/synthese_fr.tex`. Overleaf moves to the document's folder and writes its output
+to the project root. Every document sets `\input@path` so that its paths work from either place. A
+document must not be called `main.tex`: pdfLaTeX looks first in the output folder, the project root, and
+would compile the root `main.tex`, the note, instead. The French documents need the TeX Live French
+language support (`texlive-lang-french` on Debian or Ubuntu; it is included on Overleaf).
 
 Each document's folder holds its current PDF, named after the document (`executive-summary_en.pdf`,
-`synthese_fr.pdf`), so readers find it next to its source. After a rebuild, copy `main.pdf` to that name
-and commit it; `main.pdf` itself is not committed. The PDFs of record of each version also go to
-`../versions/<version>/`, next to the PDF of the note they summarise.
+`synthese_fr.pdf`), so readers find it next to its source. The build writes it there: commit it when the
+summary changes. The PDFs of record of each version also go to `../versions/<version>/`, next to the PDF
+of the note they summarise.
