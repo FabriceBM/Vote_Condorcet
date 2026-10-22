@@ -26,7 +26,7 @@ Has the bibliography of the note (`../../manuscript/references.bib`, 98 entries)
 | Balinski & Laraki (2011) | Crossref stores the title without its subtitle | DOI 10.7551/mitpress/9780262015134.001.0001, MIT Press, 2011 |
 | Tsebelis (2002) | Crossref stores the title without its subtitle | DOI 10.1515/9781400831456, Princeton University Press, 2002 |
 | Brandt et al. (2016), handbook | Crossref lists the author of the foreword (Moulin) rather than the editors | DOI 10.1017/CBO9781107446984; title and year agree |
-| Kemeny (1959) | No Crossref record, and JSTOR refuses automated access; the script's search returns an unrelated book | JSTOR [20026529](https://www.jstor.org/stable/20026529), read in a browser by the author on 22 Oct. 2026: the article starts on page 577 and runs 15 pages, so 577–591, as in the entry. Citing papers had disagreed on the first page: 577 in Fishburn (1977) and Kondratev & Nesterov (2020), 571 in Young & Levenglick (1978), Young (1988) and Bartholdi et al. (1989), which is wrong |
+| Kemeny (1959) | No Crossref record, and JSTOR refuses automated access; the script's search returns an unrelated book | JSTOR [20026529](https://www.jstor.org/stable/20026529), read in a browser by the author on 22 Oct. 2026: "Mathematics without Numbers" starts on page 577 and runs 15 pages, so 577–591; title and pages as in the entry. Citing papers had disagreed on the first page: 577 in Fishburn (1977) and Kondratev & Nesterov (2020), 571 in Young & Levenglick (1978), Young (1988) and Bartholdi et al. (1989), which is wrong |
 
 ## Corrections made after the second check
 
