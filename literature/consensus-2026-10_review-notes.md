@@ -77,7 +77,7 @@ experimental work.
 
 ## Problems found in its reference list
 
-These were checked on 21 Oct. 2026 (`reference-checks_2026-10-21.md`).
+These were checked on 21 Oct. 2026 (`reference-checks/2026-10-21_web-search.md`).
 
 | Problem | Correction |
 |---|---|

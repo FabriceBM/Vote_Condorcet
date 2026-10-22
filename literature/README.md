@@ -7,7 +7,8 @@ The sources of the note, grouped by theme, with how each is used.
   `literature/private/`, which git ignores.
 - **Full references.** Every citation key below is in
   [`../manuscript/references.bib`](../manuscript/references.bib).
-- **How they were checked.** The log is [`reference-checks_2026-10-21.md`](reference-checks_2026-10-21.md).
+- **How they were checked.** First by web search (21 Oct. 2026), then against the official records: Crossref, doi.org,
+  arXiv and the publishers' pages (22 Oct. 2026). See [`reference-checks/README.md`](reference-checks/README.md).
 
 ## Starting point
 
@@ -15,7 +16,7 @@ The sources of the note, grouped by theme, with how each is used.
 |---|---|
 | `consensus-2026-10_review-notes.md` | The uploaded Consensus review "State of Optimal Voting With Veto Rights" (Oct. 2026): its conclusions, how the note uses them, what we added, and the errors in its references |
 | `concept-map/concept-map.xlsx` | Spreadsheet linking every concept of the note to the bibliography and back, with the key ideas of each entry. Built by `../tools/concept_map.py` from `concept-map/concepts.csv` and `concept-map/references.csv`; see [`concept-map/README.md`](concept-map/README.md) |
-| `reference-checks_2026-10-21.md` | Verification log of all 98 entries (publisher pages, RePEc, repositories), and answers to content questions: the definitions of the proportional veto core, Debian's counting rules, RFC 7282, TEU art. 16(4), Split Cycle's properties, … |
+| `reference-checks/` | Two checks of all 98 entries: by web search (21 Oct. 2026; it also answers content questions on the proportional veto core, Debian's counting rules, RFC 7282, TEU art. 16(4), Split Cycle and others), then against the official records (22 Oct. 2026, `../tools/check_references.py`). [`README.md`](reference-checks/README.md) gives the result: no entry is fabricated; 3 entries keep a flagged field |
 
 ## By theme (key: use in the note)
 

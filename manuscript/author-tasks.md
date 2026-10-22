@@ -17,10 +17,10 @@ draft v0.1 to a version that can be circulated. Tick tasks off in the pull reque
 
 | | Task | How |
 |---|---|---|
-| [ ] | Confirm the ~30 fields still marked `verify` in `references.bib`: mostly DOIs, plus Guilbaud's page range and the TEU page numbers | `grep -n verify manuscript/references.bib`; the sources are in `../literature/reference-checks_2026-10-21.md` |
+| [ ] | Confirm the 3 fields still marked `verify` in `references.bib`: Kemeny (1959) first page, Regenwetter et al. (2006) DOI, TEU page numbers. The other 95 entries were checked against the official records on 22 Oct. 2026 (`../literature/reference-checks/README.md`) | `grep -n verify manuscript/references.bib`; details in `../literature/reference-checks/` |
 | [ ] | Read the key papers in full; the reference checks used publisher pages and abstracts | Bouton et al. (2018), Moulin (1981, 1982), Ianovski & Kondratev (2021), Kondratev & Ianovski (2024), Kondratev & Nesterov (2020), Greenberg (1979), Holliday & Pacuit (2023) |
-| [ ] | Check the characterisation of Majority Judgment as monotonic, and the Monotonic column of Table 3 for fallback bargaining and the majoritarian compromise | Balinski & Laraki (2010), Felsenthal (2012) |
-| [ ] | Check that Debian's 3:1 ratio for constitutional amendments is unchanged in constitution v1.9 | debian.org/devel/constitution |
+| [ ] | Check the characterisation of Majority Judgment as monotonic, and the Monotonic column of Table 3 for fallback bargaining and the majoritarian compromise | Balinski & Laraki (2011), Felsenthal (2012) |
+| [x] | Check that Debian's 3:1 ratio for constitutional amendments is unchanged in constitution v1.9 | Confirmed on debian.org, 22 Oct. 2026: "Amend this constitution, provided they agree with a 3:1 majority"; default option "None of the above"; quorum 3Q |
 | [ ] | Proofread the propositions and proofs (Appendix A), in particular Proposition 2(ii) and Lemma 9 | |
 
 ## 3. Extensions, by value

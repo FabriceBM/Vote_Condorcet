@@ -50,7 +50,8 @@ and numbers. So the note has three layers:
    - stability and quotas (Nakamura, Greenberg, Caplin–Nalebuff);
    - institutional practice (IETF, Debian, the EU Council, the liberum veto).
 
-   Two background agents checked the references on 21 Oct. 2026: `../literature/reference-checks_2026-10-21.md`.
+   The references were checked by web search on 21 Oct. 2026, then against the official records on 22 Oct. 2026:
+   `../literature/reference-checks/README.md`.
 2. **Formal results** (§3, §5, §6, Appendix A). Eight propositions. Five are new or restated with proofs for
    this setting:
    - deadlock under unanimity;

@@ -7,6 +7,26 @@ Each entry gives:
 
 The newest entry comes first.
 
+## v0.1.1, 22 Oct. 2026: the bibliography checked against the official records
+
+**No result changed.** Every table is unchanged (`python3 tools/results_diff.py` reports none), and so is
+the text.
+
+`tools/check_references.py` compared the 98 entries of `references.bib` with their records in Crossref,
+doi.org, arXiv and on the publishers' pages; the details are in `../literature/reference-checks/README.md`.
+- **No entry is fabricated.** 66 match exactly, 19 differ only in formatting, and the 13 left were verified
+  by other means (reissues, reviews, chapter records, citing papers).
+- **Corrections:**
+  - 16 DOIs added, all resolving;
+  - Balinski & Laraki dated 2011, as in the MIT Press record (2010 before);
+  - Kemeny (1959), pages 571–591 (577–591 before), from the three earliest citing papers;
+  - issue numbers of Holliday & Pacuit, Glynia et al., Kondratev & Nesterov and Krick aligned on the
+    records;
+  - the second author of Kondratev & Nesterov given in full.
+- **Still flagged:** 3 entries, down from 28.
+
+The note's PDF of record is in `../versions/v0.1.1_2026-10-22/`.
+
 ## v0.1, 21 Oct. 2026: first version
 
 There is no earlier version to compare against. During development, before the first commit, three
