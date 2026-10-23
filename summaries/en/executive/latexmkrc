@@ -1,2 +1,3 @@
 # latexmk configuration for the English executive summary (run in this folder).
 $pdf_mode = 1;
+@default_files = ('executive-summary_en.tex');
