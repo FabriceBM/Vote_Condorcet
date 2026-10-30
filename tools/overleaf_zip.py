@@ -5,6 +5,7 @@ The zip holds what the three LaTeX documents need, and nothing else:
     manuscript/  (.tex, .bib, figures/)       its content
     outputs/tables/*.tex, outputs/figures/*.pdf
     summaries/   (.tex, latexmkrc)            the executive summaries, English and French
+    presentations/  (.tex, latexmkrc)         the talks (Beamer)
     OVERLEAF.md                               which file to set as main document for each
 Only files tracked by git are included, so nothing local or generated on the side slips in.
 
@@ -32,17 +33,20 @@ import zipfile
 OUT = "overleaf.zip"
 INCLUDE = ["main.tex", "latexmkrc", "journals/*", "manuscript/*.tex", "manuscript/*/*.tex", "manuscript/*.bib",
            "manuscript/figures/*", "outputs/tables/*.tex", "outputs/figures/*.pdf", "summaries/*.tex",
-           "summaries/*/*.tex", "summaries/*/*/*.tex", "summaries/*/*/latexmkrc"]
-DOCUMENTS = ["main.tex", "summaries/en/executive/executive-summary_en.tex", "summaries/fr/executive/synthese_fr.tex"]
+           "summaries/*/*.tex", "summaries/*/*/*.tex", "summaries/*/*/latexmkrc",
+           "presentations/*/*.tex", "presentations/*/latexmkrc"]
+DOCUMENTS = ["main.tex", "summaries/en/executive/executive-summary_en.tex", "summaries/fr/executive/synthese_fr.tex",
+             "presentations/Research-seminar/Research-seminar_VotingWithVetoes.tex"]
 README = """# Overleaf project: Vote_Condorcet
 
-Three documents. Choose the main document in Menu > Settings > Main document, compiler pdfLaTeX:
+Choose the main document in Menu > Settings > Main document, compiler pdfLaTeX:
 
 | Main document | Output |
 |---|---|
 | `main.tex` | The note, "Voting for a consensus with veto rights" (about 36 pages) |
 | `summaries/en/executive/executive-summary_en.tex` | Executive summary, English (2 pages) |
 | `summaries/fr/executive/synthese_fr.tex` | Synthèse, français (2 pages) |
+| `presentations/Research-seminar/Research-seminar_VotingWithVetoes.tex` | Research seminar slides, English (Beamer) |
 
 Only the note is called `main.tex`: Overleaf writes its output to the project root, where pdfLaTeX looks
 first for the main file, so any other document called `main.tex` would compile the note. Tables and figures in
@@ -85,7 +89,7 @@ def test():
     if not shutil.which("latexmk"):
         print("  latexmk not found")
         return False
-    ok = True
+    ok, width = True, max(len(doc) for doc in DOCUMENTS)
     for keep_rc in (True, False):
         print(f"  {'with' if keep_rc else 'without'} the root latexmkrc")
         for doc in DOCUMENTS:
@@ -98,6 +102,10 @@ def test():
                 cmd = ["latexmk", "-cd", "-jobname=output", f"-auxdir={d}", f"-outdir={d}", "-synctex=1",
                        "-interaction=batchmode", "-f", "-pdf", os.path.join(d, doc)]
                 code = subprocess.run(cmd, cwd=d, capture_output=True, text=True).returncode
+                if not os.path.exists(os.path.join(d, "output.log")):        # e.g. the file is not tracked by git
+                    ok = False
+                    print(f"    {doc:<{width}} FAILED: nothing compiled (is it in the zip?)")
+                    continue
                 log = open(os.path.join(d, "output.log"), encoding="latin-1").read()
                 compiled = main_file_compiled(os.path.join(d, "output.fls"))
                 problems = [p for p, bad in (
@@ -107,7 +115,7 @@ def test():
                     ("undefined references", "undefined" in log),
                     ("file not found", "not found" in log)) if bad]
                 ok &= not problems
-                print(f"    {doc:<48} {'ok' if not problems else 'FAILED: ' + '; '.join(problems)}")
+                print(f"    {doc:<{width}} {'ok' if not problems else 'FAILED: ' + '; '.join(problems)}")
     return ok
 
 

@@ -1,11 +1,11 @@
-"""Headline numbers of the note, as LaTeX macros, for the summaries (summaries/<lang>/<kind>/).
+"""Headline numbers of the note, as LaTeX macros, for the summaries (summaries/) and the talks (presentations/).
 
 Reads the tables written by experiments.py (outputs/tables/*.csv) and writes, for each language, the same
 macro names with the number formatted for that language (5.9 in English, 5,9 in French):
     outputs/tables/key_numbers_en.tex, outputs/tables/key_numbers_fr.tex
 and outputs/tables/key_numbers.csv (name, value, source table, row, column), so that every number quoted in
-a summary can be traced to its table. A summary never types a number: it uses a macro, and rerunning this
-script after experiments.py keeps it in line with the note.
+a summary or a talk can be traced to its table. Neither types a number: they use a macro, and rerunning
+this script after experiments.py keeps them in line with the note.
 
 Run from the repository root, after experiments.py:
     python3 simulations/python/key_numbers.py
@@ -47,7 +47,26 @@ NUMBERS = {
     "manipQVCquarterSpatial":   ("manipulability", "QVC, 25%", "Spatial: 10% (%)", 0),
     "manipQVCquarterPolarised": ("manipulability", "QVC, 25%", "Polarised: 10% (%)", 0),
     "cwPolarisedTwelve":   ("cw_probability", "Polarised (55/45)", "m = 12", 0),   # the lower of the two
+    "deadlockUnanimityThree": ("deadlock_n", "3", "Unanimity: deadlock (%)", 0),
+    "clonesSchulze":       ("clones", "Schulze", "Polarised: loser (%)", 0),
+    "clonesQVC":           ("clones", "QVC, 33%", "Polarised: loser (%)", 0),
+    "manipIRVSpatial":     ("manipulability", "IRV", "Spatial: 10% (%)", 0),
+    "manipIRVPolarised":   ("manipulability", "IRV", "Polarised: 10% (%)", 0),
+    "manipApprovalSpatial":   ("manipulability", "Approval", "Spatial: 10% (%)", 0),
+    "manipApprovalPolarised": ("manipulability", "Approval", "Polarised: 10% (%)", 0),
 }
+
+# The results table of the talks: polarised electorate, selected rules (macro suffix: row label) and
+# measures (macro infix: column header, decimals). \KNpolUtilSchulze is the utility efficiency of Schulze.
+TALK_ROWS = {"Plurality": "Plurality", "Borda": "Borda", "Approval": "Approval", "Fallback": "Fallback",
+             "Unanimity": "Unanimity", "Schulze": "Schulze", "PVC": "PVC + Schulze",
+             "QVCquarter": "QVC, 25%", "QVCthird": "QVC, 33%"}
+TALK_COLUMNS = {"Cond": ("Condorcet eff. (%)", 1), "Util": ("Utility eff. (%)", 1),
+                "Worst": ("Worst-off eff. (%)", 1), "Contest": ("Contested (%)", 1),
+                "Dead": ("Deadlock (%)", 1)}
+for _suffix, _row in TALK_ROWS.items():
+    for _infix, (_column, _decimals) in TALK_COLUMNS.items():
+        NUMBERS[f"pol{_infix}{_suffix}"] = ("perf_polarised", _row, _column, _decimals)
 
 
 def read(name):
