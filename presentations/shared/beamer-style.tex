@@ -1,0 +1,50 @@
+%% ------------------------------------------------------------------------------------------------
+%%  Look shared by the talks of the project (presentations/<talk>/<file>.tex), loaded right after
+%%  \documentclass{beamer}. Metropolis theme, in the colours of the figures and the summaries.
+%%  Numbers come from outputs/tables/key_numbers_<lang>.tex, figures from outputs/figures/: a talk never
+%%  types a number that the note computes. Every talk sits two levels below the repository root; the
+%%  paths below work from its folder and from the root (Overleaf).
+%% ------------------------------------------------------------------------------------------------
+\usetheme[progressbar=frametitle, numbering=fraction, block=fill, sectionpage=progressbar]{metropolis}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,array}
+\usepackage{graphicx}
+\graphicspath{{../../outputs/figures/}{outputs/figures/}}
+
+\definecolor{accent}{HTML}{2A78D6}          % slot 1 of the figures' palette, as in the summaries
+\definecolor{accentlight}{HTML}{EAF2FC}
+\definecolor{ink}{HTML}{0B0B0B}
+\definecolor{muted}{HTML}{52514E}
+\setbeamercolor{normal text}{fg=ink, bg=white}
+\setbeamercolor{alerted text}{fg=accent}
+\setbeamercolor{frametitle}{fg=white, bg=ink}
+\setbeamercolor{progress bar}{fg=accent, bg=accentlight}
+\setbeamercolor{title separator}{fg=accent}
+\setbeamercolor{block title}{fg=ink, bg=accentlight}
+\setbeamercolor{block body}{fg=ink, bg=accentlight!40}
+\setbeamercolor{block title alerted}{fg=white, bg=accent}
+\setbeamercolor{block body alerted}{fg=ink, bg=accentlight}
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+
+%% ---- Notation of the note (manuscript/preamble/macros.tex) --------------------------------------
+\newcommand{\sq}{s}
+\newcommand{\pref}{\succ}
+\newcommand{\Maj}{\operatorname{N}}
+\newcommand{\veto}{v}
+\newcommand{\Adm}{A_\theta}
+\newcommand{\QVC}{\textup{QVC}}
+\newcommand{\PVC}{\textup{PVC}}
+\newcommand{\conv}{\operatorname{conv}}
+
+%% ---- Slide helpers --------------------------------------------------------------------------------
+\newcommand{\src}[1]{{\scriptsize\color{muted}#1}}       % sources of a claim, as author (year)
+\newcommand{\yes}{\checkmark}
+\newcommand{\no}{$\times$}
+%% Generated tables (outputs/tables/*.tex) end with notes written for the note; a talk omits them.
+\newsavebox{\tabbox}
+\newcommand{\tabnotes}[2]{}
+%% \fittables inside a frame: generated tables wider than the slide are scaled down to its width.
+\newcommand{\fittables}{\renewcommand{\usebox}[1]{%
+  \ifdim\wd##1>\linewidth\resizebox{\linewidth}{!}{\box##1}\else\box##1\fi}}

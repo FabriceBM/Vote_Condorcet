@@ -25,11 +25,11 @@ summaries/
 
 Why this order:
 - **Language first.** The project may have several documents in each language (executive summary,
-  slides, FAQ, a note for a committee). A reader, or a translator, finds everything in their language
+  FAQ, a note for a committee). Talks are kept apart, by date, in `../presentations/`. A reader, or a translator, finds everything in their language
   under one folder, and each language can grow at its own pace.
 - **The same kinds under each language.** `en/executive/` and `fr/executive/` hold the same document,
   section by section, so the two can be checked side by side. To add a kind of document, create it under
-  every language that needs it, with the same name (`en/slides/`, `fr/slides/`). To add a language, add a
+  every language that needs it, with the same name (`en/faq/`, `fr/faq/`). To add a language, add a
   folder next to `en/` and `fr/`.
 - **Layout once.** `shared/layout.tex` holds everything that does not depend on the language. Every
   document sits two levels below `summaries/` (`<lang>/<kind>/<document>.tex`), so it loads the layout

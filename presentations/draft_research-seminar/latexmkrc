@@ -1,0 +1,3 @@
+# latexmk configuration for this talk (run in this folder).
+$pdf_mode = 1;
+@default_files = ('draft_Seminar_VotingWithVetoes.tex');

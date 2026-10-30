@@ -18,6 +18,7 @@ Audience: engineers, actuaries and readers with a quantitative background.
 | **Synthèse**, français, 2 pages | [`summaries/fr/executive/synthese_fr.pdf`](summaries/fr/executive/synthese_fr.pdf) |
 | **The note**, 36 pages | [`versions/v0.1.1_2026-10-22/Vote_Condorcet_SOTA_note_v0.1.1.pdf`](versions/v0.1.1_2026-10-22/Vote_Condorcet_SOTA_note_v0.1.1.pdf) |
 | **Concept map**, Excel: concepts ↔ bibliography, with key ideas | [`literature/concept-map/concept-map.xlsx`](literature/concept-map/concept-map.xlsx) |
+| **Slides**, research seminar, Beamer (draft) | [`presentations/draft_research-seminar/draft_Seminar_VotingWithVetoes.pdf`](presentations/draft_research-seminar/draft_Seminar_VotingWithVetoes.pdf); every talk is listed in [`presentations/README.md`](presentations/README.md) |
 
 The PDFs of record of each version (the note and its summaries) are kept in `versions/`.
 
@@ -44,6 +45,7 @@ vetoes, a quota of at least one quarter, and at most one revision round.
 |---|---|
 | `manuscript/` | The note's content, journal-agnostic: sections, preamble, bibliography, notes. Start with [`manuscript/README.md`](manuscript/README.md) |
 | `summaries/` | Short documents derived from the note, by language then kind: `summaries/en/executive/`, `summaries/fr/executive/`. See [`summaries/README.md`](summaries/README.md) |
+| `presentations/` | The talks, one folder per talk (`<YYYY-MM>_<event>/`, as in Immo_S2), with an index of every talk given. See [`presentations/README.md`](presentations/README.md) |
 | `journals/working-paper/` | The LaTeX wrapper (layout only) |
 | `main.tex`, `latexmkrc` | Overleaf entry point at the root. Every path also works without `latexmkrc`, which Overleaf may ignore |
 | `simulations/python/` | Voting rules, random electorates, Monte Carlo study, figures, with `--check` options |
@@ -67,6 +69,7 @@ python3 tools/concept_map.py                        # concept map (literature/co
 latexmk main.tex                                    # or: cd journals/working-paper && latexmk main.tex
 (cd summaries/en/executive && latexmk)              # executive summary, English
 (cd summaries/fr/executive && latexmk)              # synthèse, French
+(cd presentations/draft_research-seminar && latexmk) # seminar slides (Beamer)
 python3 tools/overleaf_zip.py --test                # overleaf.zip, tested as Overleaf compiles it
 ```
 
@@ -74,7 +77,8 @@ python3 tools/overleaf_zip.py --test                # overleaf.zip, tested as Ov
 document in Menu > Settings > Main document, compiler pdfLaTeX:
 - `main.tex` for the note;
 - `summaries/en/executive/executive-summary_en.tex` for the English summary;
-- `summaries/fr/executive/synthese_fr.tex` for the French synthèse.
+- `summaries/fr/executive/synthese_fr.tex` for the French synthèse;
+- `presentations/<talk>/<file>.tex` for the slides of a talk.
 
 Only the note is called `main.tex`. Overleaf writes its output to the project root, where pdfLaTeX looks
 first for the main file, so any other document called `main.tex` would compile the note instead.
