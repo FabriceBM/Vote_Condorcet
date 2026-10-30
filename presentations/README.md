@@ -7,7 +7,7 @@ in `../manuscript/` stays the single source: a talk adds no result of its own.
 
 | Talk | Date | Event and audience | Length | Language | Note version | Slides | Status |
 |---|---|---|---|---|---|---|---|
-| [`draft_research-seminar/`](draft_research-seminar/) | to be set | Research seminar | about 40 min, 25 slides and 5 backup | English | v0.1.1 | [PDF](draft_research-seminar/draft_Seminar_VotingWithVetoes.pdf) | draft |
+| [`Research-seminar/`](Research-seminar/) | to be set | Research seminar | about 40 min, 25 slides and 5 backup | English | v0.1.1 | [PDF](Research-seminar/Research-seminar_VotingWithVetoes.pdf) | in preparation |
 
 Add a row for each new talk; keep the rows of past talks.
 
@@ -19,17 +19,17 @@ presentations/
 ├── shared/
 │   └── beamer-style.tex               the look shared by every talk (Metropolis, in the colours of the
 │                                      figures and the summaries) and the note's notation
-└── <YYYY-MM>_<event>/                 one folder per talk
-    ├── <YYMMDD>_<EVENT>_<Title>.tex   the slides (Beamer); never main.tex
-    ├── <YYMMDD>_<EVENT>_<Title>.pdf   the PDF as presented
+└── <Event>/                          one folder per talk, e.g. Research-seminar/
+    ├── <Event>_<Title>.tex            the slides (Beamer); never main.tex
+    ├── <Event>_<Title>.pdf            the PDF as presented
     ├── latexmkrc                      names the .tex, so that `latexmk` alone builds it
     └── notes.md                       after the talk: questions asked, feedback, what to change (optional)
 ```
 
-- **Names.** As in Immo_S2: the folder is `<YYYY-MM>_<event>` (`2026-12_research-seminar`), the file
-  `<YYMMDD>_<EVENT>_<Title>` (`261205_SEMINAR_VotingWithVetoes`), with `_fr` before the extension for a talk in
-  French. Until its date is set, a talk lives in `draft_<event>/`, with `draft` in place of the date: rename
-  the folder, the file and the line of `latexmkrc` with `git mv` once the date is known.
+- **Names.** The folder is named after the event (`Research-seminar/`), the slides after the event and the
+  title (`Research-seminar_VotingWithVetoes.tex`), with `_fr` before the extension for a talk in French.
+  The date goes in the table above. Two talks at events of the same name are told apart by the month, as
+  in Immo_S2 (`2027-03_Research-seminar/`).
 - **A new talk** starts as a copy of the latest talk's folder, renamed. The slides of different talks
   diverge freely; what they share (look, notation) is in `shared/`.
 - **Numbers and figures** come from the note's outputs, never typed: the macros of
@@ -42,7 +42,7 @@ presentations/
 ## Build
 
 ```bash
-cd presentations/draft_research-seminar && latexmk     # writes the PDF next to the source
+cd presentations/Research-seminar && latexmk     # writes the PDF next to the source
 ```
 
 On Overleaf, set the slides' `.tex` file as the main document (Menu > Settings > Main document). Overleaf

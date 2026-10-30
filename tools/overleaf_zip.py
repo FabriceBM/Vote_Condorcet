@@ -36,7 +36,7 @@ INCLUDE = ["main.tex", "latexmkrc", "journals/*", "manuscript/*.tex", "manuscrip
            "summaries/*/*.tex", "summaries/*/*/*.tex", "summaries/*/*/latexmkrc",
            "presentations/*/*.tex", "presentations/*/latexmkrc"]
 DOCUMENTS = ["main.tex", "summaries/en/executive/executive-summary_en.tex", "summaries/fr/executive/synthese_fr.tex",
-             "presentations/draft_research-seminar/draft_Seminar_VotingWithVetoes.tex"]
+             "presentations/Research-seminar/Research-seminar_VotingWithVetoes.tex"]
 README = """# Overleaf project: Vote_Condorcet
 
 Choose the main document in Menu > Settings > Main document, compiler pdfLaTeX:
@@ -46,7 +46,7 @@ Choose the main document in Menu > Settings > Main document, compiler pdfLaTeX:
 | `main.tex` | The note, "Voting for a consensus with veto rights" (about 36 pages) |
 | `summaries/en/executive/executive-summary_en.tex` | Executive summary, English (2 pages) |
 | `summaries/fr/executive/synthese_fr.tex` | Synthèse, français (2 pages) |
-| `presentations/draft_research-seminar/draft_Seminar_VotingWithVetoes.tex` | Research seminar slides, English (Beamer) |
+| `presentations/Research-seminar/Research-seminar_VotingWithVetoes.tex` | Research seminar slides, English (Beamer) |
 
 Only the note is called `main.tex`: Overleaf writes its output to the project root, where pdfLaTeX looks
 first for the main file, so any other document called `main.tex` would compile the note. Tables and figures in

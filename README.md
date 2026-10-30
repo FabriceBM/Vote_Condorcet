@@ -18,7 +18,7 @@ Audience: engineers, actuaries and readers with a quantitative background.
 | **Synthèse**, français, 2 pages | [`summaries/fr/executive/synthese_fr.pdf`](summaries/fr/executive/synthese_fr.pdf) |
 | **The note**, 36 pages | [`versions/v0.1.1_2026-10-22/Vote_Condorcet_SOTA_note_v0.1.1.pdf`](versions/v0.1.1_2026-10-22/Vote_Condorcet_SOTA_note_v0.1.1.pdf) |
 | **Concept map**, Excel: concepts ↔ bibliography, with key ideas | [`literature/concept-map/concept-map.xlsx`](literature/concept-map/concept-map.xlsx) |
-| **Slides**, research seminar, Beamer (draft) | [`presentations/draft_research-seminar/draft_Seminar_VotingWithVetoes.pdf`](presentations/draft_research-seminar/draft_Seminar_VotingWithVetoes.pdf); every talk is listed in [`presentations/README.md`](presentations/README.md) |
+| **Slides**, research seminar, Beamer | [`presentations/Research-seminar/Research-seminar_VotingWithVetoes.pdf`](presentations/Research-seminar/Research-seminar_VotingWithVetoes.pdf); every talk is listed in [`presentations/README.md`](presentations/README.md) |
 
 The PDFs of record of each version (the note and its summaries) are kept in `versions/`.
 
@@ -69,7 +69,7 @@ python3 tools/concept_map.py                        # concept map (literature/co
 latexmk main.tex                                    # or: cd journals/working-paper && latexmk main.tex
 (cd summaries/en/executive && latexmk)              # executive summary, English
 (cd summaries/fr/executive && latexmk)              # synthèse, French
-(cd presentations/draft_research-seminar && latexmk) # seminar slides (Beamer)
+(cd presentations/Research-seminar && latexmk)      # seminar slides (Beamer)
 python3 tools/overleaf_zip.py --test                # overleaf.zip, tested as Overleaf compiles it
 ```
 
