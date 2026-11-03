@@ -7,7 +7,7 @@ draft v0.1 to a version that can be circulated. Tick tasks off in the pull reque
 
 | | Task | Where |
 |---|---|---|
-| [ ] | Title, author line, affiliation, acknowledgements. `metadata.tex` currently says "Draft for discussion" | `metadata.tex` |
+| [ ] | Title, author line, acknowledgements. The affiliation is set (ACPR – DEAR; Laboratoire SAF, Université Claude Bernard Lyon 1); the date line still says "Draft for discussion" | `metadata.tex` |
 | [ ] | Confirm θ = 1/3 as the default, or choose 1/4 for a more consensual setting | §6.5, `research-agenda.md` §3 |
 | [ ] | Decide whether the status quo is protected (a Debian-style ratio) for the intended use case | §6.5 |
 | [ ] | Decide on the revision round (on or off; its length) | §6.6 |
