@@ -82,6 +82,11 @@ The scripts are in `../simulations/python/`. Run them from the repository root.
 - **(d) `key_numbers.py`**: writes the headline numbers as LaTeX macros, `key_numbers_en.tex` and
   `key_numbers_fr.tex`, for the executive summaries in `../summaries/`.
 
+The notebook `../simulations/notebooks/simulation_walkthrough.ipynb` runs the same modules step by step:
+Example E1 by hand, the four worked examples, flooding, one simulated election drawn, then Tables 5, 10 and 11
+recomputed from the same seeds (it checks that they equal the note's), and the checks of the code. It
+imports the scripts rather than copying them, and runs in under a minute.
+
 Each script writes:
 - its tables to `../outputs/tables/`, as `.csv` and `.tex`, label `tab:<name>`;
 - its figures to `../outputs/figures/`, as `<name>.pdf`, label `fig:<name without fig_>`.

@@ -14,10 +14,10 @@ ideal point, so that active blocs propose more and near-duplicates (clones) aris
     spatial1d    as spatial on a line: preferences are single-peaked, a Condorcet winner always exists (odd n).
 
 Vetoes: voter i finds option x acceptable if its utility is at least a personal threshold, fixed before the
-proposals are known (a tolerance, not a share of the menu): distance <= rho_i with rho_i ~ U(1.25, 2.25)
-in the spatial cultures (U(0.6, 1.1) on the line), utility >= tau_i with tau_i ~ U(0.2, 0.6) in the impartial
-culture. A voter therefore vetoes about half of the options on average, and never an option ranked above
-one they accept. Grades for Majority Judgment: 0 for a vetoed option; acceptable options graded 1-5 by
+proposals are known (a tolerance, not a share of the menu): distance <= rho_i with rho_i ~ U(1.5, 2.5)
+in the spatial cultures (U(0.75, 1.25) on the line), utility >= tau_i with tau_i ~ U(0.2, 0.5) in the impartial
+culture. A voter therefore vetoes 35-40% of the options on average (Appendix C of the note), and never an
+option ranked above one they accept. Grades for Majority Judgment: 0 for a vetoed option; acceptable options graded 1-5 by
 their utility relative to the threshold (an absolute scale, as Majority Judgment asks).
 """
 import numpy as np
