@@ -2,9 +2,10 @@
 %%  Research seminar: "Voting for a consensus with veto rights" (the note, v0.1.1)
 %% -------------------------------------------------------------------------------------
 %%  Build:   cd presentations/Research-seminar && latexmk    (writes the PDF next to this file)
-%%  Look:    presentations/shared/beamer-style.tex.  Numbers: outputs/tables/key_numbers_en.tex and the
+%%  Look:    presentations/shared/beamer-style.tex (Madrid, as in the author's courses).  Numbers:
+%%           outputs/tables/key_numbers_en.tex and the
 %%           generated tables -- never type a number that the note computes.
-%%  About 40 minutes: 25 slides, then backup slides after \appendix.
+%%  About 40 minutes: 25 slides and a closing slide, then backup slides after \appendix.
 %%  Never name this file main.tex (on Overleaf the root main.tex would compile instead).
 %% =====================================================================================
 \documentclass[10pt,aspectratio=169]{beamer}
@@ -16,21 +17,18 @@
 \input{presentations/shared/beamer-style}
 \input{outputs/tables/key_numbers_en}
 
-\title{Voting for a consensus with veto rights}
+\title[Voting with veto rights]{Voting for a consensus with veto rights}
 \subtitle{Open proposals, full ballots and a blocking quota}
-\author{Fabrice Borel-Mathurin}
-\institute{Research seminar}
-\date{October 2026}
+\author[F. Borel-Mathurin]{Fabrice BOREL-MATHURIN}
+\institute[ACPR/DEAR/SAF]{ACPR -- DEAR\\ and\\ Laboratoire SAF, Université Claude Bernard Lyon 1}
+\date[Nov.\ 2026]{Research seminar, November 2026}
 
 \begin{document}
 
-\maketitle
+\frame{\titlepage}
 
 \begin{frame}{Outline}
-  \begin{columns}[T]
-    \begin{column}{0.48\textwidth}\tableofcontents[sections={1-4}]\end{column}
-    \begin{column}{0.48\textwidth}\tableofcontents[sections={5-7}]\end{column}
-  \end{columns}
+  \tableofcontents
 \end{frame}
 
 %% =============================================================================================
@@ -524,6 +522,11 @@
   \begin{center}
     \small Note, code and data: \texttt{github.com/FabriceBM/Vote\_Condorcet}
   \end{center}
+\end{frame}
+
+\begin{frame}
+  \centering\Large
+  \textbf{Thank you for your attention}
 \end{frame}
 
 %% =============================================================================================

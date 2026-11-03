@@ -12,10 +12,12 @@ summaries/
 │   └── layout.tex            layout common to every language and every kind: page, fonts, colours,
 │                             boxes, title block
 ├── en/                       everything in English
-│   └── executive/            executive summary, 2 pages
-│       ├── executive-summary_en.tex   the source
-│       ├── executive-summary_en.pdf   the current PDF
-│       └── latexmkrc
+│   ├── executive/            executive summary, 2 pages
+│   │   ├── executive-summary_en.tex   the source
+│   │   ├── executive-summary_en.pdf   the current PDF
+│   │   └── latexmkrc
+│   └── explainer/            web page on the ideas of the note, with linked diagrams
+│       └── voting-with-veto-rights.html   written by ../tools/explainer_page.py
 └── fr/                       tout en français
     └── executive/            synthèse, 2 pages
         ├── synthese_fr.tex            la source
@@ -36,6 +38,23 @@ Why this order:
   through the same relative paths, and the same paths to `../outputs/` work for all of them.
 - **Each source named after its document,** as its PDF: `executive-summary_en.tex` gives
   `executive-summary_en.pdf`. Never `main.tex`, which on Overleaf would compile the note instead (below).
+
+## The explainer (web page)
+
+`en/explainer/voting-with-veto-rights.html` presents the ideas of the note for a reader with a browser:
+- the argument as a map: question, theory and evidence, principles, procedure, guarantees, price and
+  safeguards, linked so that hovering a box shows what it rests on and what follows from it;
+- the procedure QVC(θ) step by step, with the propositions attached to the steps they concern;
+- Example E1 through the count;
+- three pictures:
+  - the status quo inside the voters' convex hull (Proposition 2, interactive);
+  - flooding under proportional veto and under the blocking quota (Propositions 3 and 7);
+  - the trade-off in the quota θ.
+
+It is one self-contained file. GitHub shows its source only: download it and open it in a browser.
+`../tools/explainer_page.py` writes it, reading its numbers from `../outputs/tables/` like the other
+summaries, so rerun it after the simulation changes. With `--fragment OUT` the script writes the same page
+without the `<head>`, for hosts that add their own.
 
 ## Numbers and figures come from the note's outputs
 

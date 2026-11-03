@@ -1,32 +1,29 @@
 %% ------------------------------------------------------------------------------------------------
 %%  Look shared by the talks of the project (presentations/<talk>/<file>.tex), loaded right after
-%%  \documentclass{beamer}. Metropolis theme, in the colours of the figures and the summaries.
+%%  \documentclass[10pt,aspectratio=169]{beamer}. The author's course theme: Madrid, default colours,
+%%  structure and frame titles in the navy of the courses (bleuactu), as in the Solvency II course.
 %%  Numbers come from outputs/tables/key_numbers_<lang>.tex, figures from outputs/figures/: a talk never
 %%  types a number that the note computes. Every talk sits two levels below the repository root; the
 %%  paths below work from its folder and from the root (Overleaf).
 %% ------------------------------------------------------------------------------------------------
-\usetheme[progressbar=frametitle, numbering=fraction, block=fill, sectionpage=progressbar]{metropolis}
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
+\usepackage{lmodern}                       % Computer Modern as vector fonts, wherever it is built
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs,array}
 \usepackage{graphicx}
+\usepackage{appendixnumberbeamer}          % backup slides after \appendix do not count in the total
 \graphicspath{{../../outputs/figures/}{outputs/figures/}}
 
-\definecolor{accent}{HTML}{2A78D6}          % slot 1 of the figures' palette, as in the summaries
-\definecolor{accentlight}{HTML}{EAF2FC}
-\definecolor{ink}{HTML}{0B0B0B}
-\definecolor{muted}{HTML}{52514E}
-\setbeamercolor{normal text}{fg=ink, bg=white}
-\setbeamercolor{alerted text}{fg=accent}
-\setbeamercolor{frametitle}{fg=white, bg=ink}
-\setbeamercolor{progress bar}{fg=accent, bg=accentlight}
-\setbeamercolor{title separator}{fg=accent}
-\setbeamercolor{block title}{fg=ink, bg=accentlight}
-\setbeamercolor{block body}{fg=ink, bg=accentlight!40}
-\setbeamercolor{block title alerted}{fg=white, bg=accent}
-\setbeamercolor{block body alerted}{fg=ink, bg=accentlight}
-\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+%% ---- Theme (as in the courses) --------------------------------------------------------------------
+\usetheme{Madrid}
+\usecolortheme{default}
+\definecolor{bleuactu}{RGB}{0,51,102}
+\definecolor{vertactu}{RGB}{0,102,51}
+\definecolor{rougeactu}{RGB}{153,0,0}
+\setbeamercolor{structure}{fg=bleuactu}
+\setbeamercolor{frametitle}{bg=bleuactu,fg=white}
+\definecolor{muted}{RGB}{90,90,90}
 
 %% ---- Notation of the note (manuscript/preamble/macros.tex) --------------------------------------
 \newcommand{\sq}{s}
