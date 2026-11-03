@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root { color-scheme: light; padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; font: 14px system-ui, sans-serif; } img { max-width: 100%; } [hidden] { display: none !important; }</style>
+<title>Voting with Veto Rights</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: an argument told in pictures. A connected map of the note's ideas first, then the procedure as a
+   flowchart, then three geometric pictures (hull, flooding, the θ dial). Colour encodes the role of an idea:
+   blue = question, grey = what theory and evidence say, ink = principles, teal = the procedure's mechanism,
+   green = guarantees, orange = the price. */
+:root {
+  --bg: #F6F8FB;
+  --surface: #FFFFFF;
+  --ink: #111722;
+  --muted: #586174;
+  --line: #D9DFE9;
+  --edge: #9AA5B8;
+  --accent: #2A78D6;
+  --accent-soft: #E8F1FC;
+  --mech: #0F7C8C;
+  --mech-soft: #E3F3F5;
+  --good: #16825C;
+  --good-soft: #E5F4EE;
+  --warn: #C25A1A;
+  --warn-soft: #FBEEE5;
+  --band: #EEF2F8;
+  --c1: #2A78D6; --c2: #16825C; --c3: #8C6A00; --c4: #C25A1A;
+  --font-display: "IBM Plex Sans Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D121B; --surface: #151C29; --ink: #E4E9F2; --muted: #9AA4B8; --line: #2A3448; --edge: #56627A;
+    --accent: #5D9EF2; --accent-soft: #17263D; --mech: #4CC3D2; --mech-soft: #102A2E; --good: #43BE8F;
+    --good-soft: #12291F; --warn: #EE8E52; --warn-soft: #33200F; --band: #121926;
+    --c1: #5D9EF2; --c2: #43BE8F; --c3: #E0B84A; --c4: #EE8E52; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D121B; --surface: #151C29; --ink: #E4E9F2; --muted: #9AA4B8; --line: #2A3448; --edge: #56627A;
+  --accent: #5D9EF2; --accent-soft: #17263D; --mech: #4CC3D2; --mech-soft: #102A2E; --good: #43BE8F;
+  --good-soft: #12291F; --warn: #EE8E52; --warn-soft: #33200F; --band: #121926;
+  --c1: #5D9EF2; --c2: #43BE8F; --c3: #E0B84A; --c4: #EE8E52; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 1rem; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 4rem;
+}
+.wrap { max-width: 1120px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.15; margin: 0; }
+h1 { font-size: clamp(1.9rem, 4.6vw, 2.7rem); font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: 1.55rem; font-weight: 600; }
+h3 { font-size: 1.1rem; font-weight: 600; }
+p { margin: 0; max-width: 70ch; }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.eyebrow { font-family: var(--font-display); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.09em;
+  text-transform: uppercase; color: var(--muted); }
+section { display: grid; gap: 1rem; padding-block: 2.6rem 0; }
+.hint { font-size: 0.88rem; color: var(--muted); }
+.narrow-hint { display: none; }
+
+header { display: grid; gap: 1rem; padding-block: 2.6rem 1.4rem; border-bottom: 1px solid var(--line); }
+header .lead { font-size: 1.08rem; }
+.answer { display: grid; gap: 0.5rem; background: var(--surface); border: 1px solid var(--line);
+  border-left: 3px solid var(--mech); border-radius: var(--radius); padding: 1rem 1.1rem; max-width: 820px; }
+.answer ol { margin: 0; padding-left: 1.3rem; display: grid; gap: 0.15rem; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.8rem; }
+.fact { border-top: 2px solid var(--ink); padding-top: 0.5rem; display: grid; gap: 0.2rem; align-content: start; }
+.fact b { font-family: var(--font-display); font-size: 1.45rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.fact span { font-size: 0.88rem; color: var(--muted); }
+.fact.warn { border-top-color: var(--warn); }
+.fact.good { border-top-color: var(--good); }
+nav.toc { display: flex; flex-wrap: wrap; gap: 0.4rem 0.6rem; }
+nav.toc a { font-family: var(--font-display); font-weight: 500; font-size: 0.92rem; text-decoration: none; color: var(--ink);
+  border: 1px solid var(--line); border-radius: 999px; padding: 0.2rem 0.75rem; background: var(--surface); }
+nav.toc a:hover { border-color: var(--accent); color: var(--accent); }
+
+.figure { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 1rem; overflow-x: auto; }
+.figure svg { display: block; width: 100%; height: auto; }
+.figure.wide svg { min-width: 900px; }
+.legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; font-size: 0.86rem; color: var(--muted); }
+.legend span::before { content: ""; display: inline-block; width: 0.75em; height: 0.75em; border-radius: 2px;
+  margin-right: 0.4em; vertical-align: -0.05em; background: var(--k); border: 1px solid var(--kb, transparent); }
+
+/* ---- SVG diagrams ---- */
+.dg text { font-family: var(--font-body); fill: var(--ink); }
+.dg .t { font-family: var(--font-display); font-weight: 600; font-size: 13px; }
+.dg .s { font-size: 11.5px; fill: var(--muted); }
+.dg .m { font-family: var(--font-mono); font-size: 12px; }
+.dg .sub { font-size: 80%; }
+.dg .colhead { font-family: var(--font-display); font-weight: 600; font-size: 11px; letter-spacing: 0.08em; fill: var(--muted); }
+.dg .phase { font-family: var(--font-display); font-weight: 600; font-size: 11px; letter-spacing: 0.08em; fill: var(--muted); }
+.dg .box { fill: var(--surface); stroke: var(--line); stroke-width: 1.2; }
+.dg .k-q .box { fill: var(--accent-soft); stroke: var(--accent); }
+.dg .k-e .box { fill: var(--surface); stroke: var(--edge); }
+.dg .k-p .box { fill: var(--surface); stroke: var(--ink); }
+.dg .k-m .box { fill: var(--mech-soft); stroke: var(--mech); }
+.dg .k-g .box { fill: var(--good-soft); stroke: var(--good); }
+.dg .k-w .box { fill: var(--warn-soft); stroke: var(--warn); }
+.dg .k-s .box { fill: var(--surface); stroke: var(--warn); stroke-dasharray: 4 3; }
+.dg .edge { fill: none; stroke: var(--edge); stroke-width: 1.3; }
+.dg .edge.long { stroke-dasharray: 5 4; }
+.dg .edge.dashed { stroke-dasharray: 6 5; }
+.dg .ah path { fill: var(--edge); }
+.dg .ah-hi path { fill: var(--accent); }
+.dg .elabel { font-family: var(--font-display); font-size: 12px; font-weight: 600; fill: var(--muted); }
+.dg .band { fill: var(--band); } .dg .band.alt { fill: transparent; }
+.dg .fnote .box { fill: var(--surface); stroke: var(--line); stroke-dasharray: 3 3; }
+.dg .link { stroke: var(--edge); stroke-dasharray: 2 3; fill: none; }
+.graph .node { cursor: pointer; transition: opacity 0.15s; }
+.graph .edge { transition: opacity 0.15s, stroke 0.15s; }
+.graph.focusing .node { opacity: 0.22; }
+.graph.focusing .node.lit { opacity: 1; }
+.graph.focusing .edge { opacity: 0.08; }
+.graph.focusing .edge.lit { opacity: 1; stroke: var(--accent); stroke-width: 2.2; marker-end: url(#am-ah-hi); }
+
+/* flooding */
+.flood .tok rect { fill: var(--surface); stroke: var(--edge); stroke-width: 1.2; }
+.flood .tok text { font-family: var(--font-display); font-weight: 600; font-size: 15px; }
+.flood .tok.blocked.by-min rect { fill: var(--warn-soft); stroke: var(--warn); }
+.flood .tok.blocked.by-min text { fill: var(--warn); text-decoration: line-through; }
+.flood .tok.blocked.by-maj rect { fill: var(--band); stroke: var(--edge); stroke-dasharray: 3 2; }
+.flood .tok.blocked.by-maj text { fill: var(--muted); text-decoration: line-through; }
+.flood .tok.win rect { fill: var(--good-soft); stroke: var(--good); stroke-width: 2; }
+
+/* the θ chart */
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .tick { font-size: 11px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+.chart .axis { font-size: 11.5px; fill: var(--muted); }
+.chart .line { fill: none; stroke-width: 2.2; }
+.chart .line.c1, .chart .dot.c1 { stroke: var(--c1); } .chart .dot.c1, .chart .endlab.c1 { fill: var(--c1); }
+.chart .line.c2, .chart .dot.c2 { stroke: var(--c2); } .chart .dot.c2, .chart .endlab.c2 { fill: var(--c2); }
+.chart .line.c3, .chart .dot.c3 { stroke: var(--c3); } .chart .dot.c3, .chart .endlab.c3 { fill: var(--c3); }
+.chart .line.c4, .chart .dot.c4 { stroke: var(--c4); } .chart .dot.c4, .chart .endlab.c4 { fill: var(--c4); }
+.chart .endlab { font-family: var(--font-display); font-weight: 600; font-size: 12px; }
+.chart .regime { fill: var(--band); }
+.chart .regime.sweet { fill: var(--good-soft); }
+.chart .reglab { font-family: var(--font-display); font-size: 11.5px; font-weight: 600; fill: var(--muted); }
+.chart .mark { stroke: var(--edge); stroke-dasharray: 3 3; }
+.chart .mark.main { stroke: var(--ink); stroke-dasharray: none; stroke-width: 1.4; }
+.chart .marklab { font-family: var(--font-display); font-size: 11.5px; fill: var(--muted); }
+.chart .marklab.main { fill: var(--ink); font-weight: 600; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--surface); }
+.seg button { font-family: var(--font-display); font-size: 0.9rem; border: 0; background: transparent; color: var(--ink);
+  padding: 0.25rem 0.9rem; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+
+/* hull */
+.hullbox { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 1.2rem; align-items: start; }
+.hull { width: 100%; height: auto; display: block; touch-action: none; cursor: crosshair; }
+.hull .frame { fill: var(--surface); stroke: var(--line); }
+.hull .hullpoly { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.4; }
+.hull .halfplane { fill: var(--good-soft); opacity: 0.8; }
+.hull .bisector { stroke: var(--good); stroke-dasharray: 5 4; stroke-width: 1.4; }
+.hull .voter { fill: var(--surface); stroke: var(--ink); stroke-width: 1.3; }
+.hull .voter.keeps { fill: var(--warn); stroke: var(--warn); }
+.hull .sq { fill: var(--ink); }
+.hull .prop { fill: var(--good); }
+.hull text { font-family: var(--font-display); font-size: 13px; font-weight: 600; fill: var(--ink); }
+.readout { display: grid; gap: 0.7rem; align-content: start; }
+.readout .big { font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; }
+.readout .big.stuck { color: var(--warn); }
+.readout .big.passes { color: var(--good); }
+.controls { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+.controls label { font-size: 0.9rem; color: var(--muted); }
+.controls input[type=range] { width: 160px; accent-color: var(--accent); }
+.btn { font-family: var(--font-display); font-size: 0.9rem; border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface); color: var(--ink); padding: 0.25rem 0.9rem; cursor: pointer; }
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* example E1 */
+.trace { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.8rem; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 0.9rem 1rem;
+  display: grid; gap: 0.45rem; align-content: start; }
+.card table { border-collapse: collapse; font-size: 0.92rem; }
+.card td, .card th { padding: 0.2rem 0.6rem 0.2rem 0; text-align: left; font-variant-numeric: tabular-nums; }
+.card th { font-family: var(--font-display); font-weight: 600; font-size: 0.8rem; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+.out-b { color: var(--good); font-weight: 600; } .out-a { color: var(--accent); font-weight: 600; }
+.x { color: var(--warn); text-decoration: line-through; }
+
+.open { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.8rem; }
+.open .card h3 { font-size: 1rem; }
+.open .card p { font-size: 0.92rem; color: var(--muted); }
+footer { padding-block: 2.4rem 0; color: var(--muted); font-size: 0.85rem; }
+
+@media (max-width: 760px) {
+  .hullbox { grid-template-columns: 1fr; }
+  .narrow-hint { display: block; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <span class="eyebrow">A state-of-the-art note · v0.1.1</span>
+  <h1>Voting for a consensus with veto rights</h1>
+  <p class="lead">A group must choose one option. Anyone may propose as many options as they wish (H1), everyone
+  judges every option (H2), and everyone can veto (H3). The procedure must reach the best compromise (R1) and never
+  get stuck (R2). The two requirements pull against each other: a veto protects minorities and blocks decisions.</p>
+  <div class="answer">
+    <span class="eyebrow">The answer: QVC(θ), Condorcet with a blocking quota, θ = 1/3</span>
+    <ol>
+      <li>Each voter ranks every option and marks the unacceptable ones.</li>
+      <li>Options vetoed by at least a share θ of the voters are excluded.</li>
+      <li>If that excludes every option, the least-vetoed ones are kept.</li>
+      <li>The Schulze winner among the options left is elected.</li>
+    </ol>
+  </div>
+  
+  <div class="facts">
+    <div class="fact warn"><b>99.6%</b><span>of 101-voter elections in which unanimity keeps the status quo</span></div>
+    <div class="fact good"><b>10.1% → 5.9%</b><span>outcomes vetoed by a third: Schulze, then QVC(1/3), polarised electorate</span></div>
+    <div class="fact good"><b>85.2 → 88.4</b><span>worst-off efficiency, with total utility 97.4 → 97.7</span></div>
+    <div class="fact"><b>0%</b><span>of elections in which clones change the QVC winner; up to 54% for the proportional veto core</span></div>
+    <div class="fact warn"><b>11–27%</b><span>manipulable by 10% coalitions under QVC(1/3), against 5–7% under Schulze: the price</span></div>
+  </div>
+  <nav class="toc" aria-label="Sections">
+    <a href="#map">The argument</a>
+    <a href="#steps">Step by step</a>
+    <a href="#example">Example E1</a>
+    <a href="#deadlock">Why unanimity deadlocks</a>
+    <a href="#flooding">Why flooding matters</a>
+    <a href="#dial">The θ dial</a>
+    <a href="#open">Open questions</a>
+  </nav>
+</header>
+
+<section id="map" aria-labelledby="map-h">
+  <h2 id="map-h">The argument in one map</h2>
+  <p>Each column answers the one before it. The requirements meet results that no procedure escapes; these fix
+  six design principles; each principle becomes one part of the procedure; the parts give four guarantees, and
+  one price, which the safeguards contain. Dashed links skip a column.</p>
+  <div class="legend">
+    <span style="--k: var(--accent-soft); --kb: var(--accent)">Question</span>
+    <span style="--k: var(--surface); --kb: var(--edge)">Theory and evidence</span>
+    <span style="--k: var(--surface); --kb: var(--ink)">Principle</span>
+    <span style="--k: var(--mech-soft); --kb: var(--mech)">Mechanism</span>
+    <span style="--k: var(--good-soft); --kb: var(--good)">Guarantee</span>
+    <span style="--k: var(--warn-soft); --kb: var(--warn)">Price</span>
+  </div>
+  <p class="hint">Hover over or tap a box to follow everything it rests on and everything that rests on it. Tap
+  again to release it.</p>
+  <p class="hint narrow-hint">Scroll the diagram sideways.</p>
+  <div class="figure wide"><svg class="dg graph" id="argmap" viewBox="0 0 1186 476" role="img" aria-labelledby="argmap-t argmap-d"><title id="argmap-t">The argument of the note as a map</title><desc id="argmap-d">From the hypotheses and requirements, through the results of theory and evidence, to the design principles, the steps of the procedure, its guarantees, its price and the safeguards that contain it.</desc><defs><marker id="am-ah" class="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker><marker id="am-ah-hi" class="ah-hi" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker></defs><text class="colhead" x="0" y="18">THE QUESTION</text><text class="colhead" x="202" y="18">WHAT THEORY AND EVIDENCE SAY</text><text class="colhead" x="404" y="18">DESIGN PRINCIPLES</text><text class="colhead" x="606" y="18">THE PROCEDURE</text><text class="colhead" x="808" y="18">WHAT IT GUARANTEES</text><text class="colhead" x="1010" y="18">CONTAINING THE PRICE</text><path class="edge" data-from="H1" data-to="L5" d="M172.0,84.2 C202.0,84.2 170.0,68.0 200.0,68.0" marker-end="url(#am-ah)"/><path class="edge" data-from="H2" data-to="L8" d="M172.0,154.4 C202.0,154.4 170.0,338.0 200.0,338.0" marker-end="url(#am-ah)"/><path class="edge" data-from="H2" data-to="L4" d="M172.0,154.4 C202.0,154.4 170.0,122.0 200.0,122.0" marker-end="url(#am-ah)"/><path class="edge" data-from="H3" data-to="L6" d="M172.0,224.6 C202.0,224.6 170.0,176.0 200.0,176.0" marker-end="url(#am-ah)"/><path class="edge" data-from="H3" data-to="L2" d="M172.0,224.6 C202.0,224.6 170.0,230.0 200.0,230.0" marker-end="url(#am-ah)"/><path class="edge" data-from="H3" data-to="L3" d="M172.0,224.6 C202.0,224.6 170.0,284.0 200.0,284.0" marker-end="url(#am-ah)"/><path class="edge" data-from="R1" data-to="L2" d="M172.0,294.8 C202.0,294.8 170.0,230.0 200.0,230.0" marker-end="url(#am-ah)"/><path class="edge" data-from="R1" data-to="L6" d="M172.0,294.8 C202.0,294.8 170.0,176.0 200.0,176.0" marker-end="url(#am-ah)"/><path class="edge" data-from="R2" data-to="L3" d="M172.0,365.0 C202.0,365.0 170.0,284.0 200.0,284.0" marker-end="url(#am-ah)"/><path class="edge" data-from="R2" data-to="L7" d="M172.0,365.0 C202.0,365.0 170.0,392.0 200.0,392.0" marker-end="url(#am-ah)"/><path class="edge" data-from="L5" data-to="P5" d="M374.0,68.0 C404.0,68.0 372.0,68.0 402.0,68.0" marker-end="url(#am-ah)"/><path class="edge" data-from="L6" data-to="P2" d="M374.0,176.0 C404.0,176.0 372.0,132.8 402.0,132.8" marker-end="url(#am-ah)"/><path class="edge" data-from="L2" data-to="P3" d="M374.0,230.0 C404.0,230.0 372.0,197.6 402.0,197.6" marker-end="url(#am-ah)"/><path class="edge" data-from="L3" data-to="P3" d="M374.0,284.0 C404.0,284.0 372.0,197.6 402.0,197.6" marker-end="url(#am-ah)"/><path class="edge" data-from="L3" data-to="P6" d="M374.0,284.0 C404.0,284.0 372.0,262.4 402.0,262.4" marker-end="url(#am-ah)"/><path class="edge" data-from="L8" data-to="P1" d="M374.0,338.0 C404.0,338.0 372.0,327.2 402.0,327.2" marker-end="url(#am-ah)"/><path class="edge" data-from="L7" data-to="P4" d="M374.0,392.0 C404.0,392.0 372.0,392.0 402.0,392.0" marker-end="url(#am-ah)"/><path class="edge long" data-from="L4" data-to="M5" d="M374.0,122.0 C489.0,122.0 489.0,68.0 604.0,68.0" marker-end="url(#am-ah)"/><path class="edge" data-from="P5" data-to="M5" d="M576.0,68.0 C606.0,68.0 574.0,68.0 604.0,68.0" marker-end="url(#am-ah)"/><path class="edge" data-from="P2" data-to="M2" d="M576.0,132.8 C606.0,132.8 574.0,132.8 604.0,132.8" marker-end="url(#am-ah)"/><path class="edge" data-from="P3" data-to="M3" d="M576.0,197.6 C606.0,197.6 574.0,197.6 604.0,197.6" marker-end="url(#am-ah)"/><path class="edge" data-from="P6" data-to="M6" d="M576.0,262.4 C606.0,262.4 574.0,262.4 604.0,262.4" marker-end="url(#am-ah)"/><path class="edge" data-from="P1" data-to="M1" d="M576.0,327.2 C606.0,327.2 574.0,327.2 604.0,327.2" marker-end="url(#am-ah)"/><path class="edge" data-from="P4" data-to="M4" d="M576.0,392.0 C606.0,392.0 574.0,392.0 604.0,392.0" marker-end="url(#am-ah)"/><path class="edge" data-from="M5" data-to="G7" d="M778.0,68.0 C808.0,68.0 776.0,68.0 806.0,68.0" marker-end="url(#am-ah)"/><path class="edge" data-from="M2" data-to="G7" d="M778.0,132.8 C808.0,132.8 776.0,68.0 806.0,68.0" marker-end="url(#am-ah)"/><path class="edge" data-from="M5" data-to="G6" d="M778.0,68.0 C808.0,68.0 776.0,132.8 806.0,132.8" marker-end="url(#am-ah)"/><path class="edge" data-from="M3" data-to="G6" d="M778.0,197.6 C808.0,197.6 776.0,132.8 806.0,132.8" marker-end="url(#am-ah)"/><path class="edge" data-from="M3" data-to="G5" d="M778.0,197.6 C808.0,197.6 776.0,197.6 806.0,197.6" marker-end="url(#am-ah)"/><path class="edge" data-from="M6" data-to="G5" d="M778.0,262.4 C808.0,262.4 776.0,197.6 806.0,197.6" marker-end="url(#am-ah)"/><path class="edge" data-from="M6" data-to="G4" d="M778.0,262.4 C808.0,262.4 776.0,294.8 806.0,294.8" marker-end="url(#am-ah)"/><path class="edge" data-from="M1" data-to="G4" d="M778.0,327.2 C808.0,327.2 776.0,294.8 806.0,294.8" marker-end="url(#am-ah)"/><path class="edge" data-from="M4" data-to="G4" d="M778.0,392.0 C808.0,392.0 776.0,294.8 806.0,294.8" marker-end="url(#am-ah)"/><path class="edge" data-from="M3" data-to="G8" d="M778.0,197.6 C808.0,197.6 776.0,392.0 806.0,392.0" marker-end="url(#am-ah)"/><path class="edge long" data-from="L1" data-to="G8" d="M374.0,446.0 C590.0,446.0 590.0,392.0 806.0,392.0" marker-end="url(#am-ah)"/><path class="edge" data-from="G8" data-to="S1" d="M980.0,392.0 C1010.0,392.0 978.0,262.4 1008.0,262.4" marker-end="url(#am-ah)"/><path class="edge" data-from="G8" data-to="S2" d="M980.0,392.0 C1010.0,392.0 978.0,370.4 1008.0,370.4" marker-end="url(#am-ah)"/><path class="edge" data-from="G8" data-to="S3" d="M980.0,392.0 C1010.0,392.0 978.0,424.4 1008.0,424.4" marker-end="url(#am-ah)"/><path class="edge" data-from="G8" data-to="S4" d="M980.0,392.0 C1010.0,392.0 978.0,316.4 1008.0,316.4" marker-end="url(#am-ah)"/><g class="node k-q" data-id="H1" tabindex="0"><rect class="box" x="0" y="62.2" width="172" height="44" rx="5"/><text x="9" y="80.2" class="t">H1 · Open agenda</text><text x="9" y="96.2" class="s">anyone proposes any number</text></g><g class="node k-q" data-id="H2" tabindex="0"><rect class="box" x="0" y="132.4" width="172" height="44" rx="5"/><text x="9" y="150.4" class="t">H2 · Full ballots</text><text x="9" y="166.4" class="s">all judge every option</text></g><g class="node k-q" data-id="H3" tabindex="0"><rect class="box" x="0" y="202.6" width="172" height="44" rx="5"/><text x="9" y="220.6" class="t">H3 · Veto rights</text><text x="9" y="236.6" class="s">voters can block options</text></g><g class="node k-q" data-id="R1" tabindex="0"><rect class="box" x="0" y="272.8" width="172" height="44" rx="5"/><text x="9" y="290.8" class="t">R1 · Best compromise</text><text x="9" y="306.8" class="s">one everyone can live with</text></g><g class="node k-q" data-id="R2" tabindex="0"><rect class="box" x="0" y="343.0" width="172" height="44" rx="5"/><text x="9" y="361.0" class="t">R2 · Never stuck</text><text x="9" y="377.0" class="s">always a decision, in time</text></g><g class="node k-e" data-id="L5" tabindex="0"><rect class="box" x="202" y="46" width="172" height="44" rx="5"/><text x="211" y="64" class="t">Prop. 3 · Flooding</text><text x="211" y="80" class="s">clones dilute vetoes</text></g><g class="node k-e" data-id="L4" tabindex="0"><rect class="box" x="202" y="100" width="172" height="44" rx="5"/><text x="211" y="118" class="t">Cycles are rare</text><text x="211" y="134" class="s">Condorcet winners abound</text></g><g class="node k-e" data-id="L6" tabindex="0"><rect class="box" x="202" y="154" width="172" height="44" rx="5"/><text x="211" y="172" class="t">Block ≠ approve</text><text x="211" y="188" class="s">Bouton et al. (2018)</text></g><g class="node k-e" data-id="L2" tabindex="0"><rect class="box" x="202" y="208" width="172" height="44" rx="5"/><text x="211" y="226" class="t">Prop. 1 · Majority vs veto</text><text x="211" y="242" class="s">its winner may be vetoed</text></g><g class="node k-e" data-id="L3" tabindex="0"><rect class="box" x="202" y="262" width="172" height="44" rx="5"/><text x="211" y="280" class="t">Prop. 2 · Deadlock</text><text x="211" y="296" class="s">unanimity stalls as n grows</text></g><g class="node k-e" data-id="L8" tabindex="0"><rect class="box" x="202" y="316" width="172" height="44" rx="5"/><text x="211" y="334" class="t">Agendas can be steered</text><text x="211" y="350" class="s">sequential votes (McKelvey)</text></g><g class="node k-e" data-id="L7" tabindex="0"><rect class="box" x="202" y="370" width="172" height="44" rx="5"/><text x="211" y="388" class="t">A default breeds inertia</text><text x="211" y="404" class="s">veto players (Tsebelis)</text></g><g class="node k-e" data-id="L1" tabindex="0"><rect class="box" x="202" y="424" width="172" height="44" rx="5"/><text x="211" y="442" class="t">No rule is strategy-proof</text><text x="211" y="458" class="s">Gibbard–Satterthwaite</text></g><g class="node k-p" data-id="P5" tabindex="0"><rect class="box" x="404" y="46" width="172" height="44" rx="5"/><text x="413" y="64" class="t">P5 · Clone-independent</text><text x="413" y="80" class="s">flooding gains nothing</text></g><g class="node k-p" data-id="P2" tabindex="0"><rect class="box" x="404" y="110.8" width="172" height="44" rx="5"/><text x="413" y="128.8" class="t">P2 · Rank, then block</text><text x="413" y="144.8" class="s">a ranking plus a line</text></g><g class="node k-p" data-id="P3" tabindex="0"><rect class="box" x="404" y="175.6" width="172" height="44" rx="5"/><text x="413" y="193.6" class="t">P3 · Coalitions veto</text><text x="413" y="209.6" class="s">a share θ, not one voter</text></g><g class="node k-p" data-id="P6" tabindex="0"><rect class="box" x="404" y="240.4" width="172" height="44" rx="5"/><text x="413" y="258.4" class="t">P6 · Always a decision</text><text x="413" y="274.4" class="s">never an empty choice</text></g><g class="node k-p" data-id="P1" tabindex="0"><rect class="box" x="404" y="305.2" width="172" height="44" rx="5"/><text x="413" y="323.2" class="t">P1 · Simultaneous ballot</text><text x="413" y="339.2" class="s">no agenda to steer</text></g><g class="node k-p" data-id="P4" tabindex="0"><rect class="box" x="404" y="370.0" width="172" height="44" rx="5"/><text x="413" y="388.0" class="t">P4 · Status quo = option</text><text x="413" y="404.0" class="s">never the default</text></g><g class="node k-m" data-id="M5" tabindex="0"><rect class="box" x="606" y="46" width="172" height="44" rx="5"/><text x="615" y="64" class="t">Schulze winner</text><text x="615" y="80" class="s">among admissible options</text></g><g class="node k-m" data-id="M2" tabindex="0"><rect class="box" x="606" y="110.8" width="172" height="44" rx="5"/><text x="615" y="128.8" class="t">Acceptability line</text><text x="615" y="144.8" class="s">below it: vetoed</text></g><g class="node k-m" data-id="M3" tabindex="0"><rect class="box" x="606" y="175.6" width="172" height="44" rx="5"/><text x="615" y="193.6" class="t">Blocking quota θ</text><text x="615" y="209.6" class="s">exclude x if v(x) ≥ θn</text></g><g class="node k-m" data-id="M6" tabindex="0"><rect class="box" x="606" y="240.4" width="172" height="44" rx="5"/><text x="615" y="258.4" class="t">Fallback</text><text x="615" y="274.4" class="s">keep the least vetoed</text></g><g class="node k-m" data-id="M1" tabindex="0"><rect class="box" x="606" y="305.2" width="172" height="44" rx="5"/><text x="615" y="323.2" class="t">One ballot, one round</text><text x="615" y="339.2" class="s">all options at once</text></g><g class="node k-m" data-id="M4" tabindex="0"><rect class="box" x="606" y="370.0" width="172" height="44" rx="5"/><text x="615" y="388.0" class="t">Status quo on the ballot</text><text x="615" y="404.0" class="s">ranked and vetoed like any</text></g><g class="node k-g" data-id="G7" tabindex="0"><rect class="box" x="808" y="46" width="172" height="44" rx="5"/><text x="817" y="64" class="t">Prop. 7 · Clone-proof</text><text x="817" y="80" class="s">clones inherit vetoes</text></g><g class="node k-g" data-id="G6" tabindex="0"><rect class="box" x="808" y="110.8" width="172" height="44" rx="5"/><text x="817" y="128.8" class="t">Prop. 6 · Majority decides</text><text x="817" y="144.8" class="s">Condorcet winner of A<tspan class="sub" dy="3">θ</tspan><tspan dy="-3">​</tspan> wins</text></g><g class="node k-g" data-id="G5" tabindex="0"><rect class="box" x="808" y="175.6" width="172" height="44" rx="5"/><text x="817" y="193.6" class="t">Prop. 5 · Acceptable</text><text x="817" y="209.6" class="s">to &gt; 1 − θ when possible</text></g><g class="node k-g" data-id="G4" tabindex="0"><rect class="box" x="808" y="272.8" width="172" height="44" rx="5"/><text x="817" y="290.8" class="t">Prop. 4 · Always decides</text><text x="817" y="306.8" class="s">one round, no default edge</text></g><g class="node k-w" data-id="G8" tabindex="0"><rect class="box" x="808" y="370.0" width="172" height="44" rx="5"/><text x="817" y="388.0" class="t">Prop. 8 · The price</text><text x="817" y="404.0" class="s">vetoes can be strategic</text></g><g class="node k-s" data-id="S1" tabindex="0"><rect class="box" x="1010" y="240.4" width="172" height="44" rx="5"/><text x="1019" y="258.4" class="t">Named, reasoned vetoes</text><text x="1019" y="274.4" class="s">public, with a reason</text></g><g class="node k-s" data-id="S4" tabindex="0"><rect class="box" x="1010" y="294.4" width="172" height="44" rx="5"/><text x="1019" y="312.4" class="t">Quota of at least 1/4</text><text x="1019" y="328.4" class="s">θ = 1/3 by default</text></g><g class="node k-s" data-id="S2" tabindex="0"><rect class="box" x="1010" y="348.4" width="172" height="44" rx="5"/><text x="1019" y="366.4" class="t">One revision round</text><text x="1019" y="382.4" class="s">only after a fallback</text></g><g class="node k-s" data-id="S3" tabindex="0"><rect class="box" x="1010" y="402.4" width="172" height="44" rx="5"/><text x="1019" y="420.4" class="t">Veto budgets</text><text x="1019" y="436.4" class="s">across decisions only</text></g></svg></div>
+</section>
+
+<section id="steps" aria-labelledby="steps-h">
+  <h2 id="steps-h">QVC(θ), step by step</h2>
+  <p>One ballot round, one count, and at most one revision round. The boxes on the left are the propositions of
+  the note, attached to the step where they apply.</p>
+  <p class="hint narrow-hint">Scroll the diagram sideways.</p>
+  <div class="figure wide"><svg class="dg flow" viewBox="0 0 1100 1176" role="img" aria-labelledby="flow-t flow-d"><title id="flow-t">QVC(θ), step by step</title><desc id="flow-d">The procedure from the choice of parameters to the final decision: nomination, ballot, veto counts, admissible options or fallback, Schulze winner and tie-break, publication, and an optional revision round. The propositions of the note are attached to the steps they concern.</desc><defs><marker id="fc-ah" class="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker><marker id="fc-ah-hi" class="ah-hi" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker></defs><rect class="band" x="0" y="8" width="1100" height="124"/><text class="phase" x="10" y="30">BEFORE THE VOTE</text><rect class="band alt" x="0" y="132" width="1100" height="104"/><text class="phase" x="10" y="154">NOMINATION</text><rect class="band" x="0" y="236" width="1100" height="124"/><text class="phase" x="10" y="258">BALLOT</text><rect class="band alt" x="0" y="360" width="1100" height="540"/><text class="phase" x="10" y="382">COUNT</text><rect class="band" x="0" y="900" width="1100" height="276"/><text class="phase" x="10" y="922">RESULT</text><g class="fnode k-step"><rect class="box" x="380" y="22" width="300" height="84" rx="6"/><text x="392" y="44" class="t">Fix the parameters</text><text x="392" y="60" class="s">quota θ: one third, ⌈n/3⌉ voters</text><text x="392" y="76" class="s">status quo protected? no, by default</text><text x="392" y="92" class="s">nomination period, revision round</text></g><g class="fnode k-step"><rect class="box" x="380" y="146" width="300" height="68" rx="6"/><text x="392" y="168" class="t">Nomination</text><text x="392" y="184" class="s">anyone proposes any number of options</text><text x="392" y="200" class="s">the status quo is on the ballot</text></g><g class="fnode k-step"><rect class="box" x="380" y="250" width="300" height="84" rx="6"/><text x="392" y="272" class="t">Ballot</text><text x="392" y="288" class="s">rank every option, ties allowed</text><text x="392" y="304" class="s">draw the acceptability line: below it, a veto</text><text x="392" y="320" class="s">each veto named and reasoned</text></g><g class="fnode k-step"><rect class="box" x="380" y="376" width="300" height="52" rx="6"/><text x="392" y="398" class="t">Count the vetoes</text><text x="392" y="414" class="s">v(x): how many voters veto option x</text></g><g class="fnode k-q"><polygon class="box" points="530.0,450.0 680.0,500 530.0,550.0 380.0,500"/><text x="530.0" y="496.0" class="t" text-anchor="middle">Some option with</text><text x="530.0" y="512.0" class="t" text-anchor="middle">v(x) &lt; θn ?</text></g><g class="fnode k-m"><rect class="box" x="380" y="590" width="300" height="52" rx="6"/><text x="392" y="612" class="t">Admissible options</text><text x="392" y="628" class="m">A<tspan class="sub" dy="3">θ</tspan><tspan dy="-3">​</tspan> = { x : v(x) &lt; θn }</text></g><g class="fnode k-m"><rect class="box" x="740" y="463" width="250" height="68" rx="6"/><text x="752" y="485" class="t">Fallback</text><text x="752" y="501" class="s">A<tspan class="sub" dy="3">θ</tspan><tspan dy="-3">​</tspan> = the options with</text><text x="752" y="517" class="s">the fewest vetoes</text></g><g class="fnode k-m"><rect class="box" x="380" y="676" width="300" height="52" rx="6"/><text x="392" y="698" class="t">Schulze among A<tspan class="sub" dy="3">θ</tspan><tspan dy="-3">​</tspan></text><text x="392" y="714" class="s">pairwise counts N(x, y), strongest paths</text></g><g class="fnode k-q"><polygon class="box" points="530.0,760.0 680.0,806 530.0,852.0 380.0,806"/><text x="530.0" y="802.0" class="t" text-anchor="middle">One Schulze</text><text x="530.0" y="818.0" class="t" text-anchor="middle">winner?</text></g><g class="fnode k-m"><rect class="box" x="740" y="761" width="250" height="84" rx="6"/><text x="752" y="783" class="t">Tie-break</text><text x="752" y="799" class="s">1. fewest vetoes</text><text x="752" y="815" class="s">2. Schulze on the tied options</text><text x="752" y="831" class="s">3. order drawn before the vote</text></g><g class="fnode k-g"><rect class="box" x="380" y="912" width="300" height="68" rx="6"/><text x="392" y="934" class="t">Winner, published</text><text x="392" y="950" class="s">with the veto counts, A<tspan class="sub" dy="3">θ</tspan><tspan dy="-3">​</tspan> and the matrix N,</text><text x="392" y="966" class="s">so that anyone can check the count</text></g><g class="fnode k-q"><polygon class="box" points="530.0,1004.0 680.0,1052 530.0,1100.0 380.0,1052"/><text x="530.0" y="1048.0" class="t" text-anchor="middle">Fallback used and</text><text x="530.0" y="1064.0" class="t" text-anchor="middle">revision round adopted?</text></g><g class="fnode k-g"><rect class="box" x="440" y="1126" width="180" height="36" rx="18.0"/><text x="530.0" y="1148" class="t" text-anchor="middle">Final decision</text></g><g class="fnode k-w"><rect class="box" x="740" y="1007" width="250" height="84" rx="6"/><text x="752" y="1029" class="t">Revision round</text><text x="752" y="1045" class="s">nominations reopen briefly</text><text x="752" y="1061" class="s">for compromise proposals; one</text><text x="752" y="1077" class="s">more ballot, whose result is final</text></g><path class="edge" d="M530.0,106.0 L530.0,144.0" marker-end="url(#fc-ah)"/><path class="edge" d="M530.0,214.0 L530.0,248.0" marker-end="url(#fc-ah)"/><path class="edge" d="M530.0,334.0 L530.0,374.0" marker-end="url(#fc-ah)"/><path class="edge" d="M530.0,428.0 L530.0,448.0" marker-end="url(#fc-ah)"/><path class="edge" d="M530.0,550.0 L530.0,588.0" marker-end="url(#fc-ah)"/><text class="elabel" x="538.0" y="566">yes</text><path class="edge" d="M680.0,500.0 L738.0,500.0" marker-end="url(#fc-ah)"/><text class="elabel" x="694" y="492">no</text><path class="edge" d="M865.0,531.0 L865.0,696.0 Q865.0,704.0 857.0,704.0 L682.0,704.0" marker-end="url(#fc-ah)"/><path class="edge" d="M530.0,642.0 L530.0,674.0" marker-end="url(#fc-ah)"/><path class="edge" d="M530.0,728.0 L530.0,758.0" marker-end="url(#fc-ah)"/><path class="edge" d="M530.0,852.0 L530.0,910.0" marker-end="url(#fc-ah)"/><text class="elabel" x="538.0" y="868">yes</text><path class="edge" d="M680.0,806.0 L738.0,806.0" marker-end="url(#fc-ah)"/><text class="elabel" x="694" y="798">no</text><path class="edge" d="M865.0,845.0 L865.0,940.0 Q865.0,948.0 857.0,948.0 L682.0,948.0" marker-end="url(#fc-ah)"/><path class="edge" d="M530.0,980.0 L530.0,1002.0" marker-end="url(#fc-ah)"/><path class="edge" d="M530.0,1100.0 L530.0,1124.0" marker-end="url(#fc-ah)"/><text class="elabel" x="538.0" y="1116">no</text><path class="edge" d="M680.0,1052.0 L738.0,1052.0" marker-end="url(#fc-ah)"/><text class="elabel" x="694" y="1044">yes</text><path class="edge dashed" d="M990.0,1052.0 L1032.0,1052.0 Q1040.0,1052.0 1040.0,1044.0 L1040.0,188.0 Q1040.0,180.0 1032.0,180.0 L682.0,180.0" marker-end="url(#fc-ah)"/><text class="elabel" x="1048" y="599.0">once</text><g class="fnote"><rect class="box" x="150" y="256.0" width="200" height="72" rx="5"/><text x="160" y="275.0" class="t">Prop. 8 · the price</text><text x="160" y="290.0" class="s">a blocking third can also</text><text x="160" y="305.0" class="s">veto strategically: hence</text><text x="160" y="320.0" class="s">named vetoes, θ ≥ 1/4</text></g><path class="link" d="M350,292.0 L376,292.0"/><g class="fnote"><rect class="box" x="150" y="395.5" width="200" height="57" rx="5"/><text x="160" y="414.5" class="t">Prop. 7 · clones</text><text x="160" y="429.5" class="s">a variant carries the same</text><text x="160" y="444.5" class="s">vetoes as its original</text></g><path class="link" d="M350,424.0 L376,402.0"/><g class="fnote"><rect class="box" x="150" y="593.5" width="200" height="57" rx="5"/><text x="160" y="612.5" class="t">Prop. 5 · acceptability</text><text x="160" y="627.5" class="s">the winner is acceptable to</text><text x="160" y="642.5" class="s">&gt; 1 − θ if any option is</text></g><path class="link" d="M350,622.0 L376,616.0"/><g class="fnote"><rect class="box" x="150" y="735.5" width="200" height="57" rx="5"/><text x="160" y="754.5" class="t">Prop. 6 · majority</text><text x="160" y="769.5" class="s">in the Smith set of A<tspan class="sub" dy="3">θ</tspan><tspan dy="-3">​</tspan>,</text><text x="160" y="784.5" class="s">never Pareto-dominated</text></g><path class="link" d="M350,764.0 L376,702.0"/><g class="fnote"><rect class="box" x="150" y="947.5" width="200" height="57" rx="5"/><text x="160" y="966.5" class="t">Prop. 4 · decisive</text><text x="160" y="981.5" class="s">one option, one round, any</text><text x="160" y="996.5" class="s">profile, no default edge</text></g><path class="link" d="M350,976.0 L376,946.0"/></svg></div>
+</section>
+
+<section id="example" aria-labelledby="ex-h">
+  <h2 id="ex-h">Example E1 through the count</h2>
+  <p>The example behind Proposition 1. A majority's favourite that a large minority cannot accept, and a
+  compromise that everyone ranks first or second. The quota decides between them.</p>
+  <div class="trace">
+    <div class="card">
+      <h3>The ballots, 100 voters</h3>
+      <table>
+        <tr><th>Voters</th><th>Ranking</th><th>Veto</th></tr>
+        <tr><td>51</td><td>A ≻ B ≻ C</td><td>C</td></tr>
+        <tr><td>49</td><td>B ≻ C ≻ A</td><td>A</td></tr>
+      </table>
+      <p class="hint">A beats B and C, 51 to 49: it is the Condorcet winner.</p>
+    </div>
+    <div class="card">
+      <h3>Veto counts</h3>
+      <table>
+        <tr><th>Option</th><th>v(x)</th></tr>
+        <tr><td>A</td><td>49</td></tr>
+        <tr><td>B</td><td>0</td></tr>
+        <tr><td>C</td><td>51</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>The outcome depends on θ</h3>
+      <table>
+        <tr><th>Quota</th><th>θn</th><th>Admissible</th><th>Winner</th></tr>
+        <tr><td>1/4</td><td>25</td><td><span class="x">A</span> B <span class="x">C</span></td><td class="out-b">B</td></tr>
+        <tr><td>1/3</td><td>33.3</td><td><span class="x">A</span> B <span class="x">C</span></td><td class="out-b">B</td></tr>
+        <tr><td>1/2</td><td>50</td><td>A B <span class="x">C</span></td><td class="out-a">A</td></tr>
+        <tr><td>none</td><td>–</td><td>A B C</td><td class="out-a">A</td></tr>
+      </table>
+      <p class="hint">Below 49%, the minority's veto excludes A and the compromise B wins. From 49% up, the
+      majority's A wins. Choosing θ is choosing between them.</p>
+    </div>
+  </div>
+</section>
+
+<section id="deadlock" aria-labelledby="dl-h">
+  <h2 id="dl-h">Why unanimity deadlocks: the status quo inside the hull</h2>
+  <p>Each voter prefers options closer to their ideal point. A proposal y beats the status quo s for a voter on
+  y's side of the perpendicular bisector of s and y. If s lies inside the convex hull of the ideal points, every
+  such half-plane misses at least one voter: someone always prefers s, and under unanimity s stays
+  (Proposition 2). With more voters, the hull covers s almost surely. In the simulations, unanimity keeps the
+  status quo in 43% of elections with 3 voters, 86% with 11
+  and 99.6% with 101.</p>
+  <div class="hullbox">
+    <div class="figure"><svg class="hull" id="hull" viewBox="0 0 520 400" role="img" aria-labelledby="hull-t">
+      <title id="hull-t">Voters' ideal points, their convex hull, the status quo and a proposal</title></svg></div>
+    <div class="readout">
+      <div class="controls">
+        <label for="nvoters">Voters: <b id="nval">11</b></label>
+        <input type="range" id="nvoters" min="3" max="60" value="11">
+        <button class="btn" type="button" id="redraw">Draw new voters</button>
+      </div>
+      <p class="hint">Tap or drag anywhere in the picture to move the proposal y.</p>
+      <div class="big" id="verdict"></div>
+      <p id="detail"></p>
+      <div class="legend">
+        <span style="--k: var(--accent-soft); --kb: var(--accent)">Convex hull of the voters</span>
+        <span style="--k: var(--good-soft)">Side where y is preferred</span>
+        <span style="--k: var(--warn)">Voters who keep s</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="flooding" aria-labelledby="fl-h">
+  <h2 id="fl-h">Why flooding matters: proportional veto against the blocking quota</h2>
+  <p>Under an open agenda, a faction can add variants of its favourite. The proportional veto core gives a
+  coalition a share of vetoes equal to its share of voters, counted in options, so every variant the majority
+  adds dilutes the minority's vetoes (Proposition 3). Under the blocking quota a variant inherits the vetoes of
+  its original, so it is excluded with it (Proposition 7). Examples E1 and E2: the majority adds A₂ and A₃,
+  which it ranks just below A and the minority ranks last and vetoes.</p>
+  <div class="figure"><svg class="dg flood" viewBox="0 0 800 340" role="img" aria-labelledby="fl-t fl-d"><title id="fl-t">Flooding the agenda</title><desc id="fl-d">Examples E1 and E2. Under the proportional veto core, the minority blocks A in E1; in E2 the majority has added two variants of A, the minority’s vetoes no longer reach A, and A wins. Under the blocking quota, every variant of A inherits 49 vetoes and is excluded, and B wins in both.</desc><text class="colhead" x="60" y="20">PROPORTIONAL VETO CORE</text><text class="colhead" x="450" y="20">BLOCKING QUOTA, Θ = 1/3</text><text class="phase" x="0" y="76">E1</text><g class="tok blocked by-min"><rect x="60" y="52" width="44" height="38" rx="6"/><text x="82" y="77" text-anchor="middle">A</text></g><g class="tok win"><rect x="114" y="52" width="44" height="38" rx="6"/><text x="136" y="77" text-anchor="middle">B</text></g><g class="tok blocked by-maj"><rect x="168" y="52" width="44" height="38" rx="6"/><text x="190" y="77" text-anchor="middle">C</text></g><text class="t" x="226" y="77">→ B</text><text class="s" x="60" y="114">3 options. The 49% minority vetoes 1 of them,</text><text class="s" x="60" y="130">the 51% majority 1.</text><text class="s" x="60" y="146">The minority&#x27;s veto reaches A.</text><g class="tok blocked by-min"><rect x="450" y="52" width="44" height="38" rx="6"/><text x="472" y="77" text-anchor="middle">A</text></g><g class="tok win"><rect x="504" y="52" width="44" height="38" rx="6"/><text x="526" y="77" text-anchor="middle">B</text></g><g class="tok blocked by-maj"><rect x="558" y="52" width="44" height="38" rx="6"/><text x="580" y="77" text-anchor="middle">C</text></g><text class="t" x="616" y="77">→ B</text><text class="s" x="450" y="114">An option is out once θn = 33.3 voters veto it.</text><text class="s" x="450" y="130">v(A) = 49, v(C) = 51: both out.</text><text class="phase" x="0" y="228">E2</text><g class="tok win"><rect x="60" y="204" width="44" height="38" rx="6"/><text x="82" y="229" text-anchor="middle">A</text></g><g class="tok blocked by-min"><rect x="114" y="204" width="44" height="38" rx="6"/><text x="136" y="229" text-anchor="middle">A₂</text></g><g class="tok blocked by-min"><rect x="168" y="204" width="44" height="38" rx="6"/><text x="190" y="229" text-anchor="middle">A₃</text></g><g class="tok blocked by-maj"><rect x="222" y="204" width="44" height="38" rx="6"/><text x="244" y="229" text-anchor="middle">B</text></g><g class="tok blocked by-maj"><rect x="276" y="204" width="44" height="38" rx="6"/><text x="298" y="229" text-anchor="middle">C</text></g><text class="t" x="334" y="229">→ A</text><text class="s" x="60" y="266">5 options. The 49% minority vetoes 2 of them,</text><text class="s" x="60" y="282">the 51% majority 2.</text><text class="s" x="60" y="298">Two vetoes cannot cover three copies of A.</text><g class="tok blocked by-min"><rect x="450" y="204" width="44" height="38" rx="6"/><text x="472" y="229" text-anchor="middle">A</text></g><g class="tok blocked by-min"><rect x="504" y="204" width="44" height="38" rx="6"/><text x="526" y="229" text-anchor="middle">A₂</text></g><g class="tok blocked by-min"><rect x="558" y="204" width="44" height="38" rx="6"/><text x="580" y="229" text-anchor="middle">A₃</text></g><g class="tok win"><rect x="612" y="204" width="44" height="38" rx="6"/><text x="634" y="229" text-anchor="middle">B</text></g><g class="tok blocked by-maj"><rect x="666" y="204" width="44" height="38" rx="6"/><text x="688" y="229" text-anchor="middle">C</text></g><text class="t" x="724" y="229">→ B</text><text class="s" x="450" y="266">An option is out once θn = 33.3 voters veto it.</text><text class="s" x="450" y="282">Each copy of A inherits 49 vetoes: all out.</text><g class="tok blocked by-min"><rect x="60" y="314" width="16" height="14" rx="3"/></g><text class="s" x="82" y="325">blocked by the minority</text><g class="tok blocked by-maj"><rect x="250" y="314" width="16" height="14" rx="3"/></g><text class="s" x="272" y="325">blocked by the majority</text><g class="tok win"><rect x="440" y="314" width="16" height="14" rx="3"/></g><text class="s" x="462" y="325">winner</text></svg></div>
+  <p class="hint">In the simulations, three clones of a losing option change the winner of the proportional veto
+  core in up to 54% of elections, of fallback bargaining in up to 36%, of Borda
+  in up to 24%, and of Schulze and QVC in 0%.</p>
+</section>
+
+<section id="dial" aria-labelledby="dial-h">
+  <h2 id="dial-h">The θ dial: majority at one end, minority protection at the other</h2>
+  <p>A low quota gives every small group a veto: the fallback decides most elections, the result is close to
+  approval voting, and small coalitions can steer it. A high quota never binds and leaves the majority alone.
+  Between 25% and 40%, the veto excludes what a substantial minority rejects and the majority decides among the
+  rest. One third sits there, close to the European Union's 35% blocking minority.</p>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Electorate">
+      <button type="button" aria-pressed="true" data-culture="polarised">Polarised, 55/45</button>
+      <button type="button" aria-pressed="false" data-culture="spatial">Spatial</button>
+    </div>
+  </div>
+  <div class="figure"><svg class="dg chart" viewBox="0 0 800 370" role="img" aria-labelledby="th-t th-d"><title id="th-t">What the blocking quota buys and costs</title><desc id="th-d">As the quota θ rises from a single veto to half of the voters, Condorcet efficiency rises, worst-off efficiency falls, the fallback disappears above about 30 percent, and manipulability by small coalitions falls steeply. The recommended quota is one third.</desc><rect class="regime" x="64.0" y="66" width="214.39999999999998" height="254"/><text class="reglab" x="171.2" y="16" text-anchor="middle">fallback decides,</text><text class="reglab" x="171.2" y="30" text-anchor="middle">the veto is a negative vote</text><rect class="regime sweet" x="332.0" y="66" width="160.8" height="254"/><text class="reglab" x="412.4" y="16" text-anchor="middle">the veto filters,</text><text class="reglab" x="412.4" y="30" text-anchor="middle">the majority decides</text><rect class="regime" x="492.8" y="66" width="107.19999999999999" height="254"/><text class="reglab" x="546.4" y="16" text-anchor="middle">the veto</text><text class="reglab" x="546.4" y="30" text-anchor="middle">rarely binds</text><line class="grid" x1="64" x2="600" y1="320.0" y2="320.0"/><text class="tick" x="56" y="324.0" text-anchor="end">0</text><line class="grid" x1="64" x2="600" y1="269.2" y2="269.2"/><text class="tick" x="56" y="273.2" text-anchor="end">20</text><line class="grid" x1="64" x2="600" y1="218.39999999999998" y2="218.39999999999998"/><text class="tick" x="56" y="222.39999999999998" text-anchor="end">40</text><line class="grid" x1="64" x2="600" y1="167.6" y2="167.6"/><text class="tick" x="56" y="171.6" text-anchor="end">60</text><line class="grid" x1="64" x2="600" y1="116.79999999999998" y2="116.79999999999998"/><text class="tick" x="56" y="120.79999999999998" text-anchor="end">80</text><line class="grid" x1="64" x2="600" y1="66.0" y2="66.0"/><text class="tick" x="56" y="70.0" text-anchor="end">100</text><text class="tick" x="64.0" y="338" text-anchor="middle">0%</text><text class="tick" x="171.2" y="338" text-anchor="middle">10%</text><text class="tick" x="278.4" y="338" text-anchor="middle">20%</text><text class="tick" x="385.59999999999997" y="338" text-anchor="middle">30%</text><text class="tick" x="492.8" y="338" text-anchor="middle">40%</text><text class="tick" x="600.0" y="338" text-anchor="middle">50%</text><text class="axis" x="332.0" y="360" text-anchor="middle">Blocking quota θ, share of voters whose veto excludes an option</text><text class="axis" x="56" y="52" text-anchor="end">%</text><line class="mark main" x1="421.3" x2="421.3" y1="66" y2="320"/><line class="mark" x1="439.2" x2="439.2" y1="66" y2="320"/><line class="mark" x1="589.3" x2="589.3" y1="66" y2="320"/><text class="marklab main" x="417.3" y="58" text-anchor="end">θ = 1/3</text><text class="marklab" x="443.2" y="58">EU 35%</text><text class="marklab" x="593.3" y="44" text-anchor="middle">E1 flips at 49%</text><g class="culture" data-culture="polarised"><path class="line c1" d="M74.7,138.4 L117.6,138.4 L171.2,138.4 L224.8,136.6 L278.4,127.7 L332.0,106.4 L385.6,87.3 L417.8,79.0 L492.8,68.5 L600.0,66.0"/><circle class="dot c1" cx="74.7" cy="138.4" r="2.6"><title>Condorcet efficiency, θ = 1/n (any veto): 71.5%</title></circle><circle class="dot c1" cx="117.6" cy="138.4" r="2.6"><title>Condorcet efficiency, θ = 5%: 71.5%</title></circle><circle class="dot c1" cx="171.2" cy="138.4" r="2.6"><title>Condorcet efficiency, θ = 10%: 71.5%</title></circle><circle class="dot c1" cx="224.8" cy="136.6" r="2.6"><title>Condorcet efficiency, θ = 15%: 72.2%</title></circle><circle class="dot c1" cx="278.4" cy="127.7" r="2.6"><title>Condorcet efficiency, θ = 20%: 75.7%</title></circle><circle class="dot c1" cx="332.0" cy="106.4" r="2.6"><title>Condorcet efficiency, θ = 25%: 84.1%</title></circle><circle class="dot c1" cx="385.6" cy="87.3" r="2.6"><title>Condorcet efficiency, θ = 30%: 91.6%</title></circle><circle class="dot c1" cx="417.8" cy="79.0" r="2.6"><title>Condorcet efficiency, θ = 33%: 94.9%</title></circle><circle class="dot c1" cx="492.8" cy="68.5" r="2.6"><title>Condorcet efficiency, θ = 40%: 99.0%</title></circle><circle class="dot c1" cx="600.0" cy="66.0" r="2.6"><title>Condorcet efficiency, θ = 50%: 100.0%</title></circle><text class="endlab c1" x="608" y="70.0">Condorcet efficiency</text><path class="line c2" d="M74.7,78.2 L117.6,78.2 L171.2,78.2 L224.8,78.2 L278.4,80.0 L332.0,86.1 L385.6,92.4 L417.8,94.4 L492.8,99.5 L600.0,100.5"/><circle class="dot c2" cx="74.7" cy="78.2" r="2.6"><title>Worst-off efficiency, θ = 1/n (any veto): 95.2%</title></circle><circle class="dot c2" cx="117.6" cy="78.2" r="2.6"><title>Worst-off efficiency, θ = 5%: 95.2%</title></circle><circle class="dot c2" cx="171.2" cy="78.2" r="2.6"><title>Worst-off efficiency, θ = 10%: 95.2%</title></circle><circle class="dot c2" cx="224.8" cy="78.2" r="2.6"><title>Worst-off efficiency, θ = 15%: 95.2%</title></circle><circle class="dot c2" cx="278.4" cy="80.0" r="2.6"><title>Worst-off efficiency, θ = 20%: 94.5%</title></circle><circle class="dot c2" cx="332.0" cy="86.1" r="2.6"><title>Worst-off efficiency, θ = 25%: 92.1%</title></circle><circle class="dot c2" cx="385.6" cy="92.4" r="2.6"><title>Worst-off efficiency, θ = 30%: 89.6%</title></circle><circle class="dot c2" cx="417.8" cy="94.4" r="2.6"><title>Worst-off efficiency, θ = 33%: 88.8%</title></circle><circle class="dot c2" cx="492.8" cy="99.5" r="2.6"><title>Worst-off efficiency, θ = 40%: 86.8%</title></circle><circle class="dot c2" cx="600.0" cy="100.5" r="2.6"><title>Worst-off efficiency, θ = 50%: 86.4%</title></circle><text class="endlab c2" x="608" y="104.5">Worst-off efficiency</text><path class="line c3" d="M74.7,66.0 L117.6,66.0 L171.2,69.8 L224.8,109.2 L278.4,188.9 L332.0,255.7 L385.6,292.6 L417.8,305.0 L492.8,318.2 L600.0,320.0"/><circle class="dot c3" cx="74.7" cy="66.0" r="2.6"><title>Fallback used, θ = 1/n (any veto): 100.0%</title></circle><circle class="dot c3" cx="117.6" cy="66.0" r="2.6"><title>Fallback used, θ = 5%: 100.0%</title></circle><circle class="dot c3" cx="171.2" cy="69.8" r="2.6"><title>Fallback used, θ = 10%: 98.5%</title></circle><circle class="dot c3" cx="224.8" cy="109.2" r="2.6"><title>Fallback used, θ = 15%: 83.0%</title></circle><circle class="dot c3" cx="278.4" cy="188.9" r="2.6"><title>Fallback used, θ = 20%: 51.6%</title></circle><circle class="dot c3" cx="332.0" cy="255.7" r="2.6"><title>Fallback used, θ = 25%: 25.3%</title></circle><circle class="dot c3" cx="385.6" cy="292.6" r="2.6"><title>Fallback used, θ = 30%: 10.8%</title></circle><circle class="dot c3" cx="417.8" cy="305.0" r="2.6"><title>Fallback used, θ = 33%: 5.9%</title></circle><circle class="dot c3" cx="492.8" cy="318.2" r="2.6"><title>Fallback used, θ = 40%: 0.7%</title></circle><circle class="dot c3" cx="600.0" cy="320.0" r="2.6"><title>Fallback used, θ = 50%: 0.0%</title></circle><text class="endlab c3" x="608" y="324.0">Fallback used</text><path class="line c4" d="M74.7,150.6 L117.6,150.6 L171.2,150.6 L224.8,150.6 L278.4,154.9 L332.0,181.1 L385.6,226.0 L417.8,246.3 L492.8,280.1 L600.0,292.8"/><circle class="dot c4" cx="74.7" cy="150.6" r="2.6"><title>Manipulable by 10% of voters, θ = 1/n (any veto): 66.7%</title></circle><circle class="dot c4" cx="117.6" cy="150.6" r="2.6"><title>Manipulable by 10% of voters, θ = 5%: 66.7%</title></circle><circle class="dot c4" cx="171.2" cy="150.6" r="2.6"><title>Manipulable by 10% of voters, θ = 10%: 66.7%</title></circle><circle class="dot c4" cx="224.8" cy="150.6" r="2.6"><title>Manipulable by 10% of voters, θ = 15%: 66.7%</title></circle><circle class="dot c4" cx="278.4" cy="154.9" r="2.6"><title>Manipulable by 10% of voters, θ = 20%: 65.0%</title></circle><circle class="dot c4" cx="332.0" cy="181.1" r="2.6"><title>Manipulable by 10% of voters, θ = 25%: 54.7%</title></circle><circle class="dot c4" cx="385.6" cy="226.0" r="2.6"><title>Manipulable by 10% of voters, θ = 30%: 37.0%</title></circle><circle class="dot c4" cx="417.8" cy="246.3" r="2.6"><title>Manipulable by 10% of voters, θ = 33%: 29.0%</title></circle><circle class="dot c4" cx="492.8" cy="280.1" r="2.6"><title>Manipulable by 10% of voters, θ = 40%: 15.7%</title></circle><circle class="dot c4" cx="600.0" cy="292.8" r="2.6"><title>Manipulable by 10% of voters, θ = 50%: 10.7%</title></circle><text class="endlab c4" x="608" y="296.8">Manipulable by 10% of voters</text></g><g class="culture" data-culture="spatial" hidden><path class="line c1" d="M74.7,122.4 L117.6,122.4 L171.2,122.1 L224.8,116.5 L278.4,95.2 L332.0,75.9 L385.6,68.0 L417.8,67.3 L492.8,66.0 L600.0,66.0"/><circle class="dot c1" cx="74.7" cy="122.4" r="2.6"><title>Condorcet efficiency, θ = 1/n (any veto): 77.8%</title></circle><circle class="dot c1" cx="117.6" cy="122.4" r="2.6"><title>Condorcet efficiency, θ = 5%: 77.8%</title></circle><circle class="dot c1" cx="171.2" cy="122.1" r="2.6"><title>Condorcet efficiency, θ = 10%: 77.9%</title></circle><circle class="dot c1" cx="224.8" cy="116.5" r="2.6"><title>Condorcet efficiency, θ = 15%: 80.1%</title></circle><circle class="dot c1" cx="278.4" cy="95.2" r="2.6"><title>Condorcet efficiency, θ = 20%: 88.5%</title></circle><circle class="dot c1" cx="332.0" cy="75.9" r="2.6"><title>Condorcet efficiency, θ = 25%: 96.1%</title></circle><circle class="dot c1" cx="385.6" cy="68.0" r="2.6"><title>Condorcet efficiency, θ = 30%: 99.2%</title></circle><circle class="dot c1" cx="417.8" cy="67.3" r="2.6"><title>Condorcet efficiency, θ = 33%: 99.5%</title></circle><circle class="dot c1" cx="492.8" cy="66.0" r="2.6"><title>Condorcet efficiency, θ = 40%: 100.0%</title></circle><circle class="dot c1" cx="600.0" cy="66.0" r="2.6"><title>Condorcet efficiency, θ = 50%: 100.0%</title></circle><text class="endlab c1" x="608" y="70.0">Condorcet efficiency</text><path class="line c2" d="M74.7,80.0 L117.6,80.0 L171.2,80.0 L224.8,80.2 L278.4,80.5 L332.0,79.5 L385.6,79.7 L417.8,79.2 L492.8,79.7 L600.0,79.7"/><circle class="dot c2" cx="74.7" cy="80.0" r="2.6"><title>Worst-off efficiency, θ = 1/n (any veto): 94.5%</title></circle><circle class="dot c2" cx="117.6" cy="80.0" r="2.6"><title>Worst-off efficiency, θ = 5%: 94.5%</title></circle><circle class="dot c2" cx="171.2" cy="80.0" r="2.6"><title>Worst-off efficiency, θ = 10%: 94.5%</title></circle><circle class="dot c2" cx="224.8" cy="80.2" r="2.6"><title>Worst-off efficiency, θ = 15%: 94.4%</title></circle><circle class="dot c2" cx="278.4" cy="80.5" r="2.6"><title>Worst-off efficiency, θ = 20%: 94.3%</title></circle><circle class="dot c2" cx="332.0" cy="79.5" r="2.6"><title>Worst-off efficiency, θ = 25%: 94.7%</title></circle><circle class="dot c2" cx="385.6" cy="79.7" r="2.6"><title>Worst-off efficiency, θ = 30%: 94.6%</title></circle><circle class="dot c2" cx="417.8" cy="79.2" r="2.6"><title>Worst-off efficiency, θ = 33%: 94.8%</title></circle><circle class="dot c2" cx="492.8" cy="79.7" r="2.6"><title>Worst-off efficiency, θ = 40%: 94.6%</title></circle><circle class="dot c2" cx="600.0" cy="79.7" r="2.6"><title>Worst-off efficiency, θ = 50%: 94.6%</title></circle><text class="endlab c2" x="608" y="83.7">Worst-off efficiency</text><path class="line c3" d="M74.7,66.0 L117.6,66.0 L171.2,78.4 L224.8,151.1 L278.4,249.9 L332.0,300.2 L385.6,314.2 L417.8,318.0 L492.8,319.5 L600.0,320.0"/><circle class="dot c3" cx="74.7" cy="66.0" r="2.6"><title>Fallback used, θ = 1/n (any veto): 100.0%</title></circle><circle class="dot c3" cx="117.6" cy="66.0" r="2.6"><title>Fallback used, θ = 5%: 100.0%</title></circle><circle class="dot c3" cx="171.2" cy="78.4" r="2.6"><title>Fallback used, θ = 10%: 95.1%</title></circle><circle class="dot c3" cx="224.8" cy="151.1" r="2.6"><title>Fallback used, θ = 15%: 66.5%</title></circle><circle class="dot c3" cx="278.4" cy="249.9" r="2.6"><title>Fallback used, θ = 20%: 27.6%</title></circle><circle class="dot c3" cx="332.0" cy="300.2" r="2.6"><title>Fallback used, θ = 25%: 7.8%</title></circle><circle class="dot c3" cx="385.6" cy="314.2" r="2.6"><title>Fallback used, θ = 30%: 2.3%</title></circle><circle class="dot c3" cx="417.8" cy="318.0" r="2.6"><title>Fallback used, θ = 33%: 0.8%</title></circle><circle class="dot c3" cx="492.8" cy="319.5" r="2.6"><title>Fallback used, θ = 40%: 0.2%</title></circle><circle class="dot c3" cx="600.0" cy="320.0" r="2.6"><title>Fallback used, θ = 50%: 0.0%</title></circle><text class="endlab c3" x="608" y="324.0">Fallback used</text><path class="line c4" d="M74.7,98.3 L117.6,98.3 L171.2,98.3 L224.8,99.0 L278.4,119.3 L332.0,196.3 L385.6,268.4 L417.8,288.8 L492.8,303.0 L600.0,305.5"/><circle class="dot c4" cx="74.7" cy="98.3" r="2.6"><title>Manipulable by 10% of voters, θ = 1/n (any veto): 87.3%</title></circle><circle class="dot c4" cx="117.6" cy="98.3" r="2.6"><title>Manipulable by 10% of voters, θ = 5%: 87.3%</title></circle><circle class="dot c4" cx="171.2" cy="98.3" r="2.6"><title>Manipulable by 10% of voters, θ = 10%: 87.3%</title></circle><circle class="dot c4" cx="224.8" cy="99.0" r="2.6"><title>Manipulable by 10% of voters, θ = 15%: 87.0%</title></circle><circle class="dot c4" cx="278.4" cy="119.3" r="2.6"><title>Manipulable by 10% of voters, θ = 20%: 79.0%</title></circle><circle class="dot c4" cx="332.0" cy="196.3" r="2.6"><title>Manipulable by 10% of voters, θ = 25%: 48.7%</title></circle><circle class="dot c4" cx="385.6" cy="268.4" r="2.6"><title>Manipulable by 10% of voters, θ = 30%: 20.3%</title></circle><circle class="dot c4" cx="417.8" cy="288.8" r="2.6"><title>Manipulable by 10% of voters, θ = 33%: 12.3%</title></circle><circle class="dot c4" cx="492.8" cy="303.0" r="2.6"><title>Manipulable by 10% of voters, θ = 40%: 6.7%</title></circle><circle class="dot c4" cx="600.0" cy="305.5" r="2.6"><title>Manipulable by 10% of voters, θ = 50%: 5.7%</title></circle><text class="endlab c4" x="608" y="309.5">Manipulable by 10% of voters</text></g></svg></div>
+  <p class="hint">Simulation of the note: 101 voters, 8 options, 1,000 elections per electorate (300 for
+  manipulability). Efficiency: 0 for the average option, 100 for the best; worst-off: the voter at the 10th
+  percentile. A single veto is plotted at 1%.</p>
+</section>
+
+<section id="open" aria-labelledby="open-h">
+  <h2 id="open-h">What remains open</h2>
+  <div class="open">
+    <div class="card"><h3>A clone-proof proportional veto?</h3><p>The proportional veto core resists strategic
+    blocking but not flooding; the blocking quota resists flooding but not strategic blocking. Can one rule have
+    clone independence, veto power proportional to size and a non-empty core?</p></div>
+    <div class="card"><h3>Fast procedures with hard vetoes</h3><p>One- and two-round proposal procedures reach the
+    Condorcet winner quickly with single-peaked preferences. With binding vetoes and several dimensions, nobody
+    knows yet.</p></div>
+    <div class="card"><h3>Do named vetoes work?</h3><p>Responsibility changes votes in committees, and tacit consent
+    keeps formal vetoes in check. A laboratory test of QVC with and without named, reasoned vetoes would settle
+    it.</p></div>
+    <div class="card"><h3>Real ballots</h3><p>The simulations use stylised electorates. Ranked ballots with an
+    acceptability line exist, in Debian's general resolutions among others, and would test the conclusions on
+    observed preferences.</p></div>
+  </div>
+</section>
+
+<footer>From the note "Voting for a consensus with veto rights", v0.1.1, October 2026. Numbers from its
+simulations; propositions as numbered in the note.</footer>
+</div>
+
+<script>
+(function () {
+  /* ---- the argument map: follow a box's chain both ways ---- */
+  var svg = document.getElementById("argmap");
+  if (svg) {
+    var nodes = {}, out = {}, inn = {}, edges = [];
+    svg.querySelectorAll(".node").forEach(function (n) { nodes[n.dataset.id] = n; out[n.dataset.id] = []; inn[n.dataset.id] = []; });
+    svg.querySelectorAll(".edge").forEach(function (e) {
+      var a = e.dataset.from, b = e.dataset.to; edges.push(e); out[a].push(b); inn[b].push(a);
+    });
+    var pinned = null;
+    function reach(start, adj) {
+      var seen = {}, stack = [start];
+      while (stack.length) { var x = stack.pop(); (adj[x] || []).forEach(function (y) { if (!seen[y]) { seen[y] = 1; stack.push(y); } }); }
+      return seen;
+    }
+    function light(id) {
+      var down = reach(id, out), up = reach(id, inn);
+      svg.classList.add("focusing");
+      Object.keys(nodes).forEach(function (k) { nodes[k].classList.toggle("lit", k === id || down[k] || up[k]); });
+      edges.forEach(function (e) {
+        var a = e.dataset.from, b = e.dataset.to;
+        var onDown = (a === id || down[a]) && down[b];
+        var onUp = (b === id || up[b]) && up[a];
+        e.classList.toggle("lit", !!(onDown || onUp));
+      });
+    }
+    function clear() {
+      svg.classList.remove("focusing");
+      svg.querySelectorAll(".lit").forEach(function (x) { x.classList.remove("lit"); });
+    }
+    Object.keys(nodes).forEach(function (k) {
+      var n = nodes[k];
+      n.addEventListener("mouseenter", function () { if (!pinned) light(k); });
+      n.addEventListener("mouseleave", function () { if (!pinned) clear(); });
+      n.addEventListener("focus", function () { if (!pinned) light(k); });
+      n.addEventListener("blur", function () { if (!pinned) clear(); });
+      n.addEventListener("click", function (ev) {
+        ev.stopPropagation();
+        if (pinned === k) { pinned = null; clear(); } else { pinned = k; light(k); }
+      });
+      n.addEventListener("keydown", function (ev) {
+        if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); n.dispatchEvent(new MouseEvent("click")); }
+      });
+    });
+    svg.addEventListener("click", function () { pinned = null; clear(); });
+  }
+
+  /* ---- the θ chart: switch electorate ---- */
+  document.querySelectorAll(".seg button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.querySelectorAll(".seg button").forEach(function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); });
+      document.querySelectorAll(".chart .culture").forEach(function (g) { g.hidden = g.dataset.culture !== b.dataset.culture; });
+    });
+  });
+
+  /* ---- the hull: Proposition 2 ---- */
+  var hs = document.getElementById("hull");
+  if (!hs) return;
+  var NS = "http://www.w3.org/2000/svg", W = 520, H = 400, S = { x: 250, y: 205 }, Y = { x: 400, y: 110 };
+  var seed = 7, pts = [];
+  function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+  function gauss() { var u = 0, v = 0; while (u === 0) u = rnd(); v = rnd(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+  function draw(n) {
+    pts = [];
+    for (var i = 0; i < n; i++) {
+      var x = S.x + gauss() * 85, y = S.y + gauss() * 70;
+      pts.push({ x: Math.max(16, Math.min(W - 16, x)), y: Math.max(16, Math.min(H - 16, y)) });
+    }
+  }
+  function hull(p) {
+    var a = p.slice().sort(function (u, v) { return u.x - v.x || u.y - v.y; });
+    function cross(o, u, v) { return (u.x - o.x) * (v.y - o.y) - (u.y - o.y) * (v.x - o.x); }
+    var lo = [], up = [];
+    a.forEach(function (q) { while (lo.length >= 2 && cross(lo[lo.length - 2], lo[lo.length - 1], q) <= 0) lo.pop(); lo.push(q); });
+    a.slice().reverse().forEach(function (q) { while (up.length >= 2 && cross(up[up.length - 2], up[up.length - 1], q) <= 0) up.pop(); up.push(q); });
+    return lo.slice(0, -1).concat(up.slice(0, -1));
+  }
+  function inside(poly, q) {
+    if (poly.length < 3) return false;
+    var sign = 0;
+    for (var i = 0; i < poly.length; i++) {
+      var a = poly[i], b = poly[(i + 1) % poly.length];
+      var c = (b.x - a.x) * (q.y - a.y) - (b.y - a.y) * (q.x - a.x);
+      if (c !== 0) { if (sign === 0) sign = Math.sign(c); else if (Math.sign(c) !== sign) return false; }
+    }
+    return true;
+  }
+  function el(tag, attrs, text) {
+    var e = document.createElementNS(NS, tag);
+    Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+    if (text) e.textContent = text;
+    return e;
+  }
+  /* the half-plane where y is preferred to s, clipped to the frame */
+  function halfPlane() {
+    var mx = (S.x + Y.x) / 2, my = (S.y + Y.y) / 2, dx = Y.x - S.x, dy = Y.y - S.y;
+    var poly = [{ x: 0, y: 0 }, { x: W, y: 0 }, { x: W, y: H }, { x: 0, y: H }], res = [];
+    function side(p) { return (p.x - mx) * dx + (p.y - my) * dy; }
+    for (var i = 0; i < poly.length; i++) {
+      var a = poly[i], b = poly[(i + 1) % poly.length], sa = side(a), sb = side(b);
+      if (sa > 0) res.push(a);
+      if ((sa > 0) !== (sb > 0)) { var t = sa / (sa - sb); res.push({ x: a.x + t * (b.x - a.x), y: a.y + t * (b.y - a.y) }); }
+    }
+    return { poly: res, side: side, mx: mx, my: my, dx: dx, dy: dy };
+  }
+  function render() {
+    while (hs.lastChild && hs.lastChild.tagName !== "title") hs.removeChild(hs.lastChild);
+    hs.appendChild(el("rect", { class: "frame", x: 0.5, y: 0.5, width: W - 1, height: H - 1, rx: 6 }));
+    var hp = halfPlane();
+    if (hp.poly.length) hs.appendChild(el("polygon", { class: "halfplane", points: hp.poly.map(function (p) { return p.x + "," + p.y; }).join(" ") }));
+    var L = 1000, nx = -hp.dy, ny = hp.dx, len = Math.hypot(nx, ny) || 1;
+    hs.appendChild(el("line", { class: "bisector", x1: hp.mx - nx / len * L, y1: hp.my - ny / len * L, x2: hp.mx + nx / len * L, y2: hp.my + ny / len * L }));
+    var hv = hull(pts);
+    hs.appendChild(el("polygon", { class: "hullpoly", points: hv.map(function (p) { return p.x + "," + p.y; }).join(" ") }));
+    var keep = 0;
+    pts.forEach(function (p) {
+      var prefersS = Math.hypot(p.x - S.x, p.y - S.y) <= Math.hypot(p.x - Y.x, p.y - Y.y);
+      if (prefersS) keep++;
+      hs.appendChild(el("circle", { class: "voter" + (prefersS ? " keeps" : ""), cx: p.x, cy: p.y, r: 4.5 }));
+    });
+    hs.appendChild(el("circle", { class: "sq", cx: S.x, cy: S.y, r: 7 }));
+    hs.appendChild(el("text", { x: S.x + 11, y: S.y + 5 }, "s"));
+    hs.appendChild(el("circle", { class: "prop", cx: Y.x, cy: Y.y, r: 7 }));
+    hs.appendChild(el("text", { x: Y.x + 11, y: Y.y + 5 }, "y"));
+    var inHull = inside(hv, S), n = pts.length;
+    var v = document.getElementById("verdict"), d = document.getElementById("detail");
+    if (keep > 0) {
+      v.textContent = keep + " of " + n + " voters prefer s: unanimity keeps the status quo.";
+      v.className = "big stuck";
+    } else {
+      v.textContent = "All " + n + " voters prefer y: it passes, even under unanimity.";
+      v.className = "big passes";
+    }
+    d.textContent = inHull
+      ? "s lies inside the hull of the voters, so wherever you put y, someone prefers s. Try it."
+      : "s lies outside the hull of the voters, so some proposal can beat it unanimously: move y towards the voters, away from s.";
+  }
+  function setY(ev) {
+    var r = hs.getBoundingClientRect();
+    Y = { x: (ev.clientX - r.left) / r.width * W, y: (ev.clientY - r.top) / r.height * H };
+    render();
+  }
+  var dragging = false;
+  hs.addEventListener("pointerdown", function (ev) { dragging = true; try { hs.setPointerCapture(ev.pointerId); } catch (e) {} setY(ev); });
+  hs.addEventListener("pointermove", function (ev) { if (dragging) setY(ev); });
+  hs.addEventListener("pointerup", function () { dragging = false; });
+  var slider = document.getElementById("nvoters"), nval = document.getElementById("nval");
+  slider.addEventListener("input", function () { nval.textContent = slider.value; seed = 7; draw(+slider.value); render(); });
+  document.getElementById("redraw").addEventListener("click", function () { seed = (seed * 48271 + 11) % 2147483647 || 3; draw(+slider.value); render(); });
+  draw(11); render();
+})();
+</script>
+</body>
+</html>
